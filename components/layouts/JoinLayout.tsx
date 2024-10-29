@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { Cross1Icon } from '@radix-ui/react-icons';
+import DarkMode from './DarkMode';
 
 const JoinLayout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -9,9 +9,7 @@ const JoinLayout = ({ children }: { children: React.ReactNode }) => {
         <Link href="/">
           <Image src="/images/logo.png" alt="Logo" width="200" height="30" />
         </Link>
-        <Link href="/">
-          <Cross1Icon className="m-0 text-red-500 w-6" />
-        </Link>
+        <DarkMode />
       </div>
       <div className="flex items-center justify-center w-2/4">{children}</div>
 

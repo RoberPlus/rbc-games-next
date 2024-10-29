@@ -6,7 +6,7 @@ const SignUpPage = () => {
   return (
     <JoinLayout>
       <div className="w-3/4">
-        <h3 className="mb-5">Sing Up</h3>
+        <h3 className="mb-5 text-4xl">Sing Up</h3>
         <div>
           <SignForm />
         </div>

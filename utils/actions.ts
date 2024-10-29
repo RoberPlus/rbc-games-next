@@ -50,7 +50,7 @@ export const loginUserAction = async (data: any) => {
 
     // delete the names input (temp)
     delete data.names;
-    delete data.username
+    delete data.username;
 
     const params = {
       method: 'POST',
@@ -81,4 +81,4 @@ export const loginUserAction = async (data: any) => {
   } catch (error) {
     throw error;
   }
-}
+};
