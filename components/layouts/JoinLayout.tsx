@@ -1,8 +1,19 @@
+'use client';
+
 import Link from 'next/link';
 import Image from 'next/image';
 import DarkMode from './DarkMode';
+import { useAuth } from '@/hooks/useAuth';
+import { redirect } from 'next/navigation';
 
 const JoinLayout = ({ children }: { children: React.ReactNode }) => {
+  const { user } = useAuth();
+
+  if (user) {
+    redirect('/');
+    return null;
+  }
+
   return (
     <div className="h-screen max-h-screen flex flex-row justify-between">
       <div className="flex justify-between w-screen absolute top-0 left-0 p-4">

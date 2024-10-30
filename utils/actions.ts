@@ -1,26 +1,23 @@
+'use client';
 import { toast } from '@/hooks/use-toast';
 import { ENV } from '@/utils/constants';
 import { redirect } from 'next/navigation';
 
 export const createUserAction = async (data: any) => {
+  const url = `${ENV.API_URL}/${ENV.ENDPOINTS.AUTH.REGISTER}`;
+
+  // delete the names input (temp)
+  delete data.names;
+
+  const params = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  };
+
   try {
-    // If user has account:
-    //const user = await currentUser();
-    //if (user) throw new Error('You already have an account!');
-
-    const url = `${ENV.API_URL}/${ENV.ENDPOINTS.AUTH.REGISTER}`;
-
-    // delete the names input (temp)
-    delete data.names;
-
-    const params = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    };
-
     const response = await fetch(url, params);
     const result = await response.json();
 
@@ -31,12 +28,6 @@ export const createUserAction = async (data: any) => {
         duration: 9000,
       });
     }
-
-    toast({
-      title: 'User registered!',
-      description: 'Now you can login',
-      duration: 9000,
-    });
 
     redirect('/join/sign-in');
   } catch (error) {
@@ -45,21 +36,17 @@ export const createUserAction = async (data: any) => {
 };
 
 export const loginUserAction = async (data: any) => {
+  const url = `${ENV.API_URL}/${ENV.ENDPOINTS.AUTH.LOGIN}`;
+
+  const params = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  };
+
   try {
-    const url = `${ENV.API_URL}/${ENV.ENDPOINTS.AUTH.LOGIN}`;
-
-    // delete the names input (temp)
-    delete data.names;
-    delete data.username;
-
-    const params = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    };
-
     const response = await fetch(url, params);
     const result = await response.json();
 
@@ -71,13 +58,7 @@ export const loginUserAction = async (data: any) => {
       });
     }
 
-    toast({
-      title: 'Log in success!',
-      description: 'Welcome again!',
-      duration: 9000,
-    });
-
-    redirect('/');
+    return result;
   } catch (error) {
     throw error;
   }
