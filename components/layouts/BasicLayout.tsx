@@ -1,4 +1,5 @@
 'use client';
+import Footer from '../Footer/Footer';
 import TopBar from '../TopBar/TopBar';
 
 type BasicLayoutTypes = {
@@ -21,7 +22,7 @@ const BasicLayout = ({
       <div className="container p-10">
         {isContainer ? <div className="container">{children}</div> : children}
       </div>
-      {/*FOOTER */}
+      <Footer />
     </>
   );
 };
