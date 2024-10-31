@@ -1,5 +1,3 @@
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
 import BasicLayout from '@/components/layouts/BasicLayout';
 
 export default function Home() {

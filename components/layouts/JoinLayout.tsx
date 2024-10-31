@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import DarkMode from './DarkMode';
 import { useAuth } from '@/hooks/useAuth';
 import { redirect } from 'next/navigation';
 
@@ -20,7 +19,6 @@ const JoinLayout = ({ children }: { children: React.ReactNode }) => {
         <Link href="/">
           <Image src="/images/logo.png" alt="Logo" width="200" height="30" />
         </Link>
-        <DarkMode />
       </div>
       <div className="flex items-center justify-center w-2/4">{children}</div>
 

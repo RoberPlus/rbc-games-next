@@ -19,16 +19,27 @@ const Account = () => {
 
   return (
     <div className="flex">
-      <Button className="px-3 text-white hover:text-primary hover:bg-transparent [&_svg]:size-7 mx-2" onClick={goToCart} variant='ghost'>
+      <Button
+        className="px-3 text-white hover:text-primary hover:bg-transparent [&_svg]:size-7 mx-2"
+        onClick={goToCart}
+        variant="ghost"
+      >
         {total > 0 && (
-          <Badge variant='default' className="px-2 justify-center translate-x-12 -translate-y-3 rounded-full">
+          <Badge
+            variant="default"
+            className="px-2 justify-center translate-x-12 -translate-y-3 rounded-full"
+          >
             {total}
           </Badge>
         )}
         <ShoppingCart size={128} />
       </Button>
 
-      <Button className="px-2 text-white hover:text-primary hover:bg-transparent [&_svg]:size-7" onClick={!user ? goToLogin : goToLogin} variant={user ? 'link' : 'ghost'}>
+      <Button
+        className="px-2 hover:text-primary hover:bg-transparent [&_svg]:size-7"
+        onClick={!user ? goToLogin : goToAccount}
+        variant={user ? 'link' : 'ghost'}
+      >
         <CircleUser />
       </Button>
     </div>

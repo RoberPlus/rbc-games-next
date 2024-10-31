@@ -6,8 +6,8 @@ export const ENV = {
       REGISTER: 'auth/local/register',
       LOGIN: 'auth/local',
     },
-    USER_ME:"users/me",
-    PLATFORM: 'platforms'
+    USER_ME: 'users/me',
+    PLATFORM: 'platforms',
   },
   TOKEN: 'token',
 };
@@ -51,6 +51,20 @@ export const INPUTS = {
       type: 'password',
       name: 'password',
       placeholder: '',
+    },
+  },
+  NAMES: {
+    firstName: {
+      label: 'Name',
+      type: 'text',
+      name: 'firstName',
+      placeholder: 'Jonh',
+    },
+    lastName: {
+      label: 'Lastname',
+      type: 'text',
+      name: 'lastName',
+      placeholder: 'Doe',
     },
   },
 };

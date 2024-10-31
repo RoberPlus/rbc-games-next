@@ -2,6 +2,7 @@
 
 import { toast } from '@/hooks/use-toast';
 import { ENV } from '@/utils/constants';
+import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 
 const renderError = (error: unknown): { message: string } => {
@@ -118,3 +119,32 @@ export const fetchPlatforms = async (): Promise<Platform[]> => {
     throw error;
   }
 };
+
+export const updateUserAction = async (data:any) => {
+  const url = `${ENV.API_URL}/${ENV.ENDPOINTS.AUTH.REGISTER}`;
+
+  const params = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  };
+
+  try {
+    const response = await fetch(url, params);
+    const result = await response.json();
+
+    if (response.status !== 200) {
+      return toast({
+        title: 'Error, please try again later.',
+        description: result.error.message,
+        duration: 9000,
+      });
+    }
+
+    revalidatePath('/account');
+  } catch (error) {
+    throw error;
+  }
+}

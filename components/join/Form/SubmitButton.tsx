@@ -5,12 +5,13 @@ import { useFormStatus } from 'react-dom';
 
 type SubmitButtonProps = {
   label?: string;
+  disabled?: boolean
 };
 
-const SubmitButton = ({ label = '' }: SubmitButtonProps) => {
+const SubmitButton = ({ label = '', disabled = false }: SubmitButtonProps) => {
   const { pending } = useFormStatus();
   return (
-    <Button type="submit" className="w-full" disabled={pending}>
+    <Button type="submit" className="w-full" disabled={pending || disabled}>
       {pending ? (
         <>
           <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
