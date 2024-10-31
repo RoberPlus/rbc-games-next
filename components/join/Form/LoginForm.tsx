@@ -43,7 +43,6 @@ export function LoginForm() {
     const result = (await loginUserAction(data)) as any;
 
     login(result.jwt);
-    updateUser(result.user);
 
     toast({
       title: 'Log in success!',

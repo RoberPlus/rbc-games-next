@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import TopBar from '../TopBar/TopBar';
 
 type BasicLayoutTypes = {
