@@ -4,106 +4,147 @@ import { toast } from '@/hooks/use-toast';
 import { ENV } from '@/utils/constants';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
+import { RegisterSchema, LoginSchema, UpdateNamesSchema, validateWithZodSchema } from './schemas';
+import { Platform } from './types';
+import { cookies } from 'next/headers';
 
 const renderError = (error: unknown): { message: string } => {
   return { message: error instanceof Error ? error.message : 'An error occurred!' };
 };
 
-export const createUserAction = async (data: any) => {
-  const url = `${ENV.API_URL}/${ENV.ENDPOINTS.AUTH.REGISTER}`;
+// TODO AUTH
+export const getAuthUser = async () => {}; //Promise<UserType> => {
+// const userCtrl = new User();
+// const user = userCtrl.getMe();
 
-  // delete the names input (temp)
-  delete data.names;
+// if (!user) throw new Error('You must be logged in, please back to homepage');
+
+// return user;
+//}
+
+//TESTEAR RESULT Y RENDER ERROR
+export const createUserAction = async (
+  prevState: any,
+  formData: FormData
+): Promise<{ message: string }> => {
+  try {
+    const url = `${ENV.API_URL}/${ENV.ENDPOINTS.AUTH.REGISTER}`;
+
+    const rawData = Object.fromEntries(formData);
+    const validatedFields = validateWithZodSchema(RegisterSchema, rawData);
+
+    const params = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(validatedFields),
+    };
+
+    const response = await fetch(url, params);
+    const result = await response.json();
+
+    if (response.status !== 200) {
+      return { message: result.error.message };
+    }
+
+    toast({
+      title: 'Profile Created.',
+      description: 'Now you can log in!',
+      duration: 9000,
+    });
+
+    redirect('/join-sign-in');
+  } catch (error) {
+    return renderError(error);
+  }
+};
+
+//TESTEAR RESULT Y RENDER ERROR
+export const updateUserAction = async (
+  userId: number | undefined,
+  formData: FormData
+): Promise<{ message: string }> => {
+  // TODO: Cambiar endpoint
+  const url = `${ENV.API_URL}/${ENV.ENDPOINTS.UPDATE_ME}/${userId}`;
+
+  const rawData = Object.fromEntries(formData);
+  const validatedFields = validateWithZodSchema(UpdateNamesSchema, rawData);
 
   const params = {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(data),
+    body: JSON.stringify(validatedFields),
   };
 
   try {
+    const response = await authFetch({ url: url, params: params });
+    const result = await response.json();
+
+    if (response.status !== 200) {
+      return { message: result.error.message };
+    }
+
+    revalidatePath('/account');
+    return { message: 'Update Successful!' };
+  } catch (error) {
+    return renderError(error);
+  }
+};
+
+export const loginUserAction = async (
+  prevState: any,
+  formData: FormData
+): Promise<{ message: string }> => {
+  try {
+    const url = `${ENV.API_URL}/${ENV.ENDPOINTS.AUTH.LOGIN}`;
+
+    const rawData = Object.fromEntries(formData);
+    const validatedFields = validateWithZodSchema(LoginSchema, rawData);
+
+    const params = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(validatedFields),
+    };
+
     const response = await fetch(url, params);
     const result = await response.json();
 
     if (response.status !== 200) {
-      return toast({
-        title: 'Error, please try again later.',
-        description: result.error.message,
-        duration: 9000,
-      });
+      return { message: result.error.message };
     }
 
-    redirect('/join/sign-in');
+    const jwtCookie = await cookies();
+    const userDataCookie = await cookies();
+
+    jwtCookie.set({
+      name: 'token',
+      value: result.jwt,
+      maxAge: 3600,
+      path: '/',
+    });
+
+    userDataCookie.set({
+      name: 'user',
+      value: JSON.stringify(result.user),
+      maxAge: 3600,
+      path: '/',
+    });
+
+    return { message: 'Login Successful!' };
+    redirect('/');
   } catch (error) {
-    throw error;
+    return renderError(error);
   }
 };
 
-export const loginUserAction = async (data: any) => {
-  const url = `${ENV.API_URL}/${ENV.ENDPOINTS.AUTH.LOGIN}`;
-
-  const params = {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data),
-  };
-
-  try {
-    const response = await fetch(url, params);
-    const result = await response.json();
-
-    if (response.status !== 200) {
-      return toast({
-        title: 'Error, please try again later.',
-        description: result.error.message,
-        duration: 9000,
-      });
-    }
-
-    return result;
-  } catch (error) {
-    throw error;
-  }
-};
-
-export type Platform = {
-  id: number;
-  documentId: string;
-  title: string;
-  slug: string;
-  order: number;
-  createdAt: string;
-  updatedAt: string;
-  publishedAt: string;
-  icon: {
-    id: number;
-    documentId: string;
-    name: string;
-    alternativeText?: string;
-    caption?: string;
-    width: number;
-    height: number;
-    formats?: null;
-    hash: string;
-    ext: string;
-    mime: string;
-    size: number;
-    url: string;
-    previewUrl?: string;
-    provider: string;
-    provider_metadata?: string;
-    createdAt: string;
-    updatedAt: string;
-    publishedAt: string;
-  };
-};
-
-export const fetchPlatforms = async (): Promise<Platform[]> => {
-  const sort = 'sort=order:asc'
+export const fetchPlatforms = async (): Promise<Platform[] | { message: string }> => {
+  const sort = 'sort=order:asc';
   const url = `${ENV.API_URL}/${ENV.ENDPOINTS.PLATFORM}?populate=icon&${sort}`;
 
   try {
@@ -111,40 +152,11 @@ export const fetchPlatforms = async (): Promise<Platform[]> => {
     const result = await response.json();
 
     if (response.status !== 200) {
-      throw new Error('Error fetching platforms');
+      return renderError('Response error, try again later!');
     }
 
     return result.data;
   } catch (error) {
-    throw error;
+    return renderError(error);
   }
 };
-
-export const updateUserAction = async (data:any) => {
-  const url = `${ENV.API_URL}/${ENV.ENDPOINTS.AUTH.REGISTER}`;
-
-  const params = {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data),
-  };
-
-  try {
-    const response = await fetch(url, params);
-    const result = await response.json();
-
-    if (response.status !== 200) {
-      return toast({
-        title: 'Error, please try again later.',
-        description: result.error.message,
-        duration: 9000,
-      });
-    }
-
-    revalidatePath('/account');
-  } catch (error) {
-    throw error;
-  }
-}

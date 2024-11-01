@@ -1,21 +1,25 @@
-import { useAuth } from '@/hooks/useAuth';
 import React from 'react';
 import { redirect } from 'next/navigation';
 import { Button } from '../ui/button';
 import { ShoppingCart, CircleUser } from 'lucide-react';
 import { Badge } from '../ui/badge';
+import { getCookie, hasCookie } from 'cookies-next';
 
 const total = 4;
 
-const Account = () => {
-  const { user } = useAuth();
+const Account = async () => {
   const goToLogin = () => redirect('/join/sign-in');
   const goToAccount = () => redirect('/account');
 
   const goToCart = () => {
-    if (!user) goToLogin();
+    if (!hasCookie('user')) goToLogin();
     else redirect('/cart');
   };
+
+  const cookieToken = getCookie('token');
+  console.log(cookieToken);
+
+  const user = getCookie('user');
 
   return (
     <div className="flex">

@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { AuthContext } from './AuthContext';
 import { Token, User } from '@/utils/helpers';
+import { getCookie } from 'cookies-next';
 
 const tokenCtrl = new Token();
 const userCtl = new User();
@@ -61,6 +62,7 @@ const AuthProvider = ({ children }: props) => {
       [key]: value,
     });
   };
+  const cookieToken = getCookie('token') as string
 
   const ctx = {
     accessToken: token,
@@ -68,6 +70,7 @@ const AuthProvider = ({ children }: props) => {
     login: login,
     logout: logout,
     updateUser: updateUser,
+    cookieToken: cookieToken
   };
 
   if (loading === true) return null;

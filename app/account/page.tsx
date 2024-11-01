@@ -1,24 +1,15 @@
 'use client';
 
-import Info from '@/components/Account/Info';
-import BasicLayout from '@/components/layouts/BasicLayout';
-import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Image from 'next/image';
 import image from '@/public/images/16902.jpg';
 import { LogOut } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { redirect } from 'next/navigation';
+
+import BasicLayout from '@/components/layouts/BasicLayout';
+import Info from '@/components/Account/Info';
 import ChangeNamesForm from '@/components/Account/ChangeNamesForm';
 
 const AccountPage = () => {

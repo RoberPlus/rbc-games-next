@@ -1,91 +1,28 @@
-'use client';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form';
-
-import React, { useState } from 'react';
-import { Input } from '../ui/input';
-import SubmitButton from '../join/Form/SubmitButton';
-import { INPUTS } from '@/utils/constants';
-import { useToast } from '@/hooks/use-toast';
-import useValidation from '@/hooks/useValidation';
-import { useAuth } from '../../hooks/useAuth';
+import FormContainer from '../Form/FormContainer';
+import { updateUserAction } from '@/utils/actions';
+import FormInput from '../Form/FormInput';
+import { SubmitButton } from '../Form/SubmitButton';
+import { getCookie, hasCookie, deleteCookie } from 'cookies-next';
 
 const ChangeNamesForm = () => {
-  const { toast } = useToast();
-  const { user } = useAuth();
-  const [disabled, setDisabled] = useState(true);
-
-  // Validation
-  const form = useValidation('changeNames');
-  console.log(user);
-
-  function onError(errors: any) {
-    const errorMessage = Object.values(errors)
-      .map((error: any) => error.message)
-      .join(', ');
-    toast({
-      title: 'Input error',
-      description: errorMessage,
-      duration: 9000,
-    });
-  }
-
-  // On correct validation
-  function onSubmit(data: any) {
-    toast({
-      title: 'Names changed!',
-      duration: 9000,
-    });
-  }
-
-  const NAMES = {
-    firstName: {
-      label: 'Name',
-      type: 'text',
-      name: 'firstName',
-      placeholder: 'Jonh',
-      value: user?.firstName,
-    },
-    lastName: {
-      label: 'Lastname',
-      type: 'text',
-      name: 'lastName',
-      placeholder: 'Doe',
-      value: user?.lastName,
-    },
-  };
-
-  function toggleSubmitButton() {
-    setDisabled((prevState) => !prevState);
-  }
+  // USE AUTH AND GET USER INFO
+  const user = getCookie('user') as any;
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit, onError)} className=" space-y-6">
-        {Object.entries(NAMES).map(([input, inputProps]) => (
-          <FormField
-            key={input}
-            control={form.control}
-            name={inputProps.name as 'password' | 'identifier'}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{inputProps.label}</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder={inputProps.placeholder}
-                    {...field}
-                    type={inputProps.type}
-                    defaultValue={inputProps.value}
-                    onChange={toggleSubmitButton}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+    <>
+      <FormContainer action={updateUserAction}>
+        <div className="grid gap-4 md:grid-cols-2">
+          <FormInput
+            type="text"
+            name="firstName"
+            label="First Name"
+            defaultValue={user?.firstName}
           />
-        ))}
-        <SubmitButton label="Submit" disabled={disabled} />
-      </form>
-    </Form>
+          <FormInput type="text" name="lastName" label="Last Name" defaultValue={user?.lastName} />
+        </div>
+        <SubmitButton text="Update Profile" className="w-full" />
+      </FormContainer>
+    </>
   );
 };
 

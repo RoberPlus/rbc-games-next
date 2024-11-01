@@ -4,10 +4,17 @@ import React from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import { Contact } from 'lucide-react';
+import { getCookie, hasCookie } from 'cookies-next';
+import { redirect } from 'next/navigation';
 
 const Info = () => {
-  const { user } = useAuth() as any;
-  const createdAt = new Date(user.createdAt).toDateString();
+  if (!hasCookie('user')) {
+    return redirect('/');
+  }
+  
+  const rawUser = getCookie('user') as any;
+  const user = JSON.parse(rawUser) as any;
+  const createdAt = new Date(user?.createdAt).toDateString();
 
   return (
     <div className="pt-40 flex flex-col items-center">

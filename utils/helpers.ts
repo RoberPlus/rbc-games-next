@@ -1,17 +1,20 @@
+'use client';
 import { ENV } from './constants';
 import { jwtDecode } from 'jwt-decode';
+import { UserType } from './types';
+import { getCookie, hasCookie, deleteCookie } from 'cookies-next';
 
 export class Token {
   setToken(token: string) {
-    localStorage.setItem(ENV.TOKEN, token);
+    window.localStorage.setItem(ENV.TOKEN, token);
   }
 
   getToken() {
-    return localStorage.getItem(ENV.TOKEN);
+    return getCookie(ENV.TOKEN);
   }
 
   removeToken() {
-    localStorage.removeItem(ENV.TOKEN);
+    deleteCookie('token');
   }
 
   hasExpired(token: string): boolean {
@@ -28,7 +31,7 @@ export class Token {
 }
 
 export class User {
-  async getMe() {
+  async getMe(): Promise<UserType | any> {
     try {
       const url = `${ENV.API_URL}/${ENV.ENDPOINTS.USER_ME}`;
 
