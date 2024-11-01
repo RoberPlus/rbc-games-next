@@ -4,13 +4,13 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useAuth } from '@/hooks/useAuth';
 import { redirect } from 'next/navigation';
+import { getCookie } from 'cookies-next';
 
 const JoinLayout = ({ children }: { children: React.ReactNode }) => {
-  const { user } = useAuth();
+  const user = getCookie('user');
 
   if (user) {
     redirect('/');
-    return null;
   }
 
   return (

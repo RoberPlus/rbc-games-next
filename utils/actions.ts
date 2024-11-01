@@ -1,6 +1,5 @@
 'use server';
 
-import { toast } from '@/hooks/use-toast';
 import { ENV } from '@/utils/constants';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
@@ -12,17 +11,50 @@ const renderError = (error: unknown): { message: string } => {
   return { message: error instanceof Error ? error.message : 'An error occurred!' };
 };
 
-// TODO AUTH
-export const getAuthUser = async () => {}; //Promise<UserType> => {
-// const userCtrl = new User();
-// const user = userCtrl.getMe();
+// AUTH
+export const getAuthUser = async () => {
+  const nextCookies = cookies();
+  const user = (await nextCookies).get('user') as any;
 
-// if (!user) throw new Error('You must be logged in, please back to homepage');
+  if (!user) throw new Error('You must be logged in, please back to homepage');
 
-// return user;
-//}
+  const parsedUser = JSON.parse(user.value);
 
-//TESTEAR RESULT Y RENDER ERROR
+  return parsedUser;
+};
+
+export const getToken = async () => {
+  const nextCookies = cookies();
+  const token = (await nextCookies).get('token') as any;
+
+  if (!token) throw new Error('You must be logged in, please back to homepage');
+
+  return token.value;
+};
+
+export const setTokenCookie = async (jwt: string) => {
+  const jwtCookie = await cookies();
+
+  jwtCookie.set({
+    name: 'token',
+    value: jwt,
+    maxAge: 3600,
+    path: '/',
+  });
+};
+
+export const setUserDataCookie = async (user: object) => {
+  const userCookie = await cookies();
+
+  userCookie.set({
+    name: 'user',
+    value: JSON.stringify(user),
+    maxAge: 3600,
+    path: '/',
+  });
+};
+
+// USER
 export const createUserAction = async (
   prevState: any,
   formData: FormData
@@ -48,44 +80,43 @@ export const createUserAction = async (
       return { message: result.error.message };
     }
 
-    toast({
-      title: 'Profile Created.',
-      description: 'Now you can log in!',
-      duration: 9000,
-    });
-
+    return { message: 'Regiter Successful!' };
     redirect('/join-sign-in');
   } catch (error) {
     return renderError(error);
   }
 };
 
-//TESTEAR RESULT Y RENDER ERROR
 export const updateUserAction = async (
-  userId: number | undefined,
+  prevState: any,
   formData: FormData
 ): Promise<{ message: string }> => {
-  // TODO: Cambiar endpoint
-  const url = `${ENV.API_URL}/${ENV.ENDPOINTS.UPDATE_ME}/${userId}`;
-
-  const rawData = Object.fromEntries(formData);
-  const validatedFields = validateWithZodSchema(UpdateNamesSchema, rawData);
-
-  const params = {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(validatedFields),
-  };
-
   try {
-    const response = await authFetch({ url: url, params: params });
+    const user = await getAuthUser();
+    const token = await getToken();
+
+    const url = `${ENV.API_URL}/${ENV.ENDPOINTS.UPDATE_ME}/${user.id}`;
+
+    const rawData = Object.fromEntries(formData);
+    const validatedFields = validateWithZodSchema(UpdateNamesSchema, rawData);
+
+    const params = {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(validatedFields),
+    };
+
+    const response = await fetch(url, params);
     const result = await response.json();
 
     if (response.status !== 200) {
       return { message: result.error.message };
     }
+
+    setUserDataCookie(result);
 
     revalidatePath('/account');
     return { message: 'Update Successful!' };
@@ -119,22 +150,8 @@ export const loginUserAction = async (
       return { message: result.error.message };
     }
 
-    const jwtCookie = await cookies();
-    const userDataCookie = await cookies();
-
-    jwtCookie.set({
-      name: 'token',
-      value: result.jwt,
-      maxAge: 3600,
-      path: '/',
-    });
-
-    userDataCookie.set({
-      name: 'user',
-      value: JSON.stringify(result.user),
-      maxAge: 3600,
-      path: '/',
-    });
+    await setTokenCookie(result.jwt);
+    await setUserDataCookie(result.user);
 
     return { message: 'Login Successful!' };
     redirect('/');
@@ -143,6 +160,7 @@ export const loginUserAction = async (
   }
 };
 
+// DATA
 export const fetchPlatforms = async (): Promise<Platform[] | { message: string }> => {
   const sort = 'sort=order:asc';
   const url = `${ENV.API_URL}/${ENV.ENDPOINTS.PLATFORM}?populate=icon&${sort}`;

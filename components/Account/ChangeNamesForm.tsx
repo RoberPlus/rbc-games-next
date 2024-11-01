@@ -1,12 +1,14 @@
+'use client';
+
 import FormContainer from '../Form/FormContainer';
 import { updateUserAction } from '@/utils/actions';
 import FormInput from '../Form/FormInput';
 import { SubmitButton } from '../Form/SubmitButton';
-import { getCookie, hasCookie, deleteCookie } from 'cookies-next';
+import { getCookie } from 'cookies-next';
 
 const ChangeNamesForm = () => {
-  // USE AUTH AND GET USER INFO
-  const user = getCookie('user') as any;
+  const rawUser = getCookie('user') as any;
+  const user = JSON.parse(rawUser) as any;
 
   return (
     <>

@@ -24,14 +24,18 @@ export const LoginSchema = z.object({
 });
 
 // Sign-up Schema
-export const RegisterSchema = LoginSchema.extend({
+export const RegisterSchema = z.object({
   username: z.string().min(4, {
     message: 'Username must be at least 4 characters.',
   }),
-  names: z.string().min(6, {
-    message: 'Names must be at least 6 characters.',
+  password: z.string().min(6, {
+    message: 'Password must be at least 6 characters.',
+  }),
+  email: z.string().email().min(5, {
+    message: 'Email must be at least 5 characters.',
   }),
 });
+
 
 // UpdateNames Schema
 export const UpdateNamesSchema = z.object({

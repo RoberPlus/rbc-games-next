@@ -1,4 +1,5 @@
 'use client';
+
 import { ENV } from './constants';
 import { jwtDecode } from 'jwt-decode';
 import { UserType } from './types';
