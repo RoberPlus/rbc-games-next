@@ -2,15 +2,12 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useAuth } from '@/hooks/useAuth';
 import { redirect } from 'next/navigation';
-import { getCookie } from 'cookies-next';
+import { hasCookie } from 'cookies-next';
 
 const JoinLayout = ({ children }: { children: React.ReactNode }) => {
-  const user = getCookie('user');
-
-  if (user) {
-    redirect('/');
+  if (hasCookie('user') || hasCookie('token')) {
+    return redirect('/');
   }
 
   return (

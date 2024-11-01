@@ -3,7 +3,12 @@
 import { ENV } from '@/utils/constants';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { RegisterSchema, LoginSchema, UpdateNamesSchema, validateWithZodSchema } from './schemas';
+import {
+  RegisterSchema,
+  LoginSchema,
+  validateWithZodSchema,
+  UpdateUserDataSchema,
+} from './schemas';
 import { Platform } from './types';
 import { cookies } from 'next/headers';
 
@@ -54,6 +59,13 @@ export const setUserDataCookie = async (user: object) => {
   });
 };
 
+export const deleteCookies = async () => {
+  const savedCookies = await cookies();
+
+  savedCookies.delete('token');
+  savedCookies.delete('user');
+};
+
 // USER
 export const createUserAction = async (
   prevState: any,
@@ -98,7 +110,15 @@ export const updateUserAction = async (
     const url = `${ENV.API_URL}/${ENV.ENDPOINTS.UPDATE_ME}/${user.id}`;
 
     const rawData = Object.fromEntries(formData);
-    const validatedFields = validateWithZodSchema(UpdateNamesSchema, rawData);
+    const validatedFields = validateWithZodSchema(UpdateUserDataSchema, rawData);
+
+    // Deleting the "repeat" fields
+    const { repeatPassword, repeatEmail, ...updatedValues } = validatedFields;
+
+    // Deleting the empty fields
+    const filteredValues = Object.fromEntries(
+      Object.entries(updatedValues).filter(([key, value]) => value !== '')
+    );
 
     const params = {
       method: 'PUT',
@@ -106,7 +126,7 @@ export const updateUserAction = async (
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(validatedFields),
+      body: JSON.stringify(filteredValues),
     };
 
     const response = await fetch(url, params);
@@ -116,9 +136,9 @@ export const updateUserAction = async (
       return { message: result.error.message };
     }
 
-    setUserDataCookie(result);
+    deleteCookies();
 
-    revalidatePath('/account');
+    redirect('/join-sign-in');
     return { message: 'Update Successful!' };
   } catch (error) {
     return renderError(error);

@@ -6,7 +6,7 @@ import FormInput from '../Form/FormInput';
 import { SubmitButton } from '../Form/SubmitButton';
 import { getCookie } from 'cookies-next';
 
-const ChangeNamesForm = () => {
+const UpdateAccountForm = () => {
   const rawUser = getCookie('user') as any;
   const user = JSON.parse(rawUser) as any;
 
@@ -19,8 +19,24 @@ const ChangeNamesForm = () => {
             name="firstName"
             label="First Name"
             defaultValue={user?.firstName}
+            required={false}
           />
-          <FormInput type="text" name="lastName" label="Last Name" defaultValue={user?.lastName} />
+          <FormInput
+            type="text"
+            name="lastName"
+            label="Last Name"
+            defaultValue={user?.lastName}
+            required={false}
+          />
+          <FormInput type="email" name="email" label="New email" required={false} />
+          <FormInput type="email" name="repeatEmail" label="Repeat email" required={false} />
+          <FormInput type="password" name="password" label="New password" required={false} />
+          <FormInput
+            type="password"
+            name="repeatPassword"
+            label="Repeat password"
+            required={false}
+          />
         </div>
         <SubmitButton text="Update Profile" className="w-full" />
       </FormContainer>
@@ -28,4 +44,4 @@ const ChangeNamesForm = () => {
   );
 };
 
-export default ChangeNamesForm;
+export default UpdateAccountForm;

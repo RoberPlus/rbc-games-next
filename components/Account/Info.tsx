@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import { Contact } from 'lucide-react';
 import { getCookie, hasCookie } from 'cookies-next';
@@ -11,7 +10,7 @@ const Info = () => {
   if (!hasCookie('user')) {
     return redirect('/');
   }
-  
+
   const rawUser = getCookie('user') as any;
   const user = JSON.parse(rawUser) as any;
   const createdAt = new Date(user?.createdAt).toDateString();

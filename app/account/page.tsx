@@ -5,19 +5,16 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Image from 'next/image';
 import image from '@/public/images/16902.jpg';
 import { LogOut } from 'lucide-react';
-import { useAuth } from '@/hooks/useAuth';
 import { redirect } from 'next/navigation';
 
 import BasicLayout from '@/components/layouts/BasicLayout';
 import Info from '@/components/Account/Info';
-import ChangeNamesForm from '@/components/Account/ChangeNamesForm';
+import UpdateAccountForm from '@/components/Account/UpdateAccountForm';
+import { hasCookie } from 'cookies-next';
 
 const AccountPage = () => {
-  const { user, logout } = useAuth();
-
-  if (!user) {
-    redirect('/');
-    return null;
+  if (!hasCookie('user') || !hasCookie('token')) {
+    return redirect('/');
   }
 
   return (
@@ -30,7 +27,7 @@ const AccountPage = () => {
             <TabsTrigger value="wishlist">Wishlist</TabsTrigger>
             <TabsTrigger value="address">Addresses</TabsTrigger>
             <TabsTrigger value="settings">Settings</TabsTrigger>
-            <TabsTrigger value="logout" onClick={logout}>
+            <TabsTrigger value="logout">
               <LogOut size={20} />
             </TabsTrigger>
           </TabsList>
@@ -60,13 +57,13 @@ const AccountPage = () => {
           <TabsContent value="settings">
             <Card>
               <CardHeader>
-                <CardTitle>Name and Lastname</CardTitle>
+                <CardTitle>Account Info</CardTitle>
                 <CardDescription>
                   Change your account data here. After saving, you'll be logged out.
                 </CardDescription>
               </CardHeader>
               <CardContent className="w-full">
-                <ChangeNamesForm />
+                <UpdateAccountForm />
               </CardContent>
             </Card>
           </TabsContent>

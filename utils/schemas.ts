@@ -36,13 +36,57 @@ export const RegisterSchema = z.object({
   }),
 });
 
-
 // UpdateNames Schema
-export const UpdateNamesSchema = z.object({
-  firstName: z.string().min(3, {
-    message: 'Fistname must be at least 4 characters.',
-  }),
-  lastName: z.string().min(3, {
-    message: 'Lastname must be at least 6 characters.',
-  }),
-});
+export const UpdateUserDataSchema = z
+  .object({
+    firstName: z
+      .string()
+      .min(3, {
+        message: 'Fistname must be at least 3 characters.',
+      })
+      .optional()
+      .or(z.literal('')),
+    lastName: z
+      .string()
+      .min(3, {
+        message: 'Lastname must be at least 3 characters.',
+      })
+      .optional()
+      .or(z.literal('')),
+    password: z
+      .string()
+      .min(6, {
+        message: 'Password must be at least 6characters.',
+      })
+      .or(z.literal('')),
+    repeatPassword: z.string(),
+    email: z.string(),
+    repeatEmail: z.string(),
+  })
+  .refine(
+    (data) => {
+      if (data.password && !data.repeatPassword) {
+        return false;
+      }
+      if (!data.password && data.repeatPassword) {
+        return false;
+      }
+      if (data.email && !data.repeatEmail) {
+        return false;
+      }
+      if (!data.email && data.repeatEmail) {
+        return false;
+      }
+      if (data.password && data.repeatPassword && data.password !== data.repeatPassword) {
+        return false;
+      }
+      if (data.email && data.repeatEmail && data.email !== data.repeatEmail) {
+        return false;
+      }
+      return true;
+    },
+    {
+      message: 'Both fields must be filled and match if one of them is filled.',
+      path: ['password', 'repeatPassword', 'email', 'repeatEmail'], // optional
+    }
+  );
