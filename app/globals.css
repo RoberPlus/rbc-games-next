@@ -67,3 +67,11 @@
     @apply bg-background text-foreground;
   }
 }
+
+.triangle-clip {
+  clip-path: polygon(0 100%, 100% 100%, 0 0);
+}
+
+.dark-bg {
+  background-color: hsl(204 71.4% 4.1%);
+}

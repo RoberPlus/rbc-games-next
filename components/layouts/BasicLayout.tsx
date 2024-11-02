@@ -19,7 +19,7 @@ const BasicLayout = ({
     <>
       {/*TOP BAR */}
       <TopBar />
-      <div className="container p-10 m-auto">
+      <div className="w-full">
         {isContainer ? <div className="container m-auto">{children}</div> : children}
       </div>
       <Footer />

@@ -9,7 +9,7 @@ import {
   UpdateUserDataSchema,
   CreateAddressSchema,
 } from './schemas';
-import { Address, Platform } from './types';
+import { Address, Game, Platform } from './types';
 import { cookies } from 'next/headers';
 import { revalidatePath, revalidateTag } from 'next/cache';
 import next from 'next';
@@ -338,3 +338,24 @@ export const deleteAddressAction = async (prevState: {
     return renderError(error);
   }
 };
+
+// GAMES
+export const fetchLastGame  = async (): Promise<Game | { message: string }> => {
+  const sort = 'sort=publishedAt:desc';
+  const pagination = 'pagination[limit]=1'
+  const populate = "populate=*"
+  const url = `${ENV.API_URL}/${ENV.ENDPOINTS.GAME}?${sort}&${pagination}&${populate}`;
+
+  try {
+    const response = await fetch(url);
+    const result = await response.json();
+
+    if (response.status !== 200) {
+      return { message: result.error.message };
+    }
+
+    return result.data;
+  } catch (error) {
+    return renderError(error);
+  }
+}

@@ -20,38 +20,6 @@ export type FormInput = {
   placeholder?: string;
 };
 
-export type Platform = {
-  id: number;
-  documentId: string;
-  title: string;
-  slug: string;
-  order: number;
-  createdAt: string;
-  updatedAt: string;
-  publishedAt: string;
-  icon: {
-    id: number;
-    documentId: string;
-    name: string;
-    alternativeText?: string;
-    caption?: string;
-    width: number;
-    height: number;
-    formats?: null;
-    hash: string;
-    ext: string;
-    mime: string;
-    size: number;
-    url: string;
-    previewUrl?: string;
-    provider: string;
-    provider_metadata?: string;
-    createdAt: string;
-    updatedAt: string;
-    publishedAt: string;
-  };
-};
-
 export type Address = {
   id: string;
   documentId: string;
@@ -65,4 +33,75 @@ export type Address = {
   createdAt: string;
   updatedAt: string;
   publishedAt: string;
+};
+
+export type Media = {
+  id: number;
+  documentId: string;
+  name: string;
+  alternativeText?: string;
+  caption?: string;
+  width: number;
+  height: number;
+  formats?: {
+    thumbnail?: MediaFormat;
+    medium?: MediaFormat;
+    small?: MediaFormat;
+    large?: MediaFormat;
+  };
+  hash: string;
+  ext: string;
+  mime: string;
+  size: number;
+  url: string;
+  previewUrl?: string;
+  provider: string;
+  provider_metadata?: string;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+};
+
+export type MediaFormat = {
+  name: string;
+  hash: string;
+  ext: string;
+  mime: string;
+  path?: string | null;
+  width: number;
+  height: number;
+  size: number;
+  sizeInBytes: number;
+  url: string;
+};
+
+export type Platform = {
+  id: number;
+  documentId: string;
+  title: string;
+  slug: string;
+  order: number;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+  icon: Media;
+};
+
+export type Game = {
+  id: number;
+  documentId: string;
+  title: string;
+  price: number;
+  discount: number;
+  slug: string;
+  summary: string;
+  video: string;
+  releaseDate: string;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+  platform: Platform;
+  cover?: Media;
+  wallpaper?: Media;
+  gallerty?: Media[];
 };
