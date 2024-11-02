@@ -11,6 +11,10 @@ import BasicLayout from '@/components/layouts/BasicLayout';
 import Info from '@/components/Account/Info';
 import UpdateAccountForm from '@/components/Account/UpdateAccountForm';
 import { hasCookie } from 'cookies-next';
+import Address from '@/components/Account/AddressForm';
+import AddressItem from '@/components/Account/AddressItem';
+import { createAddressAction } from '@/utils/actions';
+import AddressForm from '@/components/Account/AddressForm';
 
 const AccountPage = () => {
   if (!hasCookie('user') || !hasCookie('token')) {
@@ -21,7 +25,7 @@ const AccountPage = () => {
     <>
       <BasicLayout isContainer>
         <Info />
-        <Tabs defaultValue="account" className="w-[1000px] m-auto pt-10">
+        <Tabs defaultValue="account" className="w-[1000px] m-auto pt-8">
           <TabsList className="grid w-full grid-cols-5 *:bg-transparent *:data-[state=active]:decoration-white">
             <TabsTrigger value="orders">My orders</TabsTrigger>
             <TabsTrigger value="wishlist">Wishlist</TabsTrigger>
@@ -64,6 +68,25 @@ const AccountPage = () => {
               </CardHeader>
               <CardContent className="w-full">
                 <UpdateAccountForm />
+              </CardContent>
+            </Card>
+          </TabsContent>
+          <TabsContent value="address">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex justify-between w-full">
+                  <p className="pt-2">Your addresses</p>
+                  <AddressForm
+                    action={createAddressAction}
+                    title="Add Address"
+                    description="Create a new address for billing."
+                    submitButtonLabel="Create Address"
+                    children="Create Address"
+                  />
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="w-full">
+                <AddressItem />
               </CardContent>
             </Card>
           </TabsContent>

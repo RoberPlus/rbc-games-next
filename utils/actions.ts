@@ -1,16 +1,19 @@
 'use server';
 
 import { ENV } from '@/utils/constants';
-import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import {
   RegisterSchema,
   LoginSchema,
   validateWithZodSchema,
   UpdateUserDataSchema,
+  CreateAddressSchema,
 } from './schemas';
-import { Platform } from './types';
+import { Address, Platform } from './types';
 import { cookies } from 'next/headers';
+import { revalidatePath, revalidateTag } from 'next/cache';
+import next from 'next';
+import { type } from 'os';
 
 const renderError = (error: unknown): { message: string } => {
   return { message: error instanceof Error ? error.message : 'An error occurred!' };
@@ -181,6 +184,7 @@ export const loginUserAction = async (
 };
 
 // DATA
+// PLATFORMS
 export const fetchPlatforms = async (): Promise<Platform[] | { message: string }> => {
   const sort = 'sort=order:asc';
   const url = `${ENV.API_URL}/${ENV.ENDPOINTS.PLATFORM}?populate=icon&${sort}`;
@@ -190,10 +194,146 @@ export const fetchPlatforms = async (): Promise<Platform[] | { message: string }
     const result = await response.json();
 
     if (response.status !== 200) {
-      return renderError('Response error, try again later!');
+      return { message: result.error.message };
     }
 
     return result.data;
+  } catch (error) {
+    return renderError(error);
+  }
+};
+
+// ADDRESS
+export const createAddressAction = async (
+  prevState: any,
+  formData: FormData
+): Promise<{ message: string }> => {
+  try {
+    const user = await getAuthUser();
+    const token = await getToken();
+    const url = `${ENV.API_URL}/${ENV.ENDPOINTS.ADDRESS}`;
+
+    formData.delete('id');
+
+    const rawData = Object.fromEntries(formData);
+    const validatedFields = validateWithZodSchema(CreateAddressSchema, rawData);
+
+    const params = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        data: {
+          ...validatedFields,
+          user: user.id,
+        },
+      }),
+    };
+
+    const response = await fetch(url, params);
+    const result = await response.json();
+
+    if (response.status !== 200 && response.status !== 201) {
+      return { message: result.error.message };
+    }
+
+    return { message: 'Address created!' };
+  } catch (error) {
+    return renderError(error);
+  }
+};
+
+export const fetchAddresses = async (): Promise<Address[] | { message: string }> => {
+  const user = await getAuthUser();
+  const token = await getToken();
+  const url = `${ENV.API_URL}/${ENV.ENDPOINTS.ADDRESS}?filters[user][id][$eq]=${user.id}`;
+
+  try {
+    const params = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    const response = await fetch(url, params);
+    const result = await response.json();
+
+    if (response.status !== 200) {
+      return { message: result.error.message };
+    }
+
+    return result.data;
+  } catch (error) {
+    return renderError(error);
+  }
+};
+
+export const updateAddressAction = async (
+  prevState: any,
+  formData: FormData
+): Promise<{ message: string }> => {
+  const user = await getAuthUser();
+  const token = await getToken();
+  const addressId = formData.get('id') as string;
+
+  const url = `${ENV.API_URL}/${ENV.ENDPOINTS.ADDRESS}/${addressId}`;
+
+  const rawData = Object.fromEntries(formData);
+  const validatedFields = validateWithZodSchema(CreateAddressSchema, rawData);
+
+  try {
+    const params = {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ data: validatedFields }),
+    };
+
+    const response = await fetch(url, params);
+    const result = await response.json();
+
+    if (response.status !== 200) {
+      return { message: result.error.message };
+    }
+
+    return { message: 'Address Updated!' };
+  } catch (error) {
+    return renderError(error);
+  }
+};
+
+export const deleteAddressAction = async (prevState: {
+  addressId: string;
+}): Promise<{ message: string }> => {
+  const user = await getAuthUser();
+  const token = await getToken();
+  const { addressId } = prevState;
+
+  const url = `${ENV.API_URL}/${ENV.ENDPOINTS.ADDRESS}/${addressId}`;
+
+  try {
+    const params = {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    const response = await fetch(url, params);
+    const result = await response.json();
+
+    if (response.status !== 204) {
+      return { message: result.error.message };
+    }
+
+    return { message: 'Address Deleted!' };
   } catch (error) {
     return renderError(error);
   }

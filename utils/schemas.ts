@@ -56,7 +56,7 @@ export const UpdateUserDataSchema = z
     password: z
       .string()
       .min(6, {
-        message: 'Password must be at least 6characters.',
+        message: 'Password must be at least 6 characters.',
       })
       .or(z.literal('')),
     repeatPassword: z.string(),
@@ -90,3 +90,28 @@ export const UpdateUserDataSchema = z
       path: ['password', 'repeatPassword', 'email', 'repeatEmail'], // optional
     }
   );
+
+// CreateAddress Schema
+export const CreateAddressSchema = z.object({
+  title: z.string().min(2, {
+    message: 'Title must be at least 2 characters.',
+  }),
+  name: z.string().min(4, {
+    message: 'Name must be at least 4 characters.',
+  }),
+  address: z.string().min(3, {
+    message: 'Address must be at least 3 characters.',
+  }),
+  city: z.string().min(4, {
+    message: 'City must be at least 4 characters.',
+  }),
+  state: z.string().min(3, {
+    message: 'State must be at least 3 characters.',
+  }),
+  postal_code: z.string().min(3, {
+    message: 'Postal code must be at least 3 characters.',
+  }),
+  phone: z.string().min(8, {
+    message: 'Phone must be at least 8 characters.',
+  }),
+});

@@ -1,17 +1,17 @@
 export type UserType = {
-  blocked: boolean,
-  confirmed: boolean,
-  createdAt: string,
-  documentId: string,
-  email: string,
-  firstName?: string,
-  id: number,
-  lastName?: string,
-  provider: string,
-  publishedAt: string,
-  updatedAt: string,
-  username: string
-}
+  blocked: boolean;
+  confirmed: boolean;
+  createdAt: string;
+  documentId: string;
+  email: string;
+  firstName?: string;
+  id: number;
+  lastName?: string;
+  provider: string;
+  publishedAt: string;
+  updatedAt: string;
+  username: string;
+};
 
 export type FormInput = {
   label: string;
@@ -52,3 +52,17 @@ export type Platform = {
   };
 };
 
+export type Address = {
+  id: string;
+  documentId: string;
+  title: string;
+  name: string;
+  address: string;
+  city: string;
+  state: string;
+  postal_code: string;
+  phone: string;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+};
