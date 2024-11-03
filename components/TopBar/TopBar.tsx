@@ -9,20 +9,23 @@ const TopBar = (props: any) => {
   const { isOpenSearch } = props;
 
   return (
-    <div className="flex items-center p-5 w-full z-10 fixed px-5">
-      <div className="w-1/5">
+    <div className="flex flex-col md:flex-row items-center p-5 w-full z-10 fixed px-5">
+      <div className="w-full md:w-1/5 flex justify-between md:justify-start">
         <Link href="/">
           <Image src={image} alt="logo" height={30} width={200} />
         </Link>
+        <div className="block md:hidden">
+          <Account />
+        </div>
       </div>
 
-      <div className="w-3/5 flex justify-center">
+      <div className="w-full md:w-3/5 flex justify-center mt-4 md:mt-0">
         <Suspense fallback={'loading...'}>
           <Menu isOpenSearch />
         </Suspense>
       </div>
 
-      <div className="w-1/5 flex justify-end">
+      <div className="hidden md:flex w-1/5 justify-end">
         <Account />
       </div>
     </div>
