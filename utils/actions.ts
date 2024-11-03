@@ -340,10 +340,10 @@ export const deleteAddressAction = async (prevState: {
 };
 
 // GAMES
-export const fetchLastGame  = async (): Promise<Game | { message: string }> => {
+export const fetchLastGame = async (): Promise<Game | { message: string }> => {
   const sort = 'sort=publishedAt:desc';
-  const pagination = 'pagination[limit]=1'
-  const populate = "populate=*"
+  const pagination = 'pagination[limit]=1';
+  const populate = 'populate=*';
   const url = `${ENV.API_URL}/${ENV.ENDPOINTS.GAME}?${sort}&${pagination}&${populate}`;
 
   try {
@@ -358,4 +358,32 @@ export const fetchLastGame  = async (): Promise<Game | { message: string }> => {
   } catch (error) {
     return renderError(error);
   }
-}
+};
+
+export const fetchLatestGames = async ({
+  quantity = 9,
+  platformId = null,
+}: {
+  quantity?: number | undefined;
+  platformId?: number | null | undefined;
+}): Promise<Game[] | { message: string }> => {
+  const sort = 'sort[0]=publishedAt:desc';
+  const pagination = `pagination[limit]=${quantity}`;
+  const platform = platformId && `filters[platform][id][$eq]=${platformId}`;
+  const populate = `populate=*`;
+
+  const url = `${ENV.API_URL}/${ENV.ENDPOINTS.GAME}?${sort}&${pagination}&${platform}&${populate}`;
+
+  try {
+    const response = await fetch(url);
+    const result = await response.json();
+
+    if (response.status !== 200) {
+      return { message: result.error.message };
+    }
+
+    return result.data;
+  } catch (error) {
+    return renderError(error);
+  }
+};

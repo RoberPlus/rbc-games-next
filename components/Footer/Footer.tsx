@@ -9,8 +9,8 @@ const Footer = () => {
     <div className="bg-slate-800 p-8">
       <div className="flex justify-between *:w-1/3">
         <div>
-          <Link href="/">
-            <Image src={image} alt="logo" height={30} width={150} />
+          <Link href="/" className="w-56 h-12 absolute scale-125 translate-x-5">
+            <Image src={image} alt="logo" fill className="object-cover" />
           </Link>
         </div>
 
@@ -49,8 +49,8 @@ const Footer = () => {
           </Button>
         </div>
       </div>
-      <div className='mt-8 pt-8 border-t-2 border-primary text-center'>
-        <span className='text-secondary'>Copyright © 2024 RBC Games - All rights reserved</span>
+      <div className="mt-8 pt-8 border-t-2 border-primary text-center">
+        <span className="text-secondary">Copyright © 2024 RBC Games - All rights reserved</span>
       </div>
     </div>
   );

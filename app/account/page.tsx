@@ -25,7 +25,7 @@ const AccountPage = () => {
     <>
       <BasicLayout isContainer>
         <Info />
-        <Tabs defaultValue="account" className="w-[1000px] m-auto pt-8">
+        <Tabs defaultValue="account" className="w-[1000px] m-auto py-10">
           <TabsList className="grid w-full grid-cols-5 *:bg-transparent *:data-[state=active]:decoration-white">
             <TabsTrigger value="orders">My orders</TabsTrigger>
             <TabsTrigger value="wishlist">Wishlist</TabsTrigger>

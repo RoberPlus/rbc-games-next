@@ -16,7 +16,7 @@ const Info = () => {
   const createdAt = new Date(user?.createdAt).toDateString();
 
   return (
-    <div className="pt-24 flex flex-col items-center">
+    <div className="flex flex-col items-center pt-36 pb-6">
       <Button
         variant="secondary"
         className="m-0 rounded-full cursor-auto h-24 w-24 flex items-center justify-center mb-5 [&_svg]:size-12"
