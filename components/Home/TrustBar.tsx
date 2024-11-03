@@ -4,7 +4,7 @@ import { ShieldCheck, MessageCircleMore, CreditCard } from 'lucide-react';
 
 const TrustBar = () => {
   return (
-    <div className="m-auto w-full flex justify-center items-center h-36 p-4 bg-slate-800">
+    <div className="m-auto w-full flex justify-center items-center h-40 p-4 bg-slate-800">
       <div className="flex h-5 items-center space-x-8">
         <ShieldCheck size={50} className="text-violet-600" />
         <div>

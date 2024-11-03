@@ -45,12 +45,12 @@ const BannerLastGame = () => {
       <Link href={game.slug} className="absolute top-0 left-0 w-full h-full flex items-center">
         <div className="ml-10 md:ml-80 m-w-full block w-96">
           <h2 className="text-4xl font-medium">{game.title}</h2>
-          <p className="mt-2">
+          <div className="mt-2">
             <label>
               <Badge className="text-base mr-4 -translate-y-2">-{game.discount}%</Badge>
             </label>
             <span className="text-5xl">${finalPrice.toFixed(2)}</span>
-          </p>
+          </div>
         </div>
       </Link>
     </div>

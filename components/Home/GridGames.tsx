@@ -1,15 +1,21 @@
 'use client';
 
-import { fetchLatestGames } from '@/utils/actions';
+import { fetchGames } from '@/utils/actions';
 import { Game } from '@/utils/types';
 import React, { useEffect, useState } from 'react';
 import GameCardSkeleton from './GameCardSkeleton';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Card, CardContent } from '../ui/card';
+import { Card } from '../ui/card';
 import { Badge } from '../ui/badge';
 
-const LatestGames = () => {
+type GridGamesType = {
+  title: string,
+  platformSlug?: string,
+  quantity?: number
+}
+
+const GridGames = ({title, platformSlug, quantity}: GridGamesType) => {
   const [latestGames, setlatestGames] = useState<Game[]>([]);
   const [error, setError] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -17,7 +23,7 @@ const LatestGames = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const fetchedLatestGames = (await fetchLatestGames({})) as any;
+        const fetchedLatestGames = (await fetchGames({quantity, platformSlug})) as any;
         setlatestGames(fetchedLatestGames);
       } catch (error) {
         setError(error);
@@ -30,8 +36,8 @@ const LatestGames = () => {
   }, []);
 
   return (
-    <div className="m-auto max-w-6xl pb-10">
-      <h2 className="text-3xl my-8">Latest games</h2>
+    <div className="m-auto max-w-6xl pb-10 mb-10 mt-20">
+      <h2 className="text-3xl my-8">{title}</h2>
       <div className="grid grid-cols-3 m-2 gap-3">
         {isLoading ? (
           <>
@@ -45,7 +51,7 @@ const LatestGames = () => {
         ) : (
           <>
             {Object.keys(latestGames).length === 0 ? (
-              <p>No addresses available.</p>
+              <p>No games available.</p>
             ) : (
               Object.entries(latestGames).map(([game, gameProps]) => {
                 const discountPrice = (gameProps.discount / 100) * gameProps.price;
@@ -79,4 +85,4 @@ const LatestGames = () => {
   );
 };
 
-export default LatestGames;
+export default GridGames;

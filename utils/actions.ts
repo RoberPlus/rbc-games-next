@@ -11,9 +11,6 @@ import {
 } from './schemas';
 import { Address, Game, Platform } from './types';
 import { cookies } from 'next/headers';
-import { revalidatePath, revalidateTag } from 'next/cache';
-import next from 'next';
-import { type } from 'os';
 
 const renderError = (error: unknown): { message: string } => {
   return { message: error instanceof Error ? error.message : 'An error occurred!' };
@@ -360,16 +357,16 @@ export const fetchLastGame = async (): Promise<Game | { message: string }> => {
   }
 };
 
-export const fetchLatestGames = async ({
+export const fetchGames = async ({
   quantity = 9,
-  platformId = null,
+  platformSlug = null,
 }: {
   quantity?: number | undefined;
-  platformId?: number | null | undefined;
+  platformSlug?: string | null | undefined;
 }): Promise<Game[] | { message: string }> => {
   const sort = 'sort[0]=publishedAt:desc';
   const pagination = `pagination[limit]=${quantity}`;
-  const platform = platformId && `filters[platform][id][$eq]=${platformId}`;
+  const platform = platformSlug && `filters[platform][slug][$eq]=${platformSlug}`;
   const populate = `populate=*`;
 
   const url = `${ENV.API_URL}/${ENV.ENDPOINTS.GAME}?${sort}&${pagination}&${platform}&${populate}`;
