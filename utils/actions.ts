@@ -361,19 +361,19 @@ export const fetchGames = async ({
   quantity = 6,
   platformSlug = null,
   currentPage = 1,
-  query = null
+  query = null,
 }: {
   quantity?: number | undefined;
   platformSlug?: string | null | undefined;
   currentPage?: number;
-  query?: string | null
+  query?: string | null;
 }): Promise<Game[] | { message: string }> => {
   const sort = 'sort[0]=publishedAt:desc';
   const platform = platformSlug && `filters[platform][slug][$eq]=${platformSlug}`;
 
   const pageSize = quantity && `pagination[pageSize]=${quantity}`;
   const pagination = currentPage && `pagination[page]=${currentPage}`;
-  const search = query && `filters[title][$contains]=${query}`
+  const search = query && `filters[title][$contains]=${query}`;
 
   const populate = `populate=*`;
 
@@ -410,6 +410,29 @@ export const fetchSearchGame = async (
     }
 
     return result;
+  } catch (error) {
+    return renderError(error);
+  }
+};
+
+export const fetchGameDetails = async (
+  game?: string
+): Promise<Game | Game[] | { message: string }> => {
+  const populateGame =
+    'populate[0]=wallpaper&populate[1]=cover&populate[2]=gallery&populate[3]=platform';
+  const populatePlatform = 'populate[4]=platform.icon';
+  const filter = `filters[slug][$eq]=${game}`;
+  const url = `${ENV.API_URL}/${ENV.ENDPOINTS.GAME}?${filter}&${populateGame}&${populatePlatform}`;
+
+  try {
+    const response = await fetch(url);
+    const result = await response.json();
+
+    if (response.status !== 200) {
+      return { message: result.error.message };
+    }
+
+    return result.data[0];
   } catch (error) {
     return renderError(error);
   }

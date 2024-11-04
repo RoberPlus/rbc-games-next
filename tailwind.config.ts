@@ -54,6 +54,9 @@ const config: Config = {
       minHeight: {
         '500': '500px',
       },
+      maxHeight: {
+        '600': '600px',
+      },
       borderRadius: {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',

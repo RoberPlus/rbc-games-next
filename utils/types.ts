@@ -103,5 +103,5 @@ export type Game = {
   platform: Platform;
   cover?: Media;
   wallpaper?: Media;
-  gallerty?: Media[];
+  gallery?: Media[];
 };
