@@ -7,7 +7,7 @@ import { getCookie } from 'cookies-next';
 
 const total = 4;
 
-const Account = async () => {
+const Account = () => {
   const goToLogin = () => redirect('/join/sign-in');
   const goToAccount = () => redirect('/account');
   const goToCart = () => redirect('/cart');

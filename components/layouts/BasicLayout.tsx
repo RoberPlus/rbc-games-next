@@ -17,8 +17,7 @@ const BasicLayout = ({
 }: BasicLayoutTypes) => {
   return (
     <>
-      {/*TOP BAR */}
-      <TopBar />
+      <TopBar isOpenSearch={isOpenSearch} />
       <div className="w-full">
         {isContainer ? <div className="container m-auto">{children}</div> : children}
       </div>

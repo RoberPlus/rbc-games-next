@@ -90,7 +90,7 @@ function DeleteAddressModal({ addressId }: { addressId: string }) {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button className='bg-destructive hover:bg-red-800'>
+        <Button className='bg-destructive hover:bg-red-800 text-white'>
           <Trash2 />
         </Button>
       </AlertDialogTrigger>
@@ -103,7 +103,7 @@ function DeleteAddressModal({ addressId }: { addressId: string }) {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction className='bg-destructive hover:bg-red-800'>
+          <AlertDialogAction className='bg-destructive hover:bg-red-800 text-white'>
             <FormContainer action={deleteBooking}>
               <button type="submit">Continue</button>
             </FormContainer>

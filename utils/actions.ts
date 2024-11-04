@@ -358,18 +358,26 @@ export const fetchLastGame = async (): Promise<Game | { message: string }> => {
 };
 
 export const fetchGames = async ({
-  quantity = 9,
+  quantity = 6,
   platformSlug = null,
+  currentPage = 1,
+  query = null
 }: {
   quantity?: number | undefined;
   platformSlug?: string | null | undefined;
+  currentPage?: number;
+  query?: string | null
 }): Promise<Game[] | { message: string }> => {
   const sort = 'sort[0]=publishedAt:desc';
-  const pagination = `pagination[limit]=${quantity}`;
   const platform = platformSlug && `filters[platform][slug][$eq]=${platformSlug}`;
+
+  const pageSize = quantity && `pagination[pageSize]=${quantity}`;
+  const pagination = currentPage && `pagination[page]=${currentPage}`;
+  const search = query && `filters[title][$contains]=${query}`
+
   const populate = `populate=*`;
 
-  const url = `${ENV.API_URL}/${ENV.ENDPOINTS.GAME}?${sort}&${pagination}&${platform}&${populate}`;
+  const url = `${ENV.API_URL}/${ENV.ENDPOINTS.GAME}?${sort}&${pagination}&${platform}&${pageSize}&${populate}&${search}`;
 
   try {
     const response = await fetch(url);
@@ -379,7 +387,29 @@ export const fetchGames = async ({
       return { message: result.error.message };
     }
 
-    return result.data;
+    return result;
+  } catch (error) {
+    return renderError(error);
+  }
+};
+
+export const fetchSearchGame = async (
+  query?: string
+): Promise<Game | Game[] | { message: string }> => {
+  const sort = 'sort=publishedAt:desc';
+  const pagination = 'pagination[limit]=1';
+  const populate = 'populate=*';
+  const url = `${ENV.API_URL}/${ENV.ENDPOINTS.GAME}?${sort}&${pagination}&${populate}`;
+
+  try {
+    const response = await fetch(url);
+    const result = await response.json();
+
+    if (response.status !== 200) {
+      return { message: result.error.message };
+    }
+
+    return result;
   } catch (error) {
     return renderError(error);
   }

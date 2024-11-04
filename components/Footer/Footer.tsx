@@ -6,11 +6,11 @@ import { Facebook, Twitter, Instagram, Youtube, Twitch } from 'lucide-react';
 
 const Footer = () => {
   return (
-    <div className="bg-slate-800 p-8">
+    <div className="bg-zinc-800 p-8">
       <div className="flex justify-between *:w-1/3">
         <div>
-          <Link href="/" className="w-56 h-12 absolute scale-125 translate-x-5">
-            <Image src={image} alt="logo" fill className="object-cover" />
+          <Link href="/" className="w-72 max-h-10 absolute translate-x-5 mt-4">
+            <Image src={image} alt="logo" width={250} height={40} quality={100} />
           </Link>
         </div>
 
@@ -44,13 +44,13 @@ const Footer = () => {
           <Button className="ml-2 text-red-600" variant="link">
             <Youtube className="scale-150" />
           </Button>
-          <Button className="ml-2" variant="link">
+          <Button className="ml-2 text-violet-700" variant="link">
             <Twitch className="scale-150" />
           </Button>
         </div>
       </div>
       <div className="mt-8 pt-8 border-t-2 border-primary text-center">
-        <span className="text-secondary">Copyright © 2024 RBC Games - All rights reserved</span>
+        <span className="text-white font-extralight">Copyright © 2024 RBC Games - All rights reserved</span>
       </div>
     </div>
   );
