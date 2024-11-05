@@ -12,7 +12,6 @@ interface PageProps {
 
 const GamePage = async ({ params }: PageProps) => {
   const { game } = await params;
-  console.log(game);
   return (
     <BasicLayout>
       <div>

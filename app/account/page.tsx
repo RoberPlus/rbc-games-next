@@ -11,7 +11,6 @@ import BasicLayout from '@/components/layouts/BasicLayout';
 import Info from '@/components/Account/Info';
 import UpdateAccountForm from '@/components/Account/UpdateAccountForm';
 import { hasCookie } from 'cookies-next';
-import Address from '@/components/Account/AddressForm';
 import AddressItem from '@/components/Account/AddressItem';
 import { createAddressAction } from '@/utils/actions';
 import AddressForm from '@/components/Account/AddressForm';

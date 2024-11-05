@@ -10,7 +10,8 @@ export const ENV = {
     UPDATE_ME: 'users',
     PLATFORM: 'platforms',
     ADDRESS: 'addresses',
-    GAME: 'games'
+    GAME: 'games',
+    WHISHLIST: 'whishlists',
   },
   TOKEN: 'token',
 };

@@ -5,7 +5,6 @@ import { Game } from '@/utils/types';
 import React, { useEffect, useState } from 'react';
 import GameCardSkeleton from '../Home/GameCardSkeleton';
 import Image from 'next/image';
-import Link from 'next/link';
 import Panel from './Panel';
 import Info from './Info';
 import Media from './Media';
@@ -18,7 +17,6 @@ const GameDetails = ({ gameSlug }: Params) => {
   const [game, setGame] = useState<Game>();
   const [error, setError] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
-  console.log(gameSlug);
 
   useEffect(() => {
     const fetchData = async () => {

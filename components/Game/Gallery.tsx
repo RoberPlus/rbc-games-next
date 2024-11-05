@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import { Media } from '@/utils/types';
 import placeholderImage from '@/public/images/placeholder.webp';
-import { Dialog, DialogClose, DialogContent, DialogTrigger } from '../ui/dialog';
-import { Button } from '../ui/button';
+import { Dialog, DialogContent, DialogTitle } from '../ui/dialog';;
 import {
   Carousel,
   CarouselContent,
@@ -12,7 +11,6 @@ import {
   CarouselPrevious,
 } from '../ui/carousel';
 import { Card, CardContent } from '../ui/card';
-import { DialogTitle } from '@radix-ui/react-dialog';
 
 type Props = {
   pics: Media[];
@@ -58,9 +56,12 @@ const Gallery = ({ pics }: Props) => {
               className="max-w-6xl max-h-[600px] bg-transparent border-none [&_]:text-red"
               onInteractOutside={closeDialog}
             >
+              <DialogTitle>
+                <p className="absolute text-transparent">Game Gallery</p>
+              </DialogTitle>
               <Carousel>
                 <CarouselContent>
-                  {picsClone.map((picture) => (
+                  {pics.map((picture) => (
                     <CarouselItem key={picture.documentId}>
                       <Card className="relative -translate-y-2 border-none bg-transparent max-h-[600px]">
                         <CardContent className="aspect-video">

@@ -3,7 +3,8 @@ import React from 'react';
 import Image from 'next/image';
 import imageplaceholder from '../../public/images/placeholder.webp';
 import { Button } from '../ui/button';
-import { Check, Tag, Heart, ShoppingCart } from 'lucide-react';
+import { Check, Tag, ShoppingCart } from 'lucide-react';
+import WishListButton from './WishListButton';
 
 type Props = {
   game: Game;
@@ -57,9 +58,7 @@ const Panel = ({ game }: Props) => {
             <span className="text-3xl">${finalPrice.toFixed(2)}</span>
           </div>
           <div className="w-full mt-4 flex">
-            <Button className="w-1/5 h-14 [&_svg]:size-7 m-2">
-              <Heart className="text-xl" />
-            </Button>
+            <WishListButton game={game} />
             <Button className="w-4/5 h-14 [&_svg]:size-7 m-2">
               <ShoppingCart size={50} className="mx-2" />{' '}
               <span className="text-base">Add to cart</span>

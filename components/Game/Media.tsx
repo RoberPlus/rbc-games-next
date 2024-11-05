@@ -11,7 +11,7 @@ const Media = ({ game }: Props) => {
   return (
     <div className="relative mx-auto max-w-6xl pb-10 mb-10 m-auto">
       <Video video={game.video} />
-      <Gallery pics={game.gallery} />
+      <Gallery pics={game.gallery as any} />
     </div>
   );
 };

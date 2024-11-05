@@ -437,3 +437,99 @@ export const fetchGameDetails = async (
     return renderError(error);
   }
 };
+
+// WISHLIST
+export const checkGameWhishlist = async ({ gameDocumentId }: { gameDocumentId: string }) => {
+  const user = await getAuthUser();
+  const token = await getToken();
+
+  const filterUser = `filters[user][id][$eq][0]=${user.id}`;
+  const filterGame = `filters[game][documentId][$eq][1]=${gameDocumentId}`;
+
+  const url = `${ENV.API_URL}/${ENV.ENDPOINTS.WHISHLIST}?${filterUser}&${filterGame}`;
+
+  try {
+    const params = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    const response = await fetch(url, params);
+    const result = await response.json();
+
+    if (response.status !== 200) {
+      return false;
+    }
+
+    if (result.data.length === 0) {
+      return false;
+    }
+
+    return result;
+  } catch (error) {
+    return renderError(error);
+  }
+};
+
+export const addGameWhishlist = async ({ gameDocumentId }: { gameDocumentId: string }) => {
+  const user = await getAuthUser();
+  const token = await getToken();
+
+  const url = `${ENV.API_URL}/${ENV.ENDPOINTS.WHISHLIST}`;
+
+  try {
+    const params = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ data: { user: user.id, game: gameDocumentId } }),
+    };
+
+    const response = await fetch(url, params);
+    const result = await response.json();
+
+    if (response.status !== 204) {
+      return { message: result.error.message };
+    }
+
+    return { result: result, message: 'Added to WishList!' };
+  } catch (error) {
+    return renderError(error);
+  }
+};
+
+export const deleteGameWhishlist = async ({
+  wishListItemDocumentId,
+}: {
+  wishListItemDocumentId: string;
+}) => {
+  const user = await getAuthUser();
+  const token = await getToken();
+
+  const url = `${ENV.API_URL}/${ENV.ENDPOINTS.WHISHLIST}/${wishListItemDocumentId}`;
+
+  try {
+    const params = {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    const response = await fetch(url, params);
+    const result = await response.json();
+
+    if (response.status !== 204) {
+      return { message: result.error.message };
+    }
+
+    return { message: 'Item Removed!' };
+  } catch (error) {
+    return renderError(error);
+  }
+};
