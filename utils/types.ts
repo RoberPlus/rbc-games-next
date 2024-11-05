@@ -105,3 +105,12 @@ export type Game = {
   wallpaper?: Media;
   gallery?: Media[];
 };
+
+export type WishList = {
+  id: number;
+  documentId: string;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+  game: Game;
+};

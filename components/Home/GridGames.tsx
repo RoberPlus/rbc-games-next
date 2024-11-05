@@ -79,7 +79,10 @@ const GridGames = ({
 
   return (
     <div className="max-w-6xl pb-10 mb-10 m-auto">
-      <h2 className="text-3xl capitalize pb-10">{title}{query && ': '+query}</h2>
+      <h2 className="text-3xl capitalize pb-10">
+        {title}
+        {query && ': ' + query}
+      </h2>
       <div className="grid grid-cols-3 m-2 gap-3">
         {isLoading ? (
           <>
@@ -114,4 +117,5 @@ const GridGames = ({
     </div>
   );
 };
+
 export default GridGames;

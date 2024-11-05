@@ -20,7 +20,6 @@ const WishListButton = ({ game }: Props) => {
       try {
         const response = await checkGameWhishlist({ gameDocumentId: game.documentId });
         setHasWishList(response);
-        console.log(hasWishList);
       } catch (error) {
         setHasWishList(false);
       }

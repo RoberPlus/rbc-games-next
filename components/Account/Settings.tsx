@@ -1,11 +1,20 @@
-import React from 'react'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
+import UpdateAccountForm from './UpdateAccountForm';
 
 const Settings = () => {
   return (
-    <div>
-      
-    </div>
-  )
-}
+    <Card className="my-10">
+      <CardHeader>
+        <CardTitle>Account Info</CardTitle>
+        <CardDescription>
+          Change your account data here. After saving, you'll be logged out.
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="w-full">
+        <UpdateAccountForm />
+      </CardContent>
+    </Card>
+  );
+};
 
-export default Settings
+export default Settings;

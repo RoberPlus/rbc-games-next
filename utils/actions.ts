@@ -324,10 +324,9 @@ export const deleteAddressAction = async (prevState: {
     };
 
     const response = await fetch(url, params);
-    const result = await response.json();
 
     if (response.status !== 204) {
-      return { message: result.error.message };
+      return { message: response.statusText };
     }
 
     return { message: 'Address Deleted!' };
@@ -522,13 +521,40 @@ export const deleteGameWhishlist = async ({
     };
 
     const response = await fetch(url, params);
-    const result = await response.json();
 
     if (response.status !== 204) {
+      return { message: response.statusText };
+    }
+
+    return { message: 'Game removed!' };
+  } catch (error) {
+    return renderError(error);
+  }
+};
+
+export const fetchAllUserWishlist = async (): Promise<Game[] | { message: string }> => {
+  const user = await getAuthUser();
+  const token = await getToken();
+  const populate = 'populate[0]=game&populate[1]=game.cover';
+  const url = `${ENV.API_URL}/${ENV.ENDPOINTS.WHISHLIST}?filters[user][id][$eq]=${user.id}&${populate}`;
+
+  try {
+    const params = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    const response = await fetch(url, params);
+    const result = await response.json();
+
+    if (response.status !== 200) {
       return { message: result.error.message };
     }
 
-    return { message: 'Item Removed!' };
+    return result.data;
   } catch (error) {
     return renderError(error);
   }
