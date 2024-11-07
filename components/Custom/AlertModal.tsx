@@ -8,9 +8,6 @@ import {
   AlertDialogTitle,
 } from '../ui/alert-dialog';
 import { AlertDialog, AlertDialogTrigger } from '@radix-ui/react-alert-dialog';
-import { Button } from '../ui/button';
-import { LucideProps } from 'lucide-react';
-import { ForwardRefExoticComponent, RefAttributes } from 'react';
 
 type DeleteModalProps = {
   itemId?: string | undefined;
@@ -19,7 +16,7 @@ type DeleteModalProps = {
   Icon: React.ReactNode;
 };
 
-export default function DeleteDialog({ itemId, actionFn, deleteText, Icon }: DeleteModalProps) {
+export default function AlertModal({ itemId, actionFn, deleteText, Icon }: DeleteModalProps) {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>{Icon}</AlertDialogTrigger>

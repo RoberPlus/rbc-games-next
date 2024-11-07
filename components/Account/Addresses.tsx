@@ -9,7 +9,7 @@ import { createAddressAction, deleteAddressAction, updateAddressAction } from '@
 import { Pencil, Trash2 } from 'lucide-react';
 import AddressForm from './AddressForm';
 import { ENV } from '@/utils/constants';
-import DeleteDialog from '../Custom/DeleteDialog';
+import AlertModal from '@/components/Custom/AlertModal';
 import { Button } from '../ui/button';
 
 const Addresses = () => {
@@ -71,7 +71,7 @@ const Addresses = () => {
                   >
                     <Pencil />
                   </AddressForm>
-                  <DeleteDialog
+                  <AlertModal
                     actionFn={onDeleteAddress}
                     itemId={addressProps.documentId}
                     deleteText="This will permanently delete this address."

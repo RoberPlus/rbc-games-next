@@ -9,7 +9,7 @@ import WishList from '@/components/Account/WishList';
 import Settings from '@/components/Account/Settings';
 import Addresses from '@/components/Account/Addresses';
 import BasicLayout from '@/components/layouts/BasicLayout';
-import DeleteDialog from '../../components/Custom/DeleteDialog';
+import AlertModal from '@/components/Custom/AlertModal';
 import { Button } from '@/components/ui/button';
 
 const AccountPage = () => {
@@ -40,7 +40,7 @@ const AccountPage = () => {
           <TabsTrigger value="settings" className="w-full">
             Settings
           </TabsTrigger>
-          <DeleteDialog
+          <AlertModal
             actionFn={logout}
             deleteText="Do you want to log out?"
             Icon={

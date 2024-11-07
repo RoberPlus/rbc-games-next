@@ -22,7 +22,7 @@ import { authFetcher } from '@/services/fetcher';
 import useSWR from 'swr';
 import { getCookie } from 'cookies-next';
 import { ENV } from '@/utils/constants';
-import DeleteDialog from '../Custom/DeleteDialog';
+import AlertModal from '@/components/Custom/AlertModal';
 
 const WishList = () => {
   const { toast } = useToast();
@@ -70,7 +70,7 @@ const WishList = () => {
                     fill
                     className="rounded-sm object-cover hover:opacity-100 opacity-60"
                   />
-                  <DeleteDialog
+                  <AlertModal
                     actionFn={onDeleteWishList}
                     itemId={wishListData.documentId}
                     deleteText="This will permanently delete this game from your wishlist."
