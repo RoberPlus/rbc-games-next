@@ -22,8 +22,10 @@ import { authFetcher } from '@/services/fetcher';
 import useSWR from 'swr';
 import { getCookie } from 'cookies-next';
 import { ENV } from '@/utils/constants';
+import DeleteDialog from '../Custom/DeleteDialog';
 
 const WishList = () => {
+  const { toast } = useToast();
   const userCookie = getCookie('user') as string;
   const user = userCookie ? JSON.parse(userCookie) : null;
 
@@ -35,6 +37,11 @@ const WishList = () => {
   if (error) return <p>Error...</p>;
 
   const wishList = data.data as WishListType[];
+
+  const onDeleteWishList = async (wishListItemDocumentId: string) => {
+    await deleteGameWhishlist(wishListItemDocumentId);
+    mutate();
+  };
 
   return (
     <>
@@ -63,7 +70,14 @@ const WishList = () => {
                     fill
                     className="rounded-sm object-cover hover:opacity-100 opacity-60"
                   />
-                  <DeleteGameWishlistModal wishListItemDocumentId={wishListData.documentId} />
+                  <DeleteDialog
+                    actionFn={onDeleteWishList}
+                    itemId={wishListData.documentId}
+                    deleteText="This will permanently delete this game from your wishlist."
+                    Icon={
+                      <Trash2 className="absolute top-0 right-0 p-0 m-2 text-red-800 size-7 cursor-pointer" />
+                    }
+                  />
                   <CardContent className="absolute bottom-0 left-0 right-0 p-4">
                     <p className="font-bold text-white">{wishListData.game.title}</p>
                     <p className="text-lg font-medium my-2 text-primary">
@@ -80,15 +94,13 @@ const WishList = () => {
   );
 };
 
-function DeleteGameWishlistModal(wishListItemDocumentId: any) {
-  const { toast } = useToast();
-
-  const onDelete = async () => {
-    const response = (await deleteGameWhishlist(wishListItemDocumentId)) as any;
-
-    toast({ description: response.message });
-  };
-
+function DeleteGameWishlistModal({
+  wishListItemDocumentId,
+  onDeleteWishList,
+}: {
+  wishListItemDocumentId: string;
+  onDeleteWishList: (wishListItemDocumentId: string) => void;
+}) {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
@@ -103,10 +115,11 @@ function DeleteGameWishlistModal(wishListItemDocumentId: any) {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction className="bg-destructive hover:bg-red-800 text-white">
-            <button type="submit" onClick={onDelete}>
-              Continue
-            </button>
+          <AlertDialogAction
+            className="bg-destructive hover:bg-red-800 text-white"
+            onClick={() => onDeleteWishList(wishListItemDocumentId)}
+          >
+            Continue
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

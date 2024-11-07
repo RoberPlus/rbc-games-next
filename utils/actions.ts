@@ -498,11 +498,7 @@ export const addGameWhishlist = async ({ gameDocumentId }: { gameDocumentId: str
   }
 };
 
-export const deleteGameWhishlist = async ({
-  wishListItemDocumentId,
-}: {
-  wishListItemDocumentId: string;
-}) => {
+export const deleteGameWhishlist = async (wishListItemDocumentId: string): Promise<{ message: string }> => {
   const user = await getAuthUser();
   const token = await getToken();
 

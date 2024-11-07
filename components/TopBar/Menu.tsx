@@ -8,11 +8,9 @@ import SearchInput from './SearchInput';
 import { Search, X } from 'lucide-react';
 import { Platform } from '@/utils/types';
 
-import { Skeleton } from '../ui/skeleton';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
-import TopBarSkeleton from '../TopBar/TopBarSkeleton';
 
 const Menu = (props: any) => {
   const { isOpenSearch } = props;
@@ -41,50 +39,44 @@ const Menu = (props: any) => {
 
   return (
     <>
-      {isLoading ? (
-        <TopBarSkeleton /> // Display a loading indicator while data is fetching
-      ) : (
-        <>
-          <div className="relative flex justify-end items-end p-2 rounded-3xl backdrop-blur-xl">
-            {Object.entries(platforms).map(([platform, platformProps]) => (
-              <Link href={`/games/${platformProps.slug}`} key={platformProps.id}>
-                <Button
-                  className={`p-4 hover:bg-slate-50/5 hover:decoration-0 text-white hover:text-white rounded-3xl m-1 `}
-                  variant={pathname === '/games/' + platformProps.slug ? 'secondary' : 'ghost'}
-                >
-                  <Image
-                    src={platformProps.icon.url}
-                    alt={platformProps.title}
-                    height={30}
-                    width={30}
-                    className="pr-1 hover:text-white"
-                  />
-                  {platformProps.title}
-                </Button>
-              </Link>
-            ))}
-
+      <div className="relative flex justify-end items-end p-2 rounded-3xl backdrop-blur-xl">
+        {Object.entries(platforms).map(([platform, platformProps]) => (
+          <Link href={`/games/${platformProps.slug}`} key={platformProps.id}>
             <Button
-              className={`p-5 w-12 h-12 translate-x-4 scale-125 hover:bg-primary rounded-full *:scale-100 *:transition *:duration-300 *:hover:scale-125 shadow-none`}
-              onClick={toggleSearchInput}
+              className={`p-4 hover:bg-slate-50/5 hover:decoration-0 text-white hover:text-white rounded-3xl m-1 `}
+              variant={pathname === '/games/' + platformProps.slug ? 'secondary' : 'ghost'}
             >
-              <Search className="" />
-            </Button>
-
-            <div
-              className={`absolute top-0 h-16 bg-primary shadow-none rounded-full w-full text-white scale-x-105 ${
-                showSearchInput ? 'flex' : 'hidden'
-              }`}
-            >
-              <SearchInput />
-              <X
-                className="translate-x-8 translate-y-5 scale-125 transition duration-300 hover:scale-150 cursor-pointer"
-                onClick={toggleSearchInput}
+              <Image
+                src={platformProps.icon.url}
+                alt={platformProps.title}
+                height={30}
+                width={30}
+                className="pr-1 hover:text-white"
               />
-            </div>
-          </div>
-        </>
-      )}
+              {platformProps.title}
+            </Button>
+          </Link>
+        ))}
+
+        <Button
+          className={`p-5 w-12 h-12 translate-x-4 scale-125 hover:bg-primary rounded-full *:scale-100 *:transition *:duration-300 *:hover:scale-125 shadow-none`}
+          onClick={toggleSearchInput}
+        >
+          <Search className="" />
+        </Button>
+
+        <div
+          className={`absolute top-0 h-16 bg-primary shadow-none rounded-full w-full text-white scale-x-105 ${
+            showSearchInput ? 'flex' : 'hidden'
+          }`}
+        >
+          <SearchInput />
+          <X
+            className="translate-x-8 translate-y-5 scale-125 transition duration-300 hover:scale-150 cursor-pointer"
+            onClick={toggleSearchInput}
+          />
+        </div>
+      </div>
     </>
   );
 };

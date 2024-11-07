@@ -2,27 +2,19 @@
 
 import { Card, CardContent, CardHeader } from '../ui/card';
 import { Address } from '@/utils/types';
-import { Button } from '@/components/ui/button';
 import { getCookie } from 'cookies-next';
 import useSWR from 'swr';
 import { authFetcher } from '@/services/fetcher';
 import { createAddressAction, deleteAddressAction, updateAddressAction } from '@/utils/actions';
 import { Pencil, Trash2 } from 'lucide-react';
 import AddressForm from './AddressForm';
-import { AlertDialog, AlertDialogTrigger } from '@radix-ui/react-alert-dialog';
-import {
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from '../ui/alert-dialog';
 import { ENV } from '@/utils/constants';
+import DeleteDialog from '../Custom/DeleteDialog';
+import { Button } from '../ui/button';
 
 const Addresses = () => {
-  const user = getCookie('user') as any;
+  const userCookie = getCookie('user') as string;
+  const user = userCookie ? JSON.parse(userCookie) : null;
   const url = `${ENV.API_URL}/${ENV.ENDPOINTS.ADDRESS}${
     user?.id ? `?filters[user][id][$eq]=${user.id}` : ''
   }`;
@@ -79,9 +71,15 @@ const Addresses = () => {
                   >
                     <Pencil />
                   </AddressForm>
-                  <DeleteAddressModal
-                    addressId={addressProps.documentId}
-                    onDeleteAddress={onDeleteAddress}
+                  <DeleteDialog
+                    actionFn={onDeleteAddress}
+                    itemId={addressProps.documentId}
+                    deleteText="This will permanently delete this address."
+                    Icon={
+                      <Button className="bg-destructive hover:bg-red-800 text-white m-1">
+                        <Trash2 />
+                      </Button>
+                    }
                   />
                 </div>
               ))
@@ -93,37 +91,4 @@ const Addresses = () => {
   );
 };
 
-function DeleteAddressModal({
-  addressId,
-  onDeleteAddress,
-}: {
-  addressId: string;
-  onDeleteAddress: (addressId: string) => void;
-}) {
-  return (
-    <AlertDialog>
-      <AlertDialogTrigger asChild>
-        <Button className="bg-destructive hover:bg-red-800 text-white">
-          <Trash2 />
-        </Button>
-      </AlertDialogTrigger>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-          <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete this address.
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction className="bg-destructive hover:bg-red-800 text-white">
-            <button type="submit" onClick={() => onDeleteAddress(addressId)}>
-              Continue
-            </button>
-          </AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
-  );
-}
 export default Addresses;

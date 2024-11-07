@@ -3,22 +3,22 @@ import { redirect } from 'next/navigation';
 import { Button } from '../ui/button';
 import { ShoppingCart, CircleUser } from 'lucide-react';
 import { Badge } from '../ui/badge';
-import { getCookie } from 'cookies-next';
+import { getCookie, hasCookie } from 'cookies-next';
 
 const total = 4;
 
 const Account = () => {
-  const goToLogin = () => redirect('/join/sign-in');
-  const goToAccount = () => redirect('/account/settings');
+  const user = hasCookie('user') ? getCookie('user') : undefined;
+  const redirectUser = () => {
+    redirect(user ? '/account' : '/join/sign-in');
+  };
   const goToCart = () => redirect('/cart');
-
-  const user = getCookie('user');
 
   return (
     <div className="flex">
       <Button
         className="px-3 text-white hover:text-primary hover:bg-transparent [&_svg]:size-7 mx-2"
-        onClick={!user ? goToLogin : goToCart}
+        onClick={goToCart}
         variant="ghost"
       >
         {total > 0 && (
@@ -34,8 +34,8 @@ const Account = () => {
 
       <Button
         className="px-2 hover:text-primary hover:bg-transparent [&_svg]:size-7"
-        onClick={!user ? goToLogin : goToAccount}
-        variant={!user ? 'ghost' : 'link'}
+        onClick={redirectUser}
+        variant={'link'}
       >
         <CircleUser />
       </Button>
