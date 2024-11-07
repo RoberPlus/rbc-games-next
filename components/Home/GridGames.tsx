@@ -8,7 +8,6 @@ import { PaginationComponent } from '../Pagination/PaginationComponent';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import GameCard from './GameCard';
-import { Title } from '@radix-ui/react-toast';
 
 type GridGamesType = {
   title?: string;

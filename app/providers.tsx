@@ -1,15 +1,16 @@
 'use client';
 
 import { Toaster } from '@/components/ui/toaster';
-import AuthProvider from '@/contexts/AuthProvider';
+import { SWRConfig } from 'swr';
+import fetcher from '@/services/fetcher';
 
 export const Providers = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
-      <AuthProvider>
+      <SWRConfig value={{ fetcher }}>
         {children}
         <Toaster />
-      </AuthProvider>
+      </SWRConfig>
     </>
   );
 };

@@ -9,7 +9,7 @@ const total = 4;
 
 const Account = () => {
   const goToLogin = () => redirect('/join/sign-in');
-  const goToAccount = () => redirect('/account');
+  const goToAccount = () => redirect('/account/settings');
   const goToCart = () => redirect('/cart');
 
   const user = getCookie('user');

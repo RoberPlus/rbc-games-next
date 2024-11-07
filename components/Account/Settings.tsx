@@ -1,5 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
 import UpdateAccountForm from './UpdateAccountForm';
+import { updateUserAction } from '@/utils/actions';
 
 const Settings = () => {
   return (
@@ -11,7 +12,7 @@ const Settings = () => {
         </CardDescription>
       </CardHeader>
       <CardContent className="w-full">
-        <UpdateAccountForm />
+        <UpdateAccountForm action={updateUserAction} />
       </CardContent>
     </Card>
   );

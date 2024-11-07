@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from 'react';
+'use client';
+
 import { Card, CardContent } from '../ui/card';
 import Image from 'next/image';
-import { deleteGameWhishlist, fetchAllUserWishlist } from '@/utils/actions';
+import { deleteGameWhishlist } from '@/utils/actions';
 import { WishList as WishListType } from '@/utils/types';
 import placeholderImage from '@/public/images/placeholder.webp';
-import GameCardSkeleton from '../Home/GameCardSkeleton';
 import { Trash2 } from 'lucide-react';
-import { Button } from '../ui/button';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -19,75 +18,62 @@ import {
 } from '../ui/alert-dialog';
 import { AlertDialogTrigger } from '@radix-ui/react-alert-dialog';
 import { useToast } from '@/hooks/use-toast';
+import { authFetcher } from '@/services/fetcher';
+import useSWR from 'swr';
+import { getCookie } from 'cookies-next';
+import { ENV } from '@/utils/constants';
 
 const WishList = () => {
-  const [wishList, setWishlist] = useState<WishListType[]>([]);
-  const [error, setError] = useState<any>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const userCookie = getCookie('user') as string;
+  const user = userCookie ? JSON.parse(userCookie) : null;
 
-  useEffect(() => {
-    (async () => {
-      try {
-        const response = (await fetchAllUserWishlist()) as any;
-        setWishlist(response);
-        setIsLoading(false);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setIsLoading(false);
-      }
-    })();
-  }, []);
+  const populate = 'populate[0]=game&populate[1]=game.cover';
+  const url = `${ENV.API_URL}/${ENV.ENDPOINTS.WHISHLIST}?filters[user][id][$eq]=${user.id}&${populate}`;
+  const { data, error, isLoading, mutate } = useSWR(url, authFetcher);
+
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>Error...</p>;
+
+  const wishList = data.data as WishListType[];
 
   return (
     <>
-      {isLoading ? (
-        <div className="grid w-full grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 mt-5 mb-10">
-          <GameCardSkeleton />
-          <GameCardSkeleton />
-          <GameCardSkeleton />
-        </div>
+      {Object.keys(wishList).length === 0 ? (
+        <p className="py-10">No games available.</p>
       ) : (
         <>
-          {Object.keys(wishList).length === 0 ? (
-            <p className="py-10">No games available.</p>
-          ) : (
-            <>
-              <h2 className="text-lg mt-10">You have {wishList.length} games in your wishlist.</h2>
-              <div className="grid w-full grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 mt-5 mb-10">
-                {Object.entries(wishList).map(([gameIndex, wishListData]) => {
-                  const discountPrice =
-                    (wishListData.game.discount / 100) * wishListData.game.price;
-                  const finalPrice = wishListData.game.price - discountPrice;
+          <h2 className="text-lg mt-10">You have {wishList.length} games in your wishlist.</h2>
+          <div className="grid w-full grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 mt-5 mb-10">
+            {Object.entries(wishList).map(([gameIndex, wishListData]) => {
+              const discountPrice = (wishListData.game.discount / 100) * wishListData.game.price;
+              const finalPrice = wishListData.game.price - discountPrice;
 
-                  return (
-                    <Card
-                      key={wishListData?.game.documentId}
-                      className="relative h-64 max-w-96 border-none"
-                    >
-                      <Image
-                        src={
-                          wishListData?.game?.cover?.url
-                            ? wishListData.game.cover?.url
-                            : placeholderImage
-                        }
-                        alt={wishListData.game.title}
-                        fill
-                        className="rounded-sm object-cover hover:opacity-100 opacity-60"
-                      />
-                      <DeleteGameWishlistModal wishListItemDocumentId={wishListData.documentId} />
-                      <CardContent className="absolute bottom-0 left-0 right-0 p-4">
-                        <p className="font-bold text-white">{wishListData.game.title}</p>
-                        <p className="text-lg font-medium my-2 text-primary">
-                          ${finalPrice.toFixed(2)}
-                        </p>
-                      </CardContent>
-                    </Card>
-                  );
-                })}
-              </div>
-            </>
-          )}
+              return (
+                <Card
+                  key={wishListData?.game.documentId}
+                  className="relative h-64 max-w-96 border-none"
+                >
+                  <Image
+                    src={
+                      wishListData?.game?.cover?.url
+                        ? wishListData.game.cover?.url
+                        : placeholderImage
+                    }
+                    alt={wishListData.game.title}
+                    fill
+                    className="rounded-sm object-cover hover:opacity-100 opacity-60"
+                  />
+                  <DeleteGameWishlistModal wishListItemDocumentId={wishListData.documentId} />
+                  <CardContent className="absolute bottom-0 left-0 right-0 p-4">
+                    <p className="font-bold text-white">{wishListData.game.title}</p>
+                    <p className="text-lg font-medium my-2 text-primary">
+                      ${finalPrice.toFixed(2)}
+                    </p>
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </div>
         </>
       )}
     </>

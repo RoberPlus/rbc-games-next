@@ -9,12 +9,7 @@ type BasicLayoutTypes = {
   relative?: boolean;
 };
 
-const BasicLayout = ({
-  children,
-  isOpenSearch = false,
-  isContainer = false,
-  relative = false,
-}: BasicLayoutTypes) => {
+const BasicLayout = ({ children, isOpenSearch = false, isContainer = false }: BasicLayoutTypes) => {
   return (
     <>
       <TopBar isOpenSearch={isOpenSearch} />

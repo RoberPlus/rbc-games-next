@@ -7,7 +7,7 @@ import { getCookie, hasCookie } from 'cookies-next';
 import { redirect } from 'next/navigation';
 
 const Info = () => {
-  if (!hasCookie('user')) {
+  if (!hasCookie('user') || !hasCookie('token')) {
     return redirect('/');
   }
 

@@ -242,7 +242,7 @@ export const createAddressAction = async (
   }
 };
 
-export const fetchAddresses = async (): Promise<Address[] | { message: string }> => {
+export const fetchAddresses = async (): Promise<Address[]> => {
   const user = await getAuthUser();
   const token = await getToken();
   const url = `${ENV.API_URL}/${ENV.ENDPOINTS.ADDRESS}?filters[user][id][$eq]=${user.id}`;
@@ -260,12 +260,12 @@ export const fetchAddresses = async (): Promise<Address[] | { message: string }>
     const result = await response.json();
 
     if (response.status !== 200) {
-      return { message: result.error.message };
+      throw new Error('Failed to fetch addresses');
     }
 
-    return result.data;
+    return result.data as Address[];
   } catch (error) {
-    return renderError(error);
+    return [];
   }
 };
 
@@ -305,12 +305,9 @@ export const updateAddressAction = async (
   }
 };
 
-export const deleteAddressAction = async (prevState: {
-  addressId: string;
-}): Promise<{ message: string }> => {
+export const deleteAddressAction = async (addressId: string): Promise<{ message: string }> => {
   const user = await getAuthUser();
   const token = await getToken();
-  const { addressId } = prevState;
 
   const url = `${ENV.API_URL}/${ENV.ENDPOINTS.ADDRESS}/${addressId}`;
 
@@ -491,11 +488,11 @@ export const addGameWhishlist = async ({ gameDocumentId }: { gameDocumentId: str
     const response = await fetch(url, params);
     const result = await response.json();
 
-    if (response.status !== 204) {
-      return { message: result.error.message };
+    if (response.status !== 201) {
+      return false;
     }
 
-    return { result: result, message: 'Added to WishList!' };
+    return result;
   } catch (error) {
     return renderError(error);
   }

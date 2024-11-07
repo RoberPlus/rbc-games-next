@@ -1,5 +1,6 @@
 import { LoginForm } from '@/components/join/Form/LoginForm';
 import JoinLayout from '@/components/layouts/JoinLayout';
+import { loginUserAction } from '@/utils/actions';
 import Link from 'next/link';
 
 const SignInPage = () => {
@@ -8,7 +9,7 @@ const SignInPage = () => {
       <div className="w-3/4">
         <h3 className="mb-5 text-4xl">Sing In</h3>
         <div>
-          <LoginForm />
+          <LoginForm action={loginUserAction} />
         </div>
         <div className="mt-2.5 text-center">
           <Link href="/join/sign-up">Dont have an account?</Link>

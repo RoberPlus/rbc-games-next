@@ -36,7 +36,10 @@ const WishListButton = ({ game }: Props) => {
     });
     setHasWishList(false);
 
-    toast({ description: response.message });
+    toast({
+      title: 'Game removed!',
+      description: `"${game.title}" has been removed from your wishlist.`,
+    });
   };
 
   const addWishList = async () => {
@@ -45,8 +48,14 @@ const WishListButton = ({ game }: Props) => {
     }
 
     const response = await addGameWhishlist({ gameDocumentId: game.documentId });
-    setHasWishList(response.result);
-    toast({ description: response.message });
+
+    const transformedResponse = { data: [response.data] };
+    setHasWishList(transformedResponse);
+
+    toast({
+      title: 'Saved successfully!',
+      description: `"${game.title}" is now in your wishlist.`,
+    });
   };
 
   return (
@@ -54,7 +63,7 @@ const WishListButton = ({ game }: Props) => {
       className="w-1/5 h-14 [&_svg]:size-8 m-2"
       onClick={hasWishList ? deleteWishList : addWishList}
     >
-      {hasWishList === false ? <HeartIcon /> : <HeartFilledIcon className="text-black" />}
+      {!hasWishList ? <HeartIcon /> : <HeartFilledIcon className="text-black" />}
     </Button>
   );
 };

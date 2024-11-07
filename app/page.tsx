@@ -4,7 +4,6 @@ import TrustBar from '@/components/Home/TrustBar';
 import BasicLayout from '@/components/layouts/BasicLayout';
 import BannerAd from '../components/Home/BannerAd';
 import image from '../public/images/img01.png';
-import { Suspense } from 'react';
 
 export default function Home() {
   return (

@@ -1,20 +1,38 @@
 'use client';
 
-import { loginUserAction } from '@/utils/actions';
-import FormContainer from '../../Form/FormContainer';
+import { actionFunction } from '@/components/Account/AddressForm';
 import FormInput from '@/components/Form/FormInput';
-import { SubmitButton } from '@/components/Form/SubmitButton';
+import { SubmitButton } from '@/components/join/Form/SubmitButton';
+import { useToast } from '@/hooks/use-toast';
+import { useActionState, useEffect } from 'react';
 
-export function LoginForm() {
+const initialState = {
+  message: '',
+};
+
+type LoginFormProps = {
+  action: actionFunction;
+};
+
+export function LoginForm({ action }: LoginFormProps) {
+  const [state, formAction] = useActionState(action, initialState);
+  const { toast } = useToast();
+
+  useEffect(() => {
+    if (state.message) {
+      toast({ description: state.message });
+    }
+  }, [state, toast]);
+
   return (
     <>
-      <FormContainer action={loginUserAction}>
+      <form action={formAction}>
         <div>
           <FormInput type="text" name="identifier" label="Email" />
           <FormInput type="password" name="password" label="Password" />
         </div>
         <SubmitButton text="Log In" className="w-full" />
-      </FormContainer>
+      </form>
     </>
   );
 }

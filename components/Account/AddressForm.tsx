@@ -1,4 +1,3 @@
-import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -8,11 +7,13 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import FormInput from '../Form/FormInput';
-import FormContainer, { actionFunction } from '../Form/FormContainer';
-import { SubmitButton } from '../Form/SubmitButton';
-import { createAddressAction } from '@/utils/actions';
+import { SubmitButton } from '../join/Form/SubmitButton';
 import { Address } from '@/utils/types';
-import { ReactNode } from 'react';
+import { Button } from '../ui/button';
+import { useToast } from '@/hooks/use-toast';
+import { useActionState, useEffect } from 'react';
+
+export type actionFunction = (prevState: any, formData: FormData) => Promise<{ message: string }>;
 
 type AddressFormProps = {
   title?: string;
@@ -21,6 +22,11 @@ type AddressFormProps = {
   address?: Address;
   action: actionFunction;
   children?: any | React.ReactNode | Element;
+  mutate: any;
+};
+
+const initialState = {
+  message: '',
 };
 
 const AddressForm = ({
@@ -30,7 +36,18 @@ const AddressForm = ({
   submitButtonLabel,
   address,
   children,
+  mutate,
 }: AddressFormProps) => {
+  const [state, formAction] = useActionState(action, initialState);
+  const { toast } = useToast();
+
+  useEffect(() => {
+    if (state.message) {
+      toast({ description: state.message });
+    }
+    mutate();
+  }, [state, toast]);
+
   return (
     <div>
       <Dialog>
@@ -42,7 +59,7 @@ const AddressForm = ({
             <DialogTitle>{title}</DialogTitle>
             <DialogDescription>{description}</DialogDescription>
           </DialogHeader>
-          <FormContainer action={action}>
+          <form action={formAction}>
             <input
               type="hidden"
               name="id"
@@ -68,7 +85,7 @@ const AddressForm = ({
               <FormInput type="text" name="phone" label="Phone" defaultValue={address?.phone} />
             </div>
             <SubmitButton text={submitButtonLabel} className="w-full" />
-          </FormContainer>
+          </form>
         </DialogContent>
       </Dialog>
     </div>

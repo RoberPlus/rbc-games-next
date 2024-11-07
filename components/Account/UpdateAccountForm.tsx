@@ -1,18 +1,36 @@
 'use client';
 
-import FormContainer from '../Form/FormContainer';
-import { updateUserAction } from '@/utils/actions';
 import FormInput from '../Form/FormInput';
-import { SubmitButton } from '../Form/SubmitButton';
+import { SubmitButton } from '../join/Form/SubmitButton';
 import { getCookie } from 'cookies-next';
+import { actionFunction } from './AddressForm';
+import { useActionState, useEffect } from 'react';
+import { useToast } from '@/hooks/use-toast';
 
-const UpdateAccountForm = () => {
+const initialState = {
+  message: '',
+};
+
+type UpdateAccountFormProps = {
+  action: actionFunction;
+};
+
+const UpdateAccountForm = ({ action }: UpdateAccountFormProps) => {
+  const [state, formAction] = useActionState(action, initialState);
+  const { toast } = useToast();
+
+  useEffect(() => {
+    if (state.message) {
+      toast({ description: state.message });
+    }
+  }, [state, toast]);
+
   const rawUser = getCookie('user') as any;
   const user = JSON.parse(rawUser) as any;
 
   return (
     <>
-      <FormContainer action={updateUserAction}>
+      <form action={formAction}>
         <div className="grid gap-4 md:grid-cols-2">
           <FormInput
             type="text"
@@ -39,7 +57,7 @@ const UpdateAccountForm = () => {
           />
         </div>
         <SubmitButton text="Update Profile" className="w-full" />
-      </FormContainer>
+      </form>
     </>
   );
 };
