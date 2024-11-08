@@ -51,10 +51,15 @@ export const setTokenCookie = async (jwt: string) => {
 export const setUserDataCookie = async (user: object) => {
   const userCookie = await cookies();
 
+  const userDataWithCart = {
+    ...user,
+    cart: [],
+  };
+
   userCookie.set({
     name: 'user',
-    value: JSON.stringify(user),
-    maxAge: 3600,
+    value: JSON.stringify(userDataWithCart),
+    maxAge: 86400,
     path: '/',
   });
 };
@@ -64,6 +69,24 @@ export const deleteCookies = async () => {
 
   savedCookies.delete('token');
   savedCookies.delete('user');
+};
+
+// Function to update a specific value in the cookie
+export const updateCookieValue = async ({
+  cookieName,
+  newValue,
+}: {
+  cookieName: string;
+  newValue: [];
+}) => {
+  const nextCookies = await cookies();
+
+  nextCookies.set({
+    name: cookieName,
+    value: JSON.stringify(newValue),
+    maxAge: 86400,
+    path: '/',
+  });
 };
 
 // USER
@@ -139,7 +162,6 @@ export const updateUserAction = async (
     deleteCookies();
 
     redirect('/join-sign-in');
-    return { message: 'Update Successful!' };
   } catch (error) {
     return renderError(error);
   }
@@ -498,7 +520,9 @@ export const addGameWhishlist = async ({ gameDocumentId }: { gameDocumentId: str
   }
 };
 
-export const deleteGameWhishlist = async (wishListItemDocumentId: string): Promise<{ message: string }> => {
+export const deleteGameWhishlist = async (
+  wishListItemDocumentId: string
+): Promise<{ message: string }> => {
   const user = await getAuthUser();
   const token = await getToken();
 

@@ -1,3 +1,5 @@
+'use client';
+
 import { Game } from '@/utils/types';
 import React from 'react';
 import Image from 'next/image';
@@ -5,12 +7,15 @@ import imageplaceholder from '../../public/images/placeholder.webp';
 import { Button } from '../ui/button';
 import { Check, Tag, ShoppingCart } from 'lucide-react';
 import WishListButton from './WishListButton';
+import { useCart } from '@/hooks/useCart';
+import CartModal from '../Cart/RightSheet';
 
 type Props = {
   game: Game;
 };
 
 const Panel = ({ game }: Props) => {
+  const { addItem } = useCart();
   const discountPrice = (game.discount / 100) * game.price;
   const finalPrice = game.price - discountPrice;
 
@@ -59,10 +64,21 @@ const Panel = ({ game }: Props) => {
           </div>
           <div className="w-full mt-4 flex">
             <WishListButton game={game} />
-            <Button className="w-4/5 h-14 [&_svg]:size-7 m-2">
-              <ShoppingCart size={50} className="mx-2" />{' '}
-              <span className="text-base">Add to cart</span>
-            </Button>
+            <CartModal>
+              <Button
+                className="w-4/5 h-14 [&_svg]:size-7 m-2"
+                onClick={() =>
+                  addItem({
+                    gameId: game.documentId,
+                    gameTitle: game.title,
+                    price: Number(finalPrice.toFixed(2)),
+                  })
+                }
+              >
+                <ShoppingCart size={50} className="mx-2" />
+                <span className="text-base">Add to cart</span>
+              </Button>
+            </CartModal>
           </div>
         </div>
       </div>

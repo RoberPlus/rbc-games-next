@@ -1,17 +1,23 @@
+'use client';
+
 import React from 'react';
 import { redirect } from 'next/navigation';
 import { Button } from '../ui/button';
 import { ShoppingCart, CircleUser } from 'lucide-react';
 import { Badge } from '../ui/badge';
-import { getCookie, hasCookie } from 'cookies-next';
-
-const total = 4;
+import { hasCookie } from 'cookies-next';
+import { useCart } from '@/hooks/useCart';
 
 const Account = () => {
-  const user = hasCookie('user') ? getCookie('user') : undefined;
+  const isLogged = hasCookie('token');
+
+  const { cart } = useCart();
+  const totalCart = cart.items.length;
+
   const redirectUser = () => {
-    redirect(user ? '/account' : '/join/sign-in');
+    redirect(isLogged ? '/account' : '/join/sign-in');
   };
+
   const goToCart = () => redirect('/cart');
 
   return (
@@ -21,12 +27,12 @@ const Account = () => {
         onClick={goToCart}
         variant="ghost"
       >
-        {total > 0 && (
+        {totalCart > 0 && (
           <Badge
             variant="default"
             className="px-2 justify-center translate-x-12 -translate-y-3 rounded-full"
           >
-            {total}
+            {totalCart}
           </Badge>
         )}
         <ShoppingCart size={128} />
@@ -35,7 +41,7 @@ const Account = () => {
       <Button
         className="px-2 hover:text-primary hover:bg-transparent [&_svg]:size-7"
         onClick={redirectUser}
-        variant={'link'}
+        variant={isLogged ? 'link' : 'ghost'}
       >
         <CircleUser />
       </Button>

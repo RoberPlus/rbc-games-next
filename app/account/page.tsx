@@ -13,13 +13,13 @@ import AlertModal from '@/components/Custom/AlertModal';
 import { Button } from '@/components/ui/button';
 
 const AccountPage = () => {
-  if (!hasCookie('user') || !hasCookie('token')) {
+  if (!hasCookie('token')) {
     return redirect('/');
   }
 
   const logout = () => {
-    deleteCookie('user');
     deleteCookie('token');
+    deleteCookie('user');
     return redirect('/');
   };
 
