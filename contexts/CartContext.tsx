@@ -10,6 +10,8 @@ interface CartItem {
   documentId: string;
   title: string;
   price: number;
+  discount: number;
+  finalPrice: number;
 }
 
 interface Cart {
@@ -33,6 +35,7 @@ const CartContext = createContext({
   removeItem: (item: any) => {},
   clearCart: () => {},
   totalCart: 0,
+  totalPriceWithDiscount: 0,
 });
 
 function cartReducer(state: any, action: any) {
@@ -134,8 +137,15 @@ export const CartContextProvider: React.FC<{ children: React.ReactNode }> = ({ c
     updateCookieValue({ cookieName: 'cart', newValue: cart.items });
   }, [cart]);
 
-  const newTotal = cart.items.reduce(
+  // Total sin descuento
+  const totalPrice = cart.items.reduce(
     (acc: number, item: any) => acc + item.price * item.quantity,
+    0
+  );
+
+  // Total con descuento
+  const totalPriceWithDiscount = cart.items.reduce(
+    (acc: number, item: any) => acc + item.finalPrice * item.quantity,
     0
   );
 
@@ -145,7 +155,8 @@ export const CartContextProvider: React.FC<{ children: React.ReactNode }> = ({ c
     addItem,
     removeItem,
     clearCart,
-    totalCart: newTotal,
+    totalCart: totalPrice,
+    totalPriceWithDiscount: totalPriceWithDiscount,
   };
 
   // Creamos el provider con el estado que tiene el reducer y sus funciones, agregamos children para poder rellenarlo

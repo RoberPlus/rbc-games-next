@@ -3,7 +3,7 @@ import { Skeleton } from '../ui/skeleton';
 const GameCardSkeleton = () => {
   return (
     <>
-      <div className="relative flex -mt-48 mx-auto max-w-6xl pb-10 mb-10 m-auto PANEL">
+      <div className="relative flex -mt-48 mx-auto max-w-6xl pb-10 mb-10 m-auto">
         <div className="w-1/2 pr-3 rounded-md relative h-80">
           <Skeleton className="h-full w-full" />
         </div>
@@ -12,7 +12,7 @@ const GameCardSkeleton = () => {
         </div>
       </div>
 
-      <div className="relative flex mx-auto max-w-6xl pb-10 mb-10 m-auto INFO">
+      <div className="relative flex mx-auto max-w-6xl pb-10 mb-10 m-auto">
         <div className="w-1/2 pr-4 rounded-md relative h-80">
           <Skeleton className="h-full w-full" />
         </div>

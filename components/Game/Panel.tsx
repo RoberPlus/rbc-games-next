@@ -71,7 +71,9 @@ const Panel = ({ game }: Props) => {
                   addItem({
                     gameId: game.documentId,
                     gameTitle: game.title,
-                    price: Number(finalPrice.toFixed(2)),
+                    finalPrice: Number(finalPrice.toFixed(2)),
+                    price: Number(game.price.toFixed(2)),
+                    discount: game.discount
                   })
                 }
               >

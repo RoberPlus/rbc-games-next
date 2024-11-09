@@ -7,6 +7,7 @@ import React from 'react';
 import useSWR from 'swr';
 import { Button } from '../ui/button';
 import Image from 'next/image';
+import { Tag } from 'lucide-react';
 
 const CartItem = () => {
   const { cart, addItem, removeItem } = useCart();
@@ -29,7 +30,7 @@ const CartItem = () => {
     const newItem = data.data.find(
       (backendItem: any) => backendItem.documentId === cartItem.gameId
     );
-    return { ...newItem, quantity: cartItem.quantity, price: cartItem.price };
+    return { ...newItem, quantity: cartItem.quantity };
   });
 
   const getStoreName = (platform: string) => {
@@ -56,12 +57,17 @@ const CartItem = () => {
           </div>
           <div className="-translate-y-1 w-2/3">
             <p>{item.title}</p>
-            <p className="font-extralight">{getStoreName(item.platform)}</p>
-            <p>
-              <span className="text-lg">${item.price}</span>
-              <span className="text-primary font-light pl-2">-{item.discount}%</span>
+            <p className="font-extralight text-slate-400">{getStoreName(item.platform)}</p>
+            <p className="translate-y-3 flex pt-2">
+              <span className="line-through flex text-base">
+                <Tag size={15} className="m-1" />${item.price}
+              </span>
+              <span className="text-base pl-2">
+                ${(item.price * (1 - item.discount / 100)).toFixed(2)}
+              </span>
+              <span className="text-primary text-base pl-2">-{item.discount}%</span>
             </p>
-            <p className="space-x-1 justify-end flex -translate-y-2">
+            <p className="space-x-1 justify-end flex -translate-y-6">
               <Button
                 variant="secondary"
                 onClick={() =>
