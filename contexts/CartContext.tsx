@@ -12,6 +12,7 @@ interface CartItem {
   price: number;
   discount: number;
   finalPrice: number;
+  platform: string;
 }
 
 interface Cart {

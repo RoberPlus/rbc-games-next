@@ -9,7 +9,7 @@ const Footer = () => {
     <div className="bg-zinc-800 p-8">
       <div className="flex justify-between *:w-1/3">
         <div>
-          <Link href="/" className="w-56 max-h-10 absolute translate-x-5 mt-4">
+          <Link href="/" className="w-56 max-h-10 absolute translate-x-7 mt-4 -translate-y-2">
             <Image src={image} alt="logo" width={250} height={40} quality={100} />
           </Link>
         </div>

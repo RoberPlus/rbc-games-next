@@ -73,7 +73,8 @@ const Panel = ({ game }: Props) => {
                     gameTitle: game.title,
                     finalPrice: Number(finalPrice.toFixed(2)),
                     price: Number(game.price.toFixed(2)),
-                    discount: game.discount
+                    discount: game.discount,
+                    platform: game.platform.title,
                   })
                 }
               >
