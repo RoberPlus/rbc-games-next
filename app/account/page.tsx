@@ -21,6 +21,7 @@ const AccountPage = () => {
   const logout = () => {
     deleteCookie('token');
     deleteCookie('user');
+    deleteCookie('cart');
     return redirect('/');
   };
 

@@ -9,15 +9,26 @@ import { Check, Tag, ShoppingCart } from 'lucide-react';
 import WishListButton from './WishListButton';
 import { useCart } from '@/hooks/useCart';
 import CartModal from '../Cart/RightSheet';
+import { redirect } from 'next/navigation';
+import { hasCookie } from 'cookies-next';
 
 type Props = {
   game: Game;
 };
 
 const Panel = ({ game }: Props) => {
+  const isLogged = hasCookie('token');
   const { addItem } = useCart();
   const discountPrice = (game.discount / 100) * game.price;
   const finalPrice = game.price - discountPrice;
+
+  const handleAddItem = (game: any) => {
+    if (!isLogged) {
+      return redirect('/join/sign-in');
+    }
+
+    addItem(game);
+  };
 
   return (
     <div className="relative flex -mt-48 mx-auto max-w-6xl pb-10 mb-10 m-auto">
@@ -68,7 +79,7 @@ const Panel = ({ game }: Props) => {
               <Button
                 className="w-4/5 h-14 [&_svg]:size-7 m-2"
                 onClick={() =>
-                  addItem({
+                  handleAddItem({
                     gameId: game.documentId,
                     gameTitle: game.title,
                     finalPrice: Number(finalPrice.toFixed(2)),

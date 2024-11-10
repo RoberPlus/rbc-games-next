@@ -13,6 +13,7 @@ import { useCart } from '@/hooks/useCart';
 import { Separator } from '@radix-ui/react-separator';
 import { Button } from '@/components/ui/button';
 import CartItem from './CartItem';
+import Link from 'next/link';
 
 const CartModal = ({ children }: { children: React.ReactNode }) => {
   const { cart, totalCart } = useCart();
@@ -34,12 +35,14 @@ const CartModal = ({ children }: { children: React.ReactNode }) => {
                 <p>Total Cart:</p>
                 <p>${totalCart.toFixed(2)}</p>
               </div>
-              <Button
-                className="w-full text-base"
-                disabled={cart.items.length === 0 ? true : false}
-              >
-                Go to pay
-              </Button>
+              <Link href={'/cart'}>
+                <Button
+                  className="w-full text-base"
+                  disabled={cart.items.length === 0 ? true : false}
+                >
+                  Go to pay
+                </Button>
+              </Link>
             </div>
           </SheetFooter>
         </SheetContent>

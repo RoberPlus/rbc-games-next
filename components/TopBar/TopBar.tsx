@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import image from '@/public/images/logo.png';
-import Account from './Account';
+import User from './User';
 import Menu from './Menu';
 import { Suspense } from 'react';
 
@@ -14,7 +14,7 @@ const TopBar = (props: any) => {
           <Image src={image} alt="logo" width={250} height={40} quality={100} />
         </Link>
         <div className="block md:hidden">
-          <Account />
+          <User />
         </div>
       </div>
 
@@ -25,7 +25,7 @@ const TopBar = (props: any) => {
       </div>
 
       <div className="hidden md:flex w-1/5 justify-end">
-        <Account />
+        <User />
       </div>
     </div>
   );

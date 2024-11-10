@@ -6,6 +6,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import CartItem from './CartItem';
 import { Button } from '@/components/ui/button';
 import { redirect } from 'next/navigation';
+import Link from 'next/link';
 
 const StepOne = () => {
   const { cart, totalCart, totalPriceWithDiscount } = useCart();
@@ -41,24 +42,19 @@ const StepOne = () => {
                 <span>Subtotal</span>
                 <span>${totalPriceWithDiscount.toFixed(2)}</span>
               </div>
-              <Button
-                className="w-full text-base h-12 [&_svg]:size-6"
-                onClick={() => {
-                  redirect('/');
-                }}
-              >
-                Go to the payment <ChevronRight />
-              </Button>
-              <Button
-                className="w-full text-base h-12 [&_svg]:size-6"
-                variant="ghost"
-                onClick={() => {
-                  redirect('/cart?step=2');
-                }}
-              >
-                <ChevronLeft />
-                Continue shopping
-              </Button>
+              <div className="mt-3">
+                <Link href={'/cart?step=2'} className="pt-2">
+                  <Button className="w-full text-base h-12 [&_svg]:size-6 my-2">
+                    Go to the payment <ChevronRight />
+                  </Button>
+                </Link>
+                <Link href={'/'}>
+                  <Button className="w-full text-base h-12 [&_svg]:size-6" variant="ghost">
+                    <ChevronLeft />
+                    Continue shopping
+                  </Button>
+                </Link>
+              </div>
             </div>
           </CardContent>
         </Card>

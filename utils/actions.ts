@@ -51,15 +51,10 @@ export const setTokenCookie = async (jwt: string) => {
 export const setUserDataCookie = async (user: object) => {
   const userCookie = await cookies();
 
-  const userDataWithCart = {
-    ...user,
-    cart: [],
-  };
-
   userCookie.set({
     name: 'user',
-    value: JSON.stringify(userDataWithCart),
-    maxAge: 86400,
+    value: JSON.stringify(user),
+    maxAge: 3600,
     path: '/',
   });
 };
@@ -84,7 +79,7 @@ export const updateCookieValue = async ({
   nextCookies.set({
     name: cookieName,
     value: JSON.stringify(newValue),
-    maxAge: 86400,
+    maxAge: 3600,
     path: '/',
   });
 };

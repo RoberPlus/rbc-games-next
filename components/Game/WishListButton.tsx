@@ -27,7 +27,7 @@ const WishListButton = ({ game }: Props) => {
   }, [game]);
 
   const deleteWishList = async () => {
-    if (!hasCookie('user')) {
+    if (!hasCookie('token')) {
       return redirect('/join/sign-in');
     }
 
@@ -43,7 +43,7 @@ const WishListButton = ({ game }: Props) => {
   };
 
   const addWishList = async () => {
-    if (!hasCookie('user')) {
+    if (!hasCookie('token')) {
       return redirect('/join/sign-in');
     }
 

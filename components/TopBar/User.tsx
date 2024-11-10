@@ -8,23 +8,25 @@ import { Badge } from '../ui/badge';
 import { hasCookie } from 'cookies-next';
 import { useCart } from '@/hooks/useCart';
 
-const Account = () => {
+const User = () => {
   const isLogged = hasCookie('token');
 
   const { cart } = useCart();
   const totalCart = cart.items.length;
 
-  const redirectUser = () => {
+  const redirectUserAccount = () => {
     redirect(isLogged ? '/account' : '/join/sign-in');
   };
 
-  const goToCart = () => redirect('/cart');
+  const redirectUserCart = () => {
+    redirect(isLogged ? '/cart' : '/join/sign-in');
+  };
 
   return (
     <div className="flex">
       <Button
         className="px-3 text-white hover:text-primary hover:bg-transparent [&_svg]:size-7 mx-2"
-        onClick={goToCart}
+        onClick={redirectUserCart}
         variant="ghost"
       >
         {totalCart > 0 && (
@@ -40,7 +42,7 @@ const Account = () => {
 
       <Button
         className="px-2 hover:text-primary hover:bg-transparent [&_svg]:size-7"
-        onClick={redirectUser}
+        onClick={redirectUserAccount}
         variant={isLogged ? 'link' : 'ghost'}
       >
         <CircleUser />
@@ -49,4 +51,4 @@ const Account = () => {
   );
 };
 
-export default Account;
+export default User;

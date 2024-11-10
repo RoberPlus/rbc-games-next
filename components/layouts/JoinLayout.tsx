@@ -2,15 +2,9 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { redirect } from 'next/navigation';
-import { hasCookie } from 'cookies-next';
-import image from '@/public/images/logo.png'
+import image from '@/public/images/logo.png';
 
 const JoinLayout = ({ children }: { children: React.ReactNode }) => {
-  if (hasCookie('user') || hasCookie('token')) {
-    return redirect('/');
-  }
-
   return (
     <div className="h-screen max-h-screen flex flex-row justify-between">
       <div className="flex justify-between w-screen absolute top-0 left-0 p-4">
