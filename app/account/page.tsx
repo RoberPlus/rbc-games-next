@@ -11,6 +11,7 @@ import Addresses from '@/components/Account/Addresses';
 import BasicLayout from '@/components/layouts/BasicLayout';
 import AlertModal from '@/components/Custom/AlertModal';
 import { Button } from '@/components/ui/button';
+import Orders from '@/components/Account/Orders';
 
 const AccountPage = () => {
   if (!hasCookie('token')) {
@@ -51,7 +52,7 @@ const AccountPage = () => {
           />
         </TabsList>
         <TabsContent value="orders">
-          <h2 className="mt-10 mb-10">Your orders</h2>
+          <Orders />
         </TabsContent>
         <TabsContent value="wishlist">
           <WishList />

@@ -12,7 +12,8 @@ export const ENV = {
     ADDRESS: 'addresses',
     GAME: 'games',
     WHISHLIST: 'whishlists',
-    PAYMENT_ORDER: 'payment-order'
+    PAYMENT_ORDER: 'payment-order',
+    ORDER: 'orders',
   },
   TOKEN: 'token',
   STRIPE_TOKEN:
