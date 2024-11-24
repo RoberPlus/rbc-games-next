@@ -5,7 +5,7 @@ import { Game } from "@/utils/types";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Badge } from "../ui/badge";
+import { Badge } from "@/components/ui/badge";
 
 const BannerLastGame = () => {
   const [game, setGame] = useState<Game | any>(null);
@@ -22,7 +22,7 @@ const BannerLastGame = () => {
         const discountPrice =
           (fetchedGame[0].discount / 100) * fetchedGame[0].price;
         const fixedFinalPrice = (fetchedGame[0].price - discountPrice).toFixed(
-          2
+          2,
         );
         setFinalPrice(fixedFinalPrice);
       } catch (error) {
@@ -38,7 +38,7 @@ const BannerLastGame = () => {
   return (
     <div className="relative h-[500px] w-full">
       {isLoading ? (
-        <div className="absolute top-0 left-0 w-full h-full bg-secondary"></div>
+        <div className="absolute left-0 top-0 h-full w-full bg-secondary"></div>
       ) : (
         <>
           <Image
@@ -51,13 +51,13 @@ const BannerLastGame = () => {
           />
           <Link
             href={`/game/${game.slug}`}
-            className="absolute top-0 left-0 w-full h-full flex items-center"
+            className="absolute left-0 top-0 flex h-full w-full items-center"
           >
-            <div className="ml-10 md:ml-80 max-w-full block w-96">
+            <div className="ml-10 block w-96 max-w-full md:ml-80">
               <h2 className="text-4xl font-medium">{game.title}</h2>
               <div className="mt-2">
                 <label>
-                  <Badge className="text-base mr-4 -translate-y-2">
+                  <Badge className="mr-4 -translate-y-2 text-base">
                     -{game.discount}%
                   </Badge>
                 </label>
@@ -65,7 +65,7 @@ const BannerLastGame = () => {
               </div>
             </div>
           </Link>
-          <div className="dark-bg absolute h-14 w-full triangle-clip bottom-0"></div>
+          <div className="dark-bg triangle-clip absolute bottom-0 h-14 w-full"></div>
         </>
       )}
     </div>

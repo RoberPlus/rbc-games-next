@@ -4,10 +4,10 @@ import { fetchGameDetails } from "@/utils/actions";
 import { Game } from "@/utils/types";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import Panel from "./Panel";
-import Info from "./Info";
-import Media from "./Media";
-import GameDetailsSkeleton from "./GameDetailsSkeleton";
+import Panel from "@/components/Game/Panel";
+import Info from "@/components/Game/Info";
+import Media from "@/components/Game/Media";
+import GameDetailsSkeleton from "@/components/Game/GameDetailsSkeleton";
 
 type Params = {
   gameSlug: string;

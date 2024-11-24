@@ -5,15 +5,18 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
-import FormInput from '../Form/FormInput';
-import { SubmitButton } from '../join/Form/SubmitButton';
-import { Address } from '@/utils/types';
-import { Button } from '../ui/button';
-import { useToast } from '@/hooks/use-toast';
-import { useActionState, useEffect } from 'react';
+} from "@/components/ui/dialog";
+import FormInput from "@/components/Forms/FormInput";
+import { SubmitButton } from "@/components/Forms/SubmitButton";
+import { Address } from "@/utils/types";
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
+import { useActionState, useEffect } from "react";
 
-export type actionFunction = (prevState: any, formData: FormData) => Promise<{ message: string }>;
+export type actionFunction = (
+  prevState: any,
+  formData: FormData,
+) => Promise<{ message: string }>;
 
 type AddressFormProps = {
   title?: string;
@@ -26,7 +29,7 @@ type AddressFormProps = {
 };
 
 const initialState = {
-  message: '',
+  message: "",
 };
 
 const AddressForm = ({
@@ -65,24 +68,49 @@ const AddressForm = ({
               name="id"
               value={address?.documentId ? address?.documentId : undefined}
             />
-            <FormInput type="text" name="title" label="Title" defaultValue={address?.title} />
+            <FormInput
+              type="text"
+              name="title"
+              label="Title"
+              defaultValue={address?.title}
+            />
             <div className="grid gap-4 md:grid-cols-2">
-              <FormInput type="text" name="name" label="Your name" defaultValue={address?.name} />
+              <FormInput
+                type="text"
+                name="name"
+                label="Your name"
+                defaultValue={address?.name}
+              />
               <FormInput
                 type="text"
                 name="address"
                 label="Address"
                 defaultValue={address?.address}
               />
-              <FormInput type="text" name="city" label="City" defaultValue={address?.city} />
-              <FormInput type="text" name="state" label="State" defaultValue={address?.state} />
+              <FormInput
+                type="text"
+                name="city"
+                label="City"
+                defaultValue={address?.city}
+              />
+              <FormInput
+                type="text"
+                name="state"
+                label="State"
+                defaultValue={address?.state}
+              />
               <FormInput
                 type="text"
                 name="postal_code"
                 label="Postal code"
                 defaultValue={address?.postal_code}
               />
-              <FormInput type="text" name="phone" label="Phone" defaultValue={address?.phone} />
+              <FormInput
+                type="text"
+                name="phone"
+                label="Phone"
+                defaultValue={address?.phone}
+              />
             </div>
             <SubmitButton text={submitButtonLabel} className="w-full" />
           </form>

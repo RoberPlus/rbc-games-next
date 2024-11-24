@@ -1,3 +1,4 @@
+import { AlertDialog, AlertDialogTrigger } from "@radix-ui/react-alert-dialog";
 import {
   AlertDialogAction,
   AlertDialogCancel,
@@ -6,8 +7,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "../ui/alert-dialog";
-import { AlertDialog, AlertDialogTrigger } from "@radix-ui/react-alert-dialog";
+} from "@/components/ui/alert-dialog";
 
 type DeleteModalProps = {
   itemId?: string | undefined;
@@ -35,7 +35,7 @@ export default function AlertModal({
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction
-            className="bg-destructive hover:bg-red-800 text-white"
+            className="bg-destructive text-white hover:bg-red-800"
             onClick={() => actionFn(itemId)}
           >
             Continue

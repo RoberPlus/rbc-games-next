@@ -5,7 +5,7 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from "../ui/pagination";
+} from "@/components/ui/pagination";
 
 type PaginationProps = {
   currentPage: any;
@@ -36,7 +36,7 @@ export const PaginationComponent = ({
               }}
               className={
                 currentPage <= 1
-                  ? "cursor-not-allowed hover:bg-transparent pointer-events-none"
+                  ? "pointer-events-none cursor-not-allowed hover:bg-transparent"
                   : undefined
               }
             />
@@ -48,7 +48,7 @@ export const PaginationComponent = ({
                 isActive={page === currentPage && true}
                 className={
                   page === currentPage
-                    ? "cursor-not-allowed hover:bg-transparent pointer-events-none"
+                    ? "pointer-events-none cursor-not-allowed hover:bg-transparent"
                     : undefined
                 }
               >
@@ -68,7 +68,7 @@ export const PaginationComponent = ({
               }}
               className={
                 currentPage >= totalPages
-                  ? "cursor-not-allowed hover:bg-transparent pointer-events-none"
+                  ? "pointer-events-none cursor-not-allowed hover:bg-transparent"
                   : undefined
               }
             />

@@ -1,8 +1,8 @@
 import Link from "next/link";
 import React from "react";
-import { Card } from "../ui/card";
+import { Card } from "@/components/ui/card";
 import imageplaceholder from "../../public/images/placeholder.webp";
-import { Badge } from "../ui/badge";
+import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
 
 const GameCard = (gameData: any) => {

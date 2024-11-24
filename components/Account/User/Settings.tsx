@@ -1,6 +1,12 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
-import UpdateAccountForm from './UpdateAccountForm';
-import { updateUserAction } from '@/utils/actions';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import UpdateAccountForm from "@/components/Forms/Account/UpdateAccountForm";
+import { updateUserAction } from "@/utils/actions";
 
 const Settings = () => {
   return (

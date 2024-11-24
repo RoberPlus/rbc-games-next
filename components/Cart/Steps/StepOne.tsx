@@ -1,9 +1,9 @@
 "use client";
 
 import { useCart } from "@/hooks/useCart";
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import CartItem from "./CartItem";
+import CartItem from "@/components/Cart/CartItem";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 

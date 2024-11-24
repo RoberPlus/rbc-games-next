@@ -1,14 +1,13 @@
-import type { Metadata } from 'next';
-import localFont from 'next/font/local';
-import './globals.css';
-import Providers from './providers';
-import { Inter } from 'next/font/google';
+import type { Metadata } from "next";
+import "./globals.css";
+import Providers from "./providers";
+import { Inter } from "next/font/google";
 
-const inter = Inter({ subsets: ['vietnamese'] });
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'RBC Games',
-  description: 'A digital marketplace that sells digital entertainment',
+  title: "RBC Games",
+  description: "A digital marketplace that sells digital entertainment",
 };
 
 export default function RootLayout({
@@ -18,7 +17,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.className} antialiased dark`}>
+      <body className={`${inter.className} dark antialiased`}>
         <Providers>{children}</Providers>
       </body>
     </html>

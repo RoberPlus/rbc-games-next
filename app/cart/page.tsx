@@ -1,10 +1,10 @@
 "use client";
 
-import StepOne from "@/components/Cart/StepOne";
-import CartLayout from "@/components/layouts/CartLayout";
+import StepOne from "@/components/Cart/Steps/StepOne";
+import CartLayout from "@/components/Layouts/CartLayout";
 import { useSearchParams } from "next/navigation";
-import StepTwo from "@/components/Cart/StepTwo";
-import StepThree from "@/components/Cart/StepThree";
+import StepTwo from "@/components/Cart/Steps/StepTwo";
+import StepThree from "@/components/Cart/Steps/StepThree";
 import { useCart } from "@/hooks/useCart";
 import { useRouter } from "next/navigation";
 import useCheckAuth from "@/hooks/useCheckAuth";

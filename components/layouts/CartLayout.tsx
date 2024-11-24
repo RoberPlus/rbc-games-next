@@ -1,10 +1,10 @@
-import Footer from "../Footer/Footer";
-import Header from "../Cart/Header";
+import Footer from "@/components/Footer/Footer";
+import Header from "@/components/Cart/CartHeader";
 import { Suspense } from "react";
 
 const CartLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="flex flex-col h-full justify-between">
+    <div className="flex h-full flex-col justify-between">
       <Suspense>
         <Header />
       </Suspense>

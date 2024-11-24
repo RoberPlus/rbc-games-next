@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useToast } from "@/hooks/use-toast";
-import { Button } from "../ui/button";
-import { HeartFilledIcon, HeartIcon, UpdateIcon } from "@radix-ui/react-icons";
+import { Button } from "@/components/ui/button";
+import { HeartFilledIcon, HeartIcon } from "@radix-ui/react-icons";
 import {
   addGameWhishlist,
   checkGameWhishlist,
@@ -74,7 +74,7 @@ const WishListButton = ({ game }: Props) => {
   };
 
   return (
-    <Button className={`w-1/5 h-14 [&_svg]:size-8 m-2 `} onClick={handleClick}>
+    <Button className={`m-2 h-14 w-1/5 [&_svg]:size-8`} onClick={handleClick}>
       {!whishListItemId ? (
         <HeartIcon />
       ) : (

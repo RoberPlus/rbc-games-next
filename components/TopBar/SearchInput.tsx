@@ -1,6 +1,6 @@
 "use client";
 
-import { Input } from "../ui/input";
+import { Input } from "@/components/ui/input";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
 import { useState, useEffect } from "react";
@@ -32,7 +32,7 @@ const SearchInput = () => {
       type="search"
       id="search-games"
       placeholder="Find a game..."
-      className="w-full text-secondary h-full mx-2 placeholder:text-secondary rounded-full border-none focus:border-none focus-visible:ring-0"
+      className="mx-2 h-full w-full rounded-full border-none text-secondary placeholder:text-secondary focus:border-none focus-visible:ring-0"
       onChange={(e) => {
         setSearch(e.target.value);
         handleSearch(e.target.value);

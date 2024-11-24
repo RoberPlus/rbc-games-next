@@ -6,14 +6,14 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "../ui/card";
+} from "@/components/ui/card";
 import { useCart } from "@/hooks/useCart";
 import { ENV } from "@/utils/constants";
-import CartAddresses from "./CartAddresses";
+import CartAddresses from "../CartAddresses";
 
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
-import Payment from "./Payment";
+import Payment from "@/components/Cart/Payment";
 import { useState } from "react";
 
 const stripePromise = loadStripe(ENV.STRIPE_TOKEN);

@@ -1,7 +1,7 @@
 import BannerLastGame from "@/components/Home/BannerLastGame";
 import GridGames from "@/components/Home/GridGames";
 import TrustBar from "@/components/Home/TrustBar";
-import BasicLayout from "@/components/layouts/BasicLayout";
+import BasicLayout from "@/components/Layouts/BasicLayout";
 import BannerAd from "../components/Home/BannerAd";
 import image from "../public/images/img01.png";
 

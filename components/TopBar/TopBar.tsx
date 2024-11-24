@@ -1,8 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import image from "@/public/images/logo.png";
-import User from "./User";
-import Menu from "./Menu";
+import User from "@/components/TopBar/User";
+import Menu from "@/components/TopBar/Menu";
 import { Suspense } from "react";
 
 const TopBar = (props: any) => {

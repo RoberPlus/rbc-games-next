@@ -2,15 +2,15 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { Media } from "@/utils/types";
 import placeholderImage from "@/public/images/placeholder.webp";
-import { Dialog, DialogContent, DialogTitle } from "../ui/dialog";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "../ui/carousel";
-import { Card, CardContent } from "../ui/card";
+} from "@/components/ui/carousel";
+import { Card, CardContent } from "@/components/ui/card";
 
 type Props = {
   pics: Media[];

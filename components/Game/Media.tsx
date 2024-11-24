@@ -1,7 +1,7 @@
 import { Game } from "@/utils/types";
 import React from "react";
 import ReactPlayer from "react-player";
-import Gallery from "./Gallery";
+import Gallery from "@/components/Game/Gallery";
 
 type Props = {
   game: Game;

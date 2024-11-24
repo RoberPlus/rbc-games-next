@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import { actionFunction } from '@/components/Account/AddressForm';
-import FormInput from '@/components/Form/FormInput';
-import { SubmitButton } from '@/components/join/Form/SubmitButton';
-import { useToast } from '@/hooks/use-toast';
-import { createUserAction } from '@/utils/actions';
-import { useActionState, useEffect } from 'react';
+import { actionFunction } from "@/components/Forms/Account/AddressForm";
+import FormInput from "@/components/Forms/FormInput";
+import { SubmitButton } from "@/components/Forms/SubmitButton";
+import { useToast } from "@/hooks/use-toast";
+import { createUserAction } from "@/utils/actions";
+import { useActionState, useEffect } from "react";
 
 const initialState = {
-  message: '',
+  message: "",
 };
 
 type RegisterFormProps = {

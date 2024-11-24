@@ -1,6 +1,6 @@
 "use client";
 
-import { Card, CardContent, CardHeader } from "../ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Address } from "@/utils/types";
 import { getCookie } from "cookies-next";
 import useSWR from "swr";
@@ -11,10 +11,10 @@ import {
   updateAddressAction,
 } from "@/utils/actions";
 import { Pencil, Trash2 } from "lucide-react";
-import AddressForm from "./AddressForm";
+import AddressForm from "@/components/Forms/Account/AddressForm";
 import { ENV } from "@/utils/constants";
 import AlertModal from "@/components/Custom/AlertModal";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 
 const Addresses = () => {
@@ -60,7 +60,7 @@ const Addresses = () => {
             ) : (
               Object.entries(addresses).map(([address, addressProps]) => (
                 <div
-                  className="flex items-center space-x-4 rounded-md border p-4 mb-2"
+                  className="mb-2 flex items-center space-x-4 rounded-md border p-4"
                   key={addressProps.title}
                 >
                   <div className="flex-1 space-y-1">
@@ -88,7 +88,7 @@ const Addresses = () => {
                     itemId={addressProps.documentId}
                     deleteText="This will permanently delete this address."
                     Icon={
-                      <Button className="bg-destructive hover:bg-red-800 text-white m-1">
+                      <Button className="m-1 bg-destructive text-white hover:bg-red-800">
                         <Trash2 />
                       </Button>
                     }

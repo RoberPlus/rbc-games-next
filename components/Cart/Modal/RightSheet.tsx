@@ -8,11 +8,11 @@ import {
   SheetOverlay,
   SheetTitle,
   SheetTrigger,
-} from "../ui/sheet";
+} from "@/components/ui/sheet";
 import { useCart } from "@/hooks/useCart";
 import { Separator } from "@radix-ui/react-separator";
 import { Button } from "@/components/ui/button";
-import CartItem from "./CartItem";
+import CartItem from "@/components/Cart/CartItem";
 import Link from "next/link";
 
 const CartModal = ({ children }: { children: React.ReactNode }) => {

@@ -2,7 +2,7 @@ import { StaticImageData } from "next/image";
 import Link from "next/link";
 import Image from "next/image";
 import React from "react";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 
 type BannerAdProps = {
   title: string;

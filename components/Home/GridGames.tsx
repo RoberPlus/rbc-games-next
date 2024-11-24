@@ -3,11 +3,11 @@
 import { fetchGames } from "@/utils/actions";
 import { Game } from "@/utils/types";
 import React, { useEffect, useState } from "react";
-import GameCardSkeleton from "./GameCardSkeleton";
-import { PaginationComponent } from "../Pagination/PaginationComponent";
+import GameCardSkeleton from "@/components/Home/GameCardSkeleton";
+import { PaginationComponent } from "@/components/Pagination/PaginationComponent";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
-import GameCard from "./GameCard";
+import GameCard from "@/components/Home/GameCard";
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 

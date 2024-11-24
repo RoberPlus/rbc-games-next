@@ -1,17 +1,17 @@
 "use client";
 
 import { LogOut } from "lucide-react";
-import Info from "@/components/Account/Info";
+import Info from "@/components/Account/User/Info";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { redirect } from "next/navigation";
 import { deleteCookie } from "cookies-next";
-import WishList from "@/components/Account/WishList";
-import Settings from "@/components/Account/Settings";
-import Addresses from "@/components/Account/Addresses";
-import BasicLayout from "@/components/layouts/BasicLayout";
+import WishList from "@/components/Account/WishList/WishList";
+import Settings from "@/components/Account/User/Settings";
+import Addresses from "@/components/Account/Addresses/Addresses";
+import BasicLayout from "@/components/Layouts/BasicLayout";
 import AlertModal from "@/components/Custom/AlertModal";
 import { Button } from "@/components/ui/button";
-import Orders from "@/components/Account/Orders";
+import Orders from "@/components/Account/Orders/Orders";
 import useCheckAuth from "@/hooks/useCheckAuth";
 
 const AccountPage = () => {

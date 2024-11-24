@@ -1,9 +1,12 @@
-'use client'
-
-import { Skeleton } from "@/components/ui/skeleton";
+"use client";
+import { RotateCw } from "lucide-react";
 
 const loading = () => {
-  return <Skeleton className="h-[300px] md:h-[500px] w-full rounded" />;
+  return (
+    <div className="flex h-screen items-center justify-center bg-background text-center">
+      <RotateCw className="animate-spin text-primary" size={100} />
+    </div>
+  );
 };
 
 export default loading;

@@ -1,9 +1,9 @@
 "use client";
 
 import { redirect } from "next/navigation";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import { ShoppingCart, CircleUser } from "lucide-react";
-import { Badge } from "../ui/badge";
+import { Badge } from "@/components/ui/badge";
 import { useCart } from "@/hooks/useCart";
 import useCheckAuth from "@/hooks/useCheckAuth";
 
@@ -19,13 +19,13 @@ const User = () => {
     <div className="flex">
       {isLogged && cart.items.length > 0 && (
         <Button
-          className="px-3 text-white hover:text-primary hover:bg-transparent [&_svg]:size-7 mx-2"
+          className="mx-2 px-3 text-white hover:bg-transparent hover:text-primary [&_svg]:size-7"
           onClick={() => redirect("/cart")}
           variant="ghost"
         >
           <Badge
             variant="default"
-            className="px-2 justify-center translate-x-12 -translate-y-3 rounded-full"
+            className="-translate-y-3 translate-x-12 justify-center rounded-full px-2"
           >
             {cart.items.length}
           </Badge>
@@ -35,7 +35,7 @@ const User = () => {
       )}
 
       <Button
-        className={`px-2 hover:text-primary hover:bg-transparent [&_svg]:size-7 ${
+        className={`px-2 hover:bg-transparent hover:text-primary [&_svg]:size-7 ${
           isLogged && "text-primary"
         }`}
         onClick={redirectUserAccount}

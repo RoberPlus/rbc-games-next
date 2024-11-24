@@ -3,8 +3,8 @@
 import { useEffect, useState } from "react";
 import { fetchPlatforms } from "@/utils/actions";
 
-import { Button } from "../ui/button";
-import SearchInput from "./SearchInput";
+import { Button } from "@/components/ui/button";
+import SearchInput from "@/components/TopBar/SearchInput";
 import { Search, X } from "lucide-react";
 import { Platform } from "@/utils/types";
 

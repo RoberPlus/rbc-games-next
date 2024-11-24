@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import FormInput from '../Form/FormInput';
-import { SubmitButton } from '../join/Form/SubmitButton';
-import { getCookie } from 'cookies-next';
-import { actionFunction } from './AddressForm';
-import { useActionState, useEffect } from 'react';
-import { useToast } from '@/hooks/use-toast';
+import { useToast } from "@/hooks/use-toast";
+import { getCookie } from "cookies-next";
+import { useActionState, useEffect } from "react";
+import FormInput from "@/components/Forms/FormInput";
+import { SubmitButton } from "@/components/Forms/SubmitButton";
+import { actionFunction } from "@/components/Forms/Account/AddressForm";
 
 const initialState = {
-  message: '',
+  message: "",
 };
 
 type UpdateAccountFormProps = {
@@ -25,7 +25,7 @@ const UpdateAccountForm = ({ action }: UpdateAccountFormProps) => {
     }
   }, [state, toast]);
 
-  const rawUser = getCookie('user') as any;
+  const rawUser = getCookie("user") as any;
   const user = JSON.parse(rawUser) as any;
 
   return (
@@ -46,9 +46,24 @@ const UpdateAccountForm = ({ action }: UpdateAccountFormProps) => {
             defaultValue={user?.lastName}
             required={false}
           />
-          <FormInput type="email" name="email" label="New email" required={false} />
-          <FormInput type="email" name="repeatEmail" label="Repeat email" required={false} />
-          <FormInput type="password" name="password" label="New password" required={false} />
+          <FormInput
+            type="email"
+            name="email"
+            label="New email"
+            required={false}
+          />
+          <FormInput
+            type="email"
+            name="repeatEmail"
+            label="Repeat email"
+            required={false}
+          />
+          <FormInput
+            type="password"
+            name="password"
+            label="New password"
+            required={false}
+          />
           <FormInput
             type="password"
             name="repeatPassword"

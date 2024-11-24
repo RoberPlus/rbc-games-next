@@ -4,11 +4,11 @@ import { Game } from "@/utils/types";
 import React from "react";
 import Image from "next/image";
 import imageplaceholder from "../../public/images/placeholder.webp";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import { Check, Tag, ShoppingCart } from "lucide-react";
-import WishListButton from "./WishListButton";
+import WishListButton from "@/components/Game/WishListButton";
 import { useCart } from "@/hooks/useCart";
-import CartModal from "../Cart/RightSheet";
+import CartModal from "@/components/Cart/Modal/RightSheet";
 import { redirect } from "next/navigation";
 import { hasCookie } from "cookies-next";
 import Link from "next/link";
@@ -45,7 +45,7 @@ const Panel = ({ game }: Props) => {
 
       <div className="h-full bg-slate-800 p-4 md:w-1/2 md:bg-transparent md:p-0 md:pl-3">
         <div className="flex flex-col items-center rounded-md p-5 backdrop-blur-lg">
-          <h2 className="mb-3 text-2xl">{game.title}</h2>
+          <h2 className="mb-3 text-3xl">{game.title}</h2>
           <div className="flex items-center rounded-full bg-slate-300/30 p-2 md:bg-slate-500/15">
             <Link href={"/games/" + game.platform.slug}>
               <Button

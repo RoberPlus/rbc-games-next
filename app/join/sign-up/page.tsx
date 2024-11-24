@@ -1,7 +1,7 @@
-import JoinLayout from '@/components/layouts/JoinLayout';
-import Link from 'next/link';
-import { RegisterForm } from '@/components/join/Form/RegisterForm';
-import { createUserAction } from '@/utils/actions';
+import JoinLayout from "@/components/Layouts/JoinLayout";
+import Link from "next/link";
+import { RegisterForm } from "@/components/Forms/Join/RegisterForm";
+import { createUserAction } from "@/utils/actions";
 
 const SignUpPage = () => {
   return (

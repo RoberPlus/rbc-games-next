@@ -1,6 +1,6 @@
 "use client";
-import Footer from "../Footer/Footer";
-import TopBar from "../TopBar/TopBar";
+import Footer from "@/components/Footer/Footer";
+import TopBar from "@/components/TopBar/TopBar";
 
 type BasicLayoutTypes = {
   children: React.ReactNode;
@@ -15,7 +15,7 @@ const BasicLayout = ({
   isContainer = false,
 }: BasicLayoutTypes) => {
   return (
-    <div className="flex flex-col h-full justify-between">
+    <div className="flex h-full flex-col justify-between">
       <TopBar isOpenSearch={isOpenSearch} />
       <div className="w-full">
         {isContainer ? (

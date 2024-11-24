@@ -1,5 +1,5 @@
 import { getCookie } from "cookies-next";
-import { Card, CardContent, CardHeader } from "../ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { ENV } from "@/utils/constants";
 import { authFetcher } from "@/services/fetcher";
 import useSWR from "swr";
@@ -13,7 +13,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../ui/dialog";
+} from "@/components/ui/dialog";
 import { DateTime } from "luxon";
 
 const Orders = () => {
@@ -40,13 +40,13 @@ const Orders = () => {
             ) : (
               Object.entries(orders).map(([order, orderProps]: any) => (
                 <div
-                  className="flex items-center space-x-4 rounded-md border p-4 mb-2"
+                  className="mb-2 flex items-center space-x-4 rounded-md border p-4"
                   key={orderProps.documentId}
                 >
                   <div className="flex-1 space-y-1">
                     <p className="text-sm font-medium leading-none">
                       {DateTime.fromISO(orderProps.createdAt).toLocaleString(
-                        DateTime.DATETIME_MED
+                        DateTime.DATETIME_MED,
                       )}
                     </p>
                     <p className="text-sm text-muted-foreground">
@@ -83,7 +83,7 @@ const Orders = () => {
                       </p>
                       <p>
                         Status:{" "}
-                        <span className="text-green-600 font-extralight">
+                        <span className="font-extralight text-green-600">
                           Completed
                         </span>
                       </p>
@@ -97,7 +97,7 @@ const Orders = () => {
                           ([index, item]: any) => (
                             <div
                               key={item.gameId}
-                              className="flex justify-between border-y  p-2"
+                              className="flex justify-between border-y p-2"
                             >
                               <p className="flex flex-col">
                                 <span>{item.gameTitle}</span>
@@ -106,19 +106,19 @@ const Orders = () => {
                                 </span>
                               </p>
 
-                              <p className="font-extralight translate-y-2">
+                              <p className="translate-y-2 font-extralight">
                                 {item.quantity}x{" "}
                                 <span className="font-medium">
                                   ${item.price}
                                 </span>
                               </p>
                             </div>
-                          )
+                          ),
                         )}
                       </>
                       <p className="mt-3">Billing address:</p>
                       <div
-                        className="flex items-center space-x-4 rounded-md border p-4 mb-2"
+                        className="mb-2 flex items-center space-x-4 rounded-md border p-4"
                         key={orderProps.addressShipping.title}
                       >
                         <div className="flex-1 space-y-1">
