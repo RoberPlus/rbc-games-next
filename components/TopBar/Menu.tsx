@@ -16,8 +16,7 @@ const Menu = (props: any) => {
   const { isOpenSearch } = props;
   const pathname = usePathname();
   const [platforms, setPlatforms] = useState<Platform[]>([]);
-  const [error, setError] = useState<any>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState<any>(null);
   const [showSearchInput, setShowSearchInput] = useState<boolean>(isOpenSearch);
 
   const toggleSearchInput = () => setShowSearchInput((prevState) => !prevState);
@@ -28,9 +27,8 @@ const Menu = (props: any) => {
         const fetchedPlatforms = (await fetchPlatforms()) as any;
         setPlatforms(fetchedPlatforms);
       } catch (error) {
-        setError(error);
-      } finally {
-        setIsLoading(false);
+        setIsError(error);
+        console.log(isError);
       }
     };
 
@@ -39,7 +37,7 @@ const Menu = (props: any) => {
 
   return (
     <div className="relative flex items-end justify-end rounded-3xl p-2 pr-10 backdrop-blur-xl">
-      {Object.entries(platforms).map(([platform, platformProps]) => (
+      {Object.entries(platforms).map(([, platformProps]) => (
         <Link href={`/games/${platformProps.slug}`} key={platformProps.id}>
           <Button
             className={`m-1 rounded-3xl p-4 text-white hover:bg-slate-50/5 hover:text-white hover:decoration-0`}

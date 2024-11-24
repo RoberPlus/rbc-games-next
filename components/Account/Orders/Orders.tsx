@@ -22,7 +22,7 @@ const Orders = () => {
   const url = `${ENV.API_URL}/${ENV.ENDPOINTS.ORDER}${
     user?.id ? `?filters[user][id][$eq]=${user.id}` : ""
   }`;
-  const { data, error, isLoading, mutate } = useSWR(url, authFetcher);
+  const { data, error, isLoading } = useSWR(url, authFetcher);
 
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error...</p>;
@@ -38,7 +38,7 @@ const Orders = () => {
             {Object.keys(orders).length === 0 ? (
               <p className="my-10">No orders created.</p>
             ) : (
-              Object.entries(orders).map(([order, orderProps]: any) => (
+              Object.entries(orders).map(([, orderProps]: any) => (
                 <div
                   className="mb-2 flex items-center space-x-4 rounded-md border p-4"
                   key={orderProps.documentId}
@@ -94,7 +94,7 @@ const Orders = () => {
                       <p className="mt-3">Items:</p>
                       <>
                         {Object.entries(orderProps.products).map(
-                          ([index, item]: any) => (
+                          ([, item]: any) => (
                             <div
                               key={item.gameId}
                               className="flex justify-between border-y p-2"

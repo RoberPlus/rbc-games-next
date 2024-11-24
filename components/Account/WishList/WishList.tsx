@@ -44,7 +44,7 @@ const WishList = () => {
                 You have {wishList.length} games in your wishlist.
               </h2>
               <div className="mb-10 mt-5 grid w-full grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3">
-                {Object.entries(wishList).map(([gameIndex, wishListData]) => {
+                {Object.entries(wishList).map(([, wishListData]) => {
                   const discountPrice =
                     (wishListData.game.discount / 100) *
                     wishListData.game.price;

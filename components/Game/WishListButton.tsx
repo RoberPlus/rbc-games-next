@@ -29,6 +29,7 @@ const WishListButton = ({ game }: Props) => {
         setwhishListItemId(response);
       } catch (error) {
         setwhishListItemId(null);
+        console.log(error);
       }
     })();
   }, []);
@@ -39,7 +40,7 @@ const WishListButton = ({ game }: Props) => {
 
       setwhishListItemId(null);
     } catch (error) {
-      console.error("Error deleting wishlist item:");
+      console.error("Error deleting wishlist item:", error);
     }
 
     toast({

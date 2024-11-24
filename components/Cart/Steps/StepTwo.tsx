@@ -31,7 +31,7 @@ const StepTwo = () => {
           </CardHeader>
           <CardContent className="w-full">
             <>
-              {Object.entries(cart.items).map(([index, item]: any) => (
+              {Object.entries(cart.items).map(([, item]: any) => (
                 <div
                   key={item.gameId}
                   className="flex justify-between border-b p-2"

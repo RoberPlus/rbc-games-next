@@ -6,7 +6,7 @@ import Link from "next/link";
 import { CircleCheck, ShieldCheck, CircleDashed } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 
-const Header = async () => {
+const Header = () => {
   const searchParams = useSearchParams();
   const step = searchParams.get("step") ? searchParams.get("step") : 1;
   const currentStep = step as any;

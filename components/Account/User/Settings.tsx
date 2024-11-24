@@ -14,7 +14,8 @@ const Settings = () => {
       <CardHeader>
         <CardTitle>Account Info</CardTitle>
         <CardDescription>
-          Change your account data here. After saving, you'll be logged out.
+          Change your account data here. After saving, you&apos;ll be logged
+          out.
         </CardDescription>
       </CardHeader>
       <CardContent className="w-full">

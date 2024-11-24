@@ -58,7 +58,7 @@ const Addresses = () => {
             {Object.keys(addresses).length === 0 ? (
               <p className="my-10">No addresses available.</p>
             ) : (
-              Object.entries(addresses).map(([address, addressProps]) => (
+              Object.entries(addresses).map(([, addressProps]) => (
                 <div
                   className="mb-2 flex items-center space-x-4 rounded-md border p-4"
                   key={addressProps.title}

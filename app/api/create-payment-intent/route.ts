@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
+import Stripe from "stripe";
 
-const stripe = require("stripe")(process.env.STRIPE_SECRET);
+const stripe = new Stripe(process.env.STRIPE_SECRET!, {
+  apiVersion: "2024-10-28.acacia",
+});
 
 export async function POST(request: NextRequest) {
   try {
@@ -16,7 +19,7 @@ export async function POST(request: NextRequest) {
     console.error("Internal Error", error);
     return NextResponse.json(
       { error: `Internal Server Error: ${error}` },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

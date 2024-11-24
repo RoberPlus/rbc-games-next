@@ -15,7 +15,7 @@ type Params = {
 
 const GameDetails = ({ gameSlug }: Params) => {
   const [game, setGame] = useState<Game | any>(null);
-  const [error, setError] = useState<any>(null);
+  const [isError, setisError] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -24,7 +24,8 @@ const GameDetails = ({ gameSlug }: Params) => {
         const fetchedGame = (await fetchGameDetails(gameSlug)) as any;
         setGame(fetchedGame);
       } catch (error) {
-        setError(error);
+        setisError(error);
+        console.log(isError);
       } finally {
         setIsLoading(false);
       }

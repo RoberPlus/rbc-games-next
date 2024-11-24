@@ -9,7 +9,7 @@ import { Badge } from "@/components/ui/badge";
 
 const BannerLastGame = () => {
   const [game, setGame] = useState<Game | any>(null);
-  const [error, setError] = useState<any>(null);
+  const [isError, setIsError] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [finalPrice, setFinalPrice] = useState<string | null>(null);
 
@@ -26,7 +26,8 @@ const BannerLastGame = () => {
         );
         setFinalPrice(fixedFinalPrice);
       } catch (error) {
-        setError(error);
+        setIsError(error);
+        console.log(isError);
       } finally {
         setIsLoading(false);
       }

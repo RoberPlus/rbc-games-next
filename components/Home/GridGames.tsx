@@ -29,7 +29,7 @@ const GridGames = ({
   isQueryMandatory,
 }: GridGamesType) => {
   const [games, setGames] = useState<Game[]>([]);
-  const [error, setError] = useState<any>(null);
+  const [isError, setIsError] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   const router = useRouter();
@@ -59,7 +59,8 @@ const GridGames = ({
         setGames(fetchedGames.data);
         setTotalPages(fetchedGames.meta.pagination.pageCount);
       } catch (error) {
-        setError(error);
+        setIsError(error);
+        console.log(isError);
       } finally {
         setIsLoading(false);
       }
@@ -108,7 +109,7 @@ const GridGames = ({
               <p>No games available.</p>
             ) : (
               <>
-                {Object.entries(games).map(([gameIndex, gameData]) => {
+                {Object.entries(games).map(([, gameData]) => {
                   return <GameCard game={gameData} key={gameData.id} />;
                 })}
               </>

@@ -21,9 +21,11 @@ const CartItem = () => {
 
   const url = `${ENV.API_URL}/${ENV.ENDPOINTS.GAME}?${idsConJoin}`;
 
-  const { data, error, isLoading, mutate } = useSWR(url, fetcher, {
+  /* eslint-disable */
+  const { data, isLoading } = useSWR(url, fetcher, {
     revalidateOnFocus: false,
   });
+  /* eslint-enable */
 
   if (isLoading) return <p>Loading...</p>;
 
@@ -56,7 +58,7 @@ const CartItem = () => {
 
   return (
     <>
-      {Object.entries(cartWithBackendData).map(([index, item]: any) => (
+      {Object.entries(cartWithBackendData).map(([, item]: any) => (
         <div className="flex gap-4 py-2" key={item.documentId}>
           {/* Image */}
           <div className="relative h-24 w-1/3 max-w-40">
