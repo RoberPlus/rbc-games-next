@@ -490,7 +490,7 @@ export const checkGameWhishlist = async ({
       return false;
     }
 
-    return result.data;
+    return result.data[0].documentId;
   } catch (error) {
     console.error(error);
     return null;
@@ -524,22 +524,18 @@ export const addGameWhishlist = async ({
       return false;
     }
 
-    return result.data;
+    return result.data.documentId;
   } catch (error) {
     return renderError(error);
   }
 };
 
 export const deleteGameWhishlist = async (
-  gameDocumentId: string
+  wishListhItemId: string
 ): Promise<{ message: string }> => {
-  const user = await getAuthUser();
   const token = await getToken();
 
-  const filterUser = `filters[user][id][$eq][0]=${user.id}`;
-  const filterGame = `filters[game][documentId][$eq][1]=${gameDocumentId}`;
-
-  const url = `${ENV.API_URL}/${ENV.ENDPOINTS.WHISHLIST}/?${filterGame}&${filterUser}`;
+  const url = `${ENV.API_URL}/${ENV.ENDPOINTS.WHISHLIST}/${wishListhItemId}`;
 
   try {
     const params = {
