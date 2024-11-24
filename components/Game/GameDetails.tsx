@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import { fetchGameDetails } from '@/utils/actions';
-import { Game } from '@/utils/types';
-import React, { useEffect, useState } from 'react';
-import Image from 'next/image';
-import Panel from './Panel';
-import Info from './Info';
-import Media from './Media';
-import GameDetailsSkeleton from './GameDetailsSkeleton';
+import { fetchGameDetails } from "@/utils/actions";
+import { Game } from "@/utils/types";
+import React, { useEffect, useState } from "react";
+import Image from "next/image";
+import Panel from "./Panel";
+import Info from "./Info";
+import Media from "./Media";
+import GameDetailsSkeleton from "./GameDetailsSkeleton";
 
 type Params = {
   gameSlug: string;
@@ -38,16 +38,16 @@ const GameDetails = ({ gameSlug }: Params) => {
       {isLoading ? (
         <>
           <div className="relative min-h-[500px] w-full">
-            <div className="absolute top-0 left-0 w-full h-full bg-secondary"></div>
+            <div className="absolute left-0 top-0 h-full w-full bg-secondary"></div>
           </div>
-          <div className="dark-bg absolute h-16 w-full triangle-clip -translate-y-16"></div>
+          <div className="dark-bg triangle-clip absolute h-16 w-full -translate-y-16"></div>
           <GameDetailsSkeleton />
         </>
       ) : (
         <>
-          <div className="relative min-h-[500px] w-full">
+          <div className="relative hidden min-h-[500px] w-full md:flex">
             <Image
-              src={game.wallpaper?.url ? game.wallpaper.url : ''}
+              src={game.wallpaper?.url ? game.wallpaper.url : ""}
               fill
               alt={game.title}
               quality={100}
@@ -55,11 +55,15 @@ const GameDetails = ({ gameSlug }: Params) => {
               className="object-cover opacity-80"
             />
           </div>
-          <div className="dark-bg absolute h-16 w-full triangle-clip -translate-y-16"></div>
+          <div className="dark-bg triangle-clip absolute hidden h-16 w-full -translate-y-16 md:flex"></div>
           <Panel game={game} />
-          <h2 className="mx-auto max-w-6xl text-3xl mb-10">About</h2>
+          <h2 className="mb-10 max-w-6xl px-5 text-3xl md:mx-auto md:p-0">
+            About
+          </h2>
           <Info game={game} />
-          <h2 className="mx-auto max-w-6xl text-3xl mb-10">Media</h2>
+          <h2 className="mb-10 max-w-6xl px-5 text-3xl md:mx-auto md:p-0">
+            Media
+          </h2>
           <Media game={game} />
         </>
       )}

@@ -20,16 +20,16 @@ const BannerAd = ({
   image,
 }: BannerAdProps) => {
   return (
-    <div className="w-full min-h-[500px] relative flex bg-gradient-radial from-[#489bca] via-[#154483] to-[#0f0f1b]">
+    <div className="relative flex min-h-[500px] w-full bg-gradient-radial from-[#489bca] via-[#154483] to-[#0f0f1b]">
       <Image
         src={image}
         alt={title}
         fill
-        className="object-none pl-96 overflow-hidden"
+        className="hidden overflow-hidden object-none pl-96 md:flex"
       />
 
-      <div className="absolute top-0 left-0 w-full h-full flex items-center">
-        <div className="ml-10 md:ml-80 m-w-full block w-96">
+      <div className="absolute left-0 top-0 flex h-full w-full items-center">
+        <div className="m-w-full ml-10 block w-96 md:ml-80">
           <h2 className="text-4xl font-medium">{title}</h2>
           <div className="mt-2">
             <h3 className="pt-2">{subtitle}</h3>
@@ -39,7 +39,7 @@ const BannerAd = ({
           </div>
         </div>
       </div>
-      <div className="dark-bg absolute h-14 w-full triangle-clip bottom-0 translate-y-0.5"></div>
+      <div className="dark-bg triangle-clip absolute bottom-0 h-14 w-full translate-y-0.5"></div>
     </div>
   );
 };

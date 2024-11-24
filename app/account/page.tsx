@@ -31,8 +31,11 @@ const AccountPage = () => {
   return (
     <BasicLayout>
       <Info />
-      <Tabs defaultValue="orders" className="w-[1000px] m-auto py-10 min-h-80">
-        <TabsList className="grid *:text-base w-full grid-cols-5 *:bg-transparent *:data-[state=active]:decoration-white">
+      <Tabs
+        defaultValue="orders"
+        className="m-auto min-h-80 py-10 md:w-[1000px]"
+      >
+        <TabsList className="grid w-full grid-cols-5 *:bg-transparent *:text-base *:data-[state=active]:decoration-white">
           <TabsTrigger value="orders" className="w-full">
             Orders
           </TabsTrigger>
@@ -49,7 +52,7 @@ const AccountPage = () => {
             actionFn={logout}
             deleteText="Do you want to log out?"
             Icon={
-              <Button className="bg-destructive hover:bg-red-800 text-white m-1">
+              <Button className="m-1 bg-destructive text-white hover:bg-red-800">
                 <LogOut />
               </Button>
             }

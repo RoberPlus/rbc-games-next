@@ -23,9 +23,9 @@ const StepTwo = () => {
   const [selectedAddress, setSelectedAddress] = useState(null);
 
   return (
-    <div className="max-w-7xl flex m-auto space-x-10">
-      <div className="relative flex pb-10 mb-10 w-3/5 flex-col">
-        <Card className="my-10 w-full p-3">
+    <div className="m-auto flex max-w-7xl flex-col space-x-0 md:flex-row md:space-x-10">
+      <div className="relative my-10 flex flex-col space-y-10 md:w-3/5">
+        <Card className="w-full p-3">
           <CardHeader>
             <CardTitle className="text-2xl">Summary</CardTitle>
           </CardHeader>
@@ -43,7 +43,7 @@ const StepTwo = () => {
                     </span>
                   </p>
 
-                  <p className="font-extralight translate-y-2">
+                  <p className="translate-y-2 font-extralight">
                     {item.quantity}x ${item.price}
                   </p>
                 </div>
@@ -51,7 +51,7 @@ const StepTwo = () => {
             </>
           </CardContent>
         </Card>
-        <Card className="mt-10 w-full p-3">
+        <Card className="w-full p-3">
           <CardHeader>
             <CardTitle className="text-2xl">1 - Address</CardTitle>
             <CardDescription>Select your billing address.</CardDescription>
@@ -64,8 +64,8 @@ const StepTwo = () => {
           </CardContent>
         </Card>
       </div>
-      <div className="relative flex pb-10 mb-10 flex-col w-2/5">
-        <Card className="mt-10 w-full p-3">
+      <div className="relative mt-10 flex flex-col pb-10 md:w-2/5">
+        <Card className="w-full p-3">
           <CardHeader>
             <CardTitle className="text-2xl">2 - Payment</CardTitle>
             <CardDescription>Complete your payment.</CardDescription>

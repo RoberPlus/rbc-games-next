@@ -79,10 +79,10 @@ const GridGames = ({
   };
 
   return (
-    <div className="max-w-6xl pb-10 mb-10 m-auto">
-      <div className="flex space-x-2 justify-start items-center my-10">
+    <div className="mb-20 max-w-screen-sm p-5 md:mx-auto md:max-w-6xl">
+      <div className="my-10 flex items-center justify-start space-x-2">
         <Link href={platformSlug ? "/games/" + platformSlug : ""}>
-          <div className="flex space-x-2 justify-start items-center">
+          <div className="flex items-center justify-start space-x-2">
             <h2 className="text-3xl capitalize">
               {title}
               {query && ": " + query}
@@ -92,7 +92,7 @@ const GridGames = ({
         </Link>
       </div>
 
-      <div className="grid grid-cols-3 m-2 gap-3">
+      <div className="flex w-full flex-1 snap-x space-x-4 overflow-x-auto md:grid md:grid-cols-3 md:gap-3 md:space-x-0">
         {isLoading ? (
           <>
             <GameCardSkeleton />
@@ -116,7 +116,7 @@ const GridGames = ({
           </>
         )}
       </div>
-      
+
       {enablePagination && Object.keys(games).length > 0 ? (
         <PaginationComponent
           currentPage={currentPage}

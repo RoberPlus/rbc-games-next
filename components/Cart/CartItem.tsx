@@ -29,7 +29,7 @@ const CartItem = () => {
 
   const cartWithBackendData = cart.items.map((cartItem: any) => {
     const newItem = data.data.find(
-      (backendItem: any) => backendItem.documentId === cartItem.gameId
+      (backendItem: any) => backendItem.documentId === cartItem.gameId,
     );
 
     return {
@@ -58,7 +58,8 @@ const CartItem = () => {
     <>
       {Object.entries(cartWithBackendData).map(([index, item]: any) => (
         <div className="flex gap-4 py-2" key={item.documentId}>
-          <div className="relative h-24 max-w-40 w-1/3">
+          {/* Image */}
+          <div className="relative h-24 w-1/3 max-w-40">
             <Image
               className="rounded-sm object-cover"
               src={item.cover.url}
@@ -66,23 +67,29 @@ const CartItem = () => {
               alt={item.title}
             />
           </div>
-          <div className="-translate-y-1 w-2/3">
+
+          {/* Details */}
+          <div className="w-2/3 -translate-y-1">
             <p>{item.title}</p>
             <p className="font-extralight text-slate-400">
               {getStoreName(item.platform)}
             </p>
-            <p className="translate-y-3 flex pt-2">
-              <span className="line-through flex text-base">
+
+            {/* Prices */}
+            <p className="flex translate-y-3 pt-2">
+              <span className="flex text-base line-through">
                 <Tag size={15} className="m-1" />${item.price}
               </span>
-              <span className="text-base pl-2">
+              <span className="pl-2 text-base">
                 ${(item.price * (1 - item.discount / 100)).toFixed(2)}
               </span>
-              <span className="text-primary text-base pl-2">
+              <span className="pl-2 text-base text-primary">
                 -{item.discount}%
               </span>
             </p>
-            <p className="space-x-1 justify-end flex -translate-y-6">
+
+            {/* Buttons */}
+            <p className="flex -translate-y-6 justify-end space-x-1">
               <Button
                 variant="secondary"
                 onClick={() =>
@@ -95,7 +102,7 @@ const CartItem = () => {
               >
                 -
               </Button>
-              <span className="px-2 mt-2">{item.quantity}</span>
+              <span className="mt-2 px-2">{item.quantity}</span>
               <Button
                 variant="secondary"
                 onClick={() =>

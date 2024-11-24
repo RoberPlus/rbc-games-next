@@ -32,24 +32,24 @@ const Panel = ({ game }: Props) => {
   };
 
   return (
-    <div className="relative flex -mt-48 mx-auto max-w-6xl pb-10 mb-10 m-auto">
-      <div className="w-1/2 pr-3 rounded-md relative h-80">
+    <div className="m-auto mx-auto mt-52 flex max-w-6xl flex-col space-y-5 pb-10 md:-mt-48 md:mb-10 md:flex-row md:space-y-0">
+      <div className="relative h-80 rounded-md md:w-1/2 md:pr-3">
         <Image
           src={game.cover?.url ? game.cover.url : imageplaceholder}
           quality={100}
           fill
-          className="rounded-sm object-cover"
+          className="rounded-sm object-cover p-7 md:p-0"
           alt={game.title}
         />
       </div>
 
-      <div className="w-1/2 pl-3 h-full">
-        <div className="backdrop-blur-lg rounded-md p-5 flex flex-col items-center">
+      <div className="h-full bg-slate-800 p-4 md:w-1/2 md:bg-transparent md:p-0 md:pl-3">
+        <div className="flex flex-col items-center rounded-md p-5 backdrop-blur-lg">
           <h2 className="mb-3 text-2xl">{game.title}</h2>
-          <div className="flex items-center bg-slate-800/30 p-2 rounded-full">
+          <div className="flex items-center rounded-full bg-slate-300/30 p-2 md:bg-slate-500/15">
             <Link href={"/games/" + game.platform.slug}>
               <Button
-                className={`p-4 hover:decoration-0 hover:bg-transparent  text-white hover:text-primary rounded-3xl m-2 `}
+                className={`m-2 rounded-3xl p-4 text-white hover:bg-transparent hover:text-primary hover:decoration-0`}
                 variant="ghost"
               >
                 <Image
@@ -63,26 +63,26 @@ const Panel = ({ game }: Props) => {
               </Button>
             </Link>
             <p className="font-extralight text-slate-500">|</p>
-            <Check size={20} className="text-green-700 m-2" />
+            <Check size={20} className="m-2 text-green-700" />
             <span className="mr-2 text-sm">In stock</span>
             <p className="font-extralight text-slate-500">|</p>
-            <Check size={20} className="text-green-700 m-2" />
+            <Check size={20} className="m-2 text-green-700" />
             <span className="mr-2 text-sm">Digital download</span>
           </div>
-          <div className="space-x-3 flex justify-center mt-12">
-            <span className="line-through flex text-base translate-y-3">
+          <div className="mt-12 flex justify-center space-x-3">
+            <span className="flex translate-y-3 text-base line-through">
               <Tag size={15} className="m-1" />${game.price}
             </span>
-            <span className="text-primary text-base translate-y-3">
+            <span className="translate-y-3 text-base text-primary">
               -{game.discount}%
             </span>
             <span className="text-3xl">${finalPrice.toFixed(2)}</span>
           </div>
-          <div className="w-full mt-4 flex">
+          <div className="mt-4 flex w-full">
             <WishListButton game={game} />
             <CartModal>
               <Button
-                className="w-4/5 h-14 [&_svg]:size-7 m-2"
+                className="m-2 h-14 w-4/5 [&_svg]:size-7"
                 onClick={() =>
                   handleAddItem({
                     gameId: game.documentId,

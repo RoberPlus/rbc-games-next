@@ -7,12 +7,10 @@ import { Facebook, Twitter, Instagram, Youtube, Twitch } from "lucide-react";
 const Footer = () => {
   return (
     <div className="bg-zinc-800 p-8">
-      <div className="flex justify-between *:w-1/3">
+      <div className="flex flex-col items-center justify-center space-y-10 md:mx-7 md:flex-row md:justify-between md:space-y-0">
+        {/* Logo */}
         <div>
-          <Link
-            href="/"
-            className="w-56 max-h-10 absolute translate-x-7 mt-4 -translate-y-2"
-          >
+          <Link href="/" className="mt-4 max-h-10 w-56">
             <Image
               src={image}
               alt="logo"
@@ -23,8 +21,9 @@ const Footer = () => {
           </Link>
         </div>
 
+        {/* Links */}
         <div>
-          <ul className="flex flex-col gap-1 m-0 p-0">
+          <ul className="m-0 flex flex-col gap-1 p-0">
             <li>
               <span className="cursor-pointer text-white hover:text-primary">
                 Terms of Use
@@ -48,6 +47,7 @@ const Footer = () => {
           </ul>
         </div>
 
+        {/* Socials  */}
         <div>
           <Button
             className="ml-2 text-blue-800 hover:bg-slate-600/20 hover:text-primary"
@@ -81,8 +81,10 @@ const Footer = () => {
           </Button>
         </div>
       </div>
-      <div className="mt-8 pt-8 border-t-2 border-primary text-center">
-        <span className="text-white font-extralight">
+
+      {/* Copy  */}
+      <div className="mt-8 border-t-2 border-primary pt-8 text-center">
+        <span className="font-extralight text-white">
           Copyright © 2024 RBC Games - All rights reserved
         </span>
       </div>

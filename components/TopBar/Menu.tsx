@@ -38,55 +38,53 @@ const Menu = (props: any) => {
   }, []);
 
   return (
-    <>
-      <div className="relative flex justify-end items-end p-2 pr-10 rounded-3xl backdrop-blur-xl">
-        {Object.entries(platforms).map(([platform, platformProps]) => (
-          <Link href={`/games/${platformProps.slug}`} key={platformProps.id}>
-            <Button
-              className={`p-4 hover:bg-slate-50/5 hover:decoration-0 text-white hover:text-white rounded-3xl m-1 `}
-              variant={
-                pathname === "/games/" + platformProps.slug
-                  ? "secondary"
-                  : "ghost"
-              }
-            >
-              <Image
-                src={platformProps.icon.url}
-                alt={platformProps.title}
-                height={30}
-                width={30}
-                className="pr-1 hover:text-white"
-              />
-              {platformProps.title}
-            </Button>
-          </Link>
-        ))}
+    <div className="relative flex items-end justify-end rounded-3xl p-2 pr-10 backdrop-blur-xl">
+      {Object.entries(platforms).map(([platform, platformProps]) => (
+        <Link href={`/games/${platformProps.slug}`} key={platformProps.id}>
+          <Button
+            className={`m-1 rounded-3xl p-4 text-white hover:bg-slate-50/5 hover:text-white hover:decoration-0`}
+            variant={
+              pathname === "/games/" + platformProps.slug
+                ? "secondary"
+                : "ghost"
+            }
+          >
+            <Image
+              src={platformProps.icon.url}
+              alt={platformProps.title}
+              height={30}
+              width={30}
+              className="pr-1 hover:text-white"
+            />
+            <span className="hidden md:flex">{platformProps.title}</span>
+          </Button>
+        </Link>
+      ))}
 
-        <div
-          className={`absolute -right-5 rounded-full top-0.5 bg-primary text-black p-[19px] hover:cursor-pointer group ${
-            showSearchInput ? "hidden" : "flex"
-          }`}
-          onClick={toggleSearchInput}
-        >
-          <Search
-            className="group-hover:scale-125 transition-all duration-300"
-            size={20}
-          />
-        </div>
-
-        <div
-          className={`absolute top-0 left-0 h-16 bg-primary shadow-none rounded-full w-full text-white scale-x-105 ${
-            showSearchInput ? "flex" : "hidden"
-          }`}
-        >
-          <SearchInput />
-          <X
-            className="translate-x-8 translate-y-5 scale-125 transition duration-300 hover:scale-150 cursor-pointer"
-            onClick={toggleSearchInput}
-          />
-        </div>
+      <div
+        className={`group absolute -right-5 top-0.5 rounded-full bg-primary p-[19px] text-black hover:cursor-pointer ${
+          showSearchInput ? "hidden" : "flex"
+        }`}
+        onClick={toggleSearchInput}
+      >
+        <Search
+          className="transition-all duration-300 group-hover:scale-125"
+          size={20}
+        />
       </div>
-    </>
+
+      <div
+        className={`absolute left-0 top-0 h-16 w-full scale-x-105 rounded-full bg-primary text-white shadow-none ${
+          showSearchInput ? "flex" : "hidden"
+        }`}
+      >
+        <SearchInput />
+        <X
+          className="-translate-x-8 translate-y-5 scale-125 cursor-pointer text-black transition duration-300 hover:scale-150 md:translate-x-8 md:text-white"
+          onClick={toggleSearchInput}
+        />
+      </div>
+    </div>
   );
 };
 

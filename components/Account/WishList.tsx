@@ -36,63 +36,61 @@ const WishList = () => {
       <CardHeader className="text-xl">Your Whishlist</CardHeader>
       <CardContent className="w-full">
         <div>
-          <>
-            {Object.keys(wishList).length === 0 ? (
-              <p className="py-10">No games in your wishlist.</p>
-            ) : (
-              <>
-                <h2 className="text-lg">
-                  You have {wishList.length} games in your wishlist.
-                </h2>
-                <div className="grid w-full grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 mt-5 mb-10">
-                  {Object.entries(wishList).map(([gameIndex, wishListData]) => {
-                    const discountPrice =
-                      (wishListData.game.discount / 100) *
-                      wishListData.game.price;
-                    const finalPrice = wishListData.game.price - discountPrice;
+          {Object.keys(wishList).length === 0 ? (
+            <p className="py-10">No games in your wishlist.</p>
+          ) : (
+            <>
+              <h2 className="text-lg">
+                You have {wishList.length} games in your wishlist.
+              </h2>
+              <div className="mb-10 mt-5 grid w-full grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3">
+                {Object.entries(wishList).map(([gameIndex, wishListData]) => {
+                  const discountPrice =
+                    (wishListData.game.discount / 100) *
+                    wishListData.game.price;
+                  const finalPrice = wishListData.game.price - discountPrice;
 
-                    return (
-                      <Card
-                        key={wishListData?.game.id}
-                        className="relative h-64 max-w-96 border-none group"
-                      >
-                        <Link href={`/game/${wishListData.game.slug}`}>
-                          <Image
-                            src={
-                              wishListData?.game?.cover?.url
-                                ? wishListData.game.cover?.url
-                                : placeholderImage
-                            }
-                            alt={wishListData.game.title}
-                            fill
-                            className="rounded-sm object-cover group-hover:opacity-100 opacity-60"
-                          />
-                        </Link>
-                        <AlertModal
-                          actionFn={onDeleteWishList}
-                          itemId={wishListData.documentId}
-                          deleteText="This will permanently delete this game from your wishlist."
-                          Icon={
-                            <Trash2 className="absolute top-0 right-0 p-0 m-2 text-red-800 size-7 cursor-pointer" />
+                  return (
+                    <Card
+                      key={wishListData?.game.id}
+                      className="group relative h-64 border-none md:max-w-96"
+                    >
+                      <Link href={`/game/${wishListData.game.slug}`}>
+                        <Image
+                          src={
+                            wishListData?.game?.cover?.url
+                              ? wishListData.game.cover?.url
+                              : placeholderImage
                           }
+                          alt={wishListData.game.title}
+                          fill
+                          className="rounded-sm object-cover opacity-60 group-hover:opacity-100"
                         />
-                        <Link href={wishListData.game.slug}>
-                          <CardContent className="absolute bottom-0 left-0 right-0 p-4">
-                            <p className="font-bold text-white">
-                              {wishListData.game.title}
-                            </p>
-                            <p className="text-lg font-medium my-2 text-primary">
-                              ${finalPrice.toFixed(2)}
-                            </p>
-                          </CardContent>
-                        </Link>
-                      </Card>
-                    );
-                  })}
-                </div>
-              </>
-            )}
-          </>
+                      </Link>
+                      <AlertModal
+                        actionFn={onDeleteWishList}
+                        itemId={wishListData.documentId}
+                        deleteText="This will permanently delete this game from your wishlist."
+                        Icon={
+                          <Trash2 className="absolute right-0 top-0 m-2 size-7 cursor-pointer p-0 text-red-800" />
+                        }
+                      />
+                      <Link href={wishListData.game.slug}>
+                        <CardContent className="absolute bottom-0 left-0 right-0 p-4">
+                          <p className="font-bold text-white">
+                            {wishListData.game.title}
+                          </p>
+                          <p className="my-2 text-lg font-medium text-primary">
+                            ${finalPrice.toFixed(2)}
+                          </p>
+                        </CardContent>
+                      </Link>
+                    </Card>
+                  );
+                })}
+              </div>
+            </>
+          )}
         </div>
       </CardContent>
     </Card>

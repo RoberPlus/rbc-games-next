@@ -11,7 +11,7 @@ const GameCard = (gameData: any) => {
 
   return (
     <Link href={{ pathname: `/game/${gameData.game.slug}` }}>
-      <Card className="relative max-w-96 h-64 border-none">
+      <Card className="relative h-64 w-60 border-none md:w-full">
         <Image
           src={
             gameData.game.cover?.url
@@ -20,15 +20,15 @@ const GameCard = (gameData: any) => {
           }
           alt={gameData.game.title}
           fill
-          className="rounded-sm object-cover hover:opacity-100 opacity-85"
+          className="rounded-sm object-cover opacity-85 hover:opacity-100"
         />
-        <Badge className="overflow-hidden absolute bottom-0 left-0 rounded-none text-base object-left-bottom">
+        <Badge className="absolute bottom-0 left-0 overflow-hidden rounded-none object-left-bottom text-base">
           -{gameData.game.discount}%
         </Badge>
       </Card>
       <div className="flex justify-between">
         <p className="m-2 font-light">{gameData.game.title}</p>
-        <p className="text-lg font-medium my-2">${finalPrice.toFixed(2)}</p>
+        <p className="my-2 text-lg font-medium">${finalPrice.toFixed(2)}</p>
       </div>
     </Link>
   );
