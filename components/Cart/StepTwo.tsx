@@ -1,15 +1,20 @@
-'use client';
-import { Button } from '../ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
-import { CreditCard } from 'lucide-react';
-import { useCart } from '@/hooks/useCart';
-import { ENV } from '@/utils/constants';
-import CartAddresses from './CartAddresses';
+"use client";
 
-import { loadStripe } from '@stripe/stripe-js';
-import { Elements } from '@stripe/react-stripe-js';
-import Payment from './Payment';
-import { useState } from 'react';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "../ui/card";
+import { useCart } from "@/hooks/useCart";
+import { ENV } from "@/utils/constants";
+import CartAddresses from "./CartAddresses";
+
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
+import Payment from "./Payment";
+import { useState } from "react";
 
 const stripePromise = loadStripe(ENV.STRIPE_TOKEN);
 
@@ -27,10 +32,15 @@ const StepTwo = () => {
           <CardContent className="w-full">
             <>
               {Object.entries(cart.items).map(([index, item]: any) => (
-                <div key={item.gameId} className="flex justify-between border-b p-2">
+                <div
+                  key={item.gameId}
+                  className="flex justify-between border-b p-2"
+                >
                   <p className="flex flex-col">
-                    <span>{item.gameTitle}</span>{' '}
-                    <span className="text-sm font-extralight">{item.platform.title}</span>
+                    <span>{item.gameTitle}</span>{" "}
+                    <span className="text-sm font-extralight">
+                      {item.platform.title}
+                    </span>
                   </p>
 
                   <p className="font-extralight translate-y-2">
@@ -65,18 +75,22 @@ const StepTwo = () => {
               <Elements
                 stripe={stripePromise}
                 options={{
-                  mode: 'payment',
+                  mode: "payment",
                   amount: totalCart,
-                  currency: 'usd',
+                  currency: "usd",
                   appearance: {
-                    theme: 'night',
+                    theme: "night",
                     variables: {
-                      colorPrimary: '#facc15',
+                      colorPrimary: "#facc15",
                     },
                   },
                 }}
               >
-                <Payment amount={totalCart} cart={cart} selectedAddress={selectedAddress} />
+                <Payment
+                  amount={totalCart}
+                  cart={cart}
+                  selectedAddress={selectedAddress}
+                />
               </Elements>
             )}
           </CardContent>

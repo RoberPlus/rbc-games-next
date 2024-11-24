@@ -1,27 +1,29 @@
-'use server';
+"use server";
 
-import { ENV } from '@/utils/constants';
-import { redirect } from 'next/navigation';
+import { ENV } from "@/utils/constants";
+import { redirect } from "next/navigation";
 import {
   RegisterSchema,
   LoginSchema,
   validateWithZodSchema,
   UpdateUserDataSchema,
   CreateAddressSchema,
-} from './schemas';
-import { Address, Game, Platform } from './types';
-import { cookies } from 'next/headers';
+} from "./schemas";
+import { Address, Game, Platform } from "./types";
+import { cookies } from "next/headers";
 
 const renderError = (error: unknown): { message: string } => {
-  return { message: error instanceof Error ? error.message : 'An error occurred!' };
+  return {
+    message: error instanceof Error ? error.message : "An error occurred!",
+  };
 };
 
 // AUTH
 export const getAuthUser = async () => {
   const nextCookies = cookies();
-  const user = (await nextCookies).get('user') as any;
+  const user = (await nextCookies).get("user") as any;
 
-  if (!user) throw new Error('You must be logged in, please back to homepage');
+  if (!user) throw new Error("You must be logged in, please back to homepage");
 
   const parsedUser = JSON.parse(user.value);
 
@@ -30,9 +32,9 @@ export const getAuthUser = async () => {
 
 export const getToken = async () => {
   const nextCookies = cookies();
-  const token = (await nextCookies).get('token') as any;
+  const token = (await nextCookies).get("token") as any;
 
-  if (!token) throw new Error('You must be logged in, please back to homepage');
+  if (!token) throw new Error("You must be logged in, please back to homepage");
 
   return token.value;
 };
@@ -41,10 +43,10 @@ export const setTokenCookie = async (jwt: string) => {
   const jwtCookie = await cookies();
 
   jwtCookie.set({
-    name: 'token',
+    name: "token",
     value: jwt,
     maxAge: 3600,
-    path: '/',
+    path: "/",
   });
 };
 
@@ -52,18 +54,18 @@ export const setUserDataCookie = async (user: object) => {
   const userCookie = await cookies();
 
   userCookie.set({
-    name: 'user',
+    name: "user",
     value: JSON.stringify(user),
     maxAge: 3600,
-    path: '/',
+    path: "/",
   });
 };
 
 export const deleteCookies = async () => {
   const savedCookies = await cookies();
 
-  savedCookies.delete('token');
-  savedCookies.delete('user');
+  savedCookies.delete("token");
+  savedCookies.delete("user");
 };
 
 // Function to update a specific value in the cookie
@@ -80,7 +82,7 @@ export const updateCookieValue = async ({
     name: cookieName,
     value: JSON.stringify(newValue),
     maxAge: 3600,
-    path: '/',
+    path: "/",
   });
 };
 
@@ -96,9 +98,9 @@ export const createUserAction = async (
     const validatedFields = validateWithZodSchema(RegisterSchema, rawData);
 
     const params = {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(validatedFields),
     };
@@ -109,12 +111,11 @@ export const createUserAction = async (
     if (response.status !== 200) {
       return { message: result.error.message };
     }
-
-    return { message: 'Regiter Successful!' };
-    redirect('/join-sign-in');
   } catch (error) {
     return renderError(error);
   }
+
+  return redirect("/join/sign-in");
 };
 
 export const updateUserAction = async (
@@ -128,20 +129,23 @@ export const updateUserAction = async (
     const url = `${ENV.API_URL}/${ENV.ENDPOINTS.UPDATE_ME}/${user.id}`;
 
     const rawData = Object.fromEntries(formData);
-    const validatedFields = validateWithZodSchema(UpdateUserDataSchema, rawData);
+    const validatedFields = validateWithZodSchema(
+      UpdateUserDataSchema,
+      rawData
+    );
 
     // Deleting the "repeat" fields
     const { repeatPassword, repeatEmail, ...updatedValues } = validatedFields;
 
     // Deleting the empty fields
     const filteredValues = Object.fromEntries(
-      Object.entries(updatedValues).filter(([key, value]) => value !== '')
+      Object.entries(updatedValues).filter(([key, value]) => value !== "")
     );
 
     const params = {
-      method: 'PUT',
+      method: "PUT",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(filteredValues),
@@ -155,11 +159,10 @@ export const updateUserAction = async (
     }
 
     deleteCookies();
-
-    redirect('/join-sign-in');
   } catch (error) {
     return renderError(error);
   }
+  redirect("/join/sign-in");
 };
 
 export const loginUserAction = async (
@@ -173,9 +176,9 @@ export const loginUserAction = async (
     const validatedFields = validateWithZodSchema(LoginSchema, rawData);
 
     const params = {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(validatedFields),
     };
@@ -189,18 +192,19 @@ export const loginUserAction = async (
 
     await setTokenCookie(result.jwt);
     await setUserDataCookie(result.user);
-
-    return { message: 'Login Successful!' };
-    redirect('/');
   } catch (error) {
     return renderError(error);
   }
+
+  return redirect("/");
 };
 
 // DATA
 // PLATFORMS
-export const fetchPlatforms = async (): Promise<Platform[] | { message: string }> => {
-  const sort = 'sort=order:asc';
+export const fetchPlatforms = async (): Promise<
+  Platform[] | { message: string }
+> => {
+  const sort = "sort=order:asc";
   const url = `${ENV.API_URL}/${ENV.ENDPOINTS.PLATFORM}?populate=icon&${sort}`;
 
   try {
@@ -222,20 +226,20 @@ export const createAddressAction = async (
   prevState: any,
   formData: FormData
 ): Promise<{ message: string }> => {
+  const user = await getAuthUser();
+  const token = await getToken();
+  const url = `${ENV.API_URL}/${ENV.ENDPOINTS.ADDRESS}`;
+
+  formData.delete("id");
+
   try {
-    const user = await getAuthUser();
-    const token = await getToken();
-    const url = `${ENV.API_URL}/${ENV.ENDPOINTS.ADDRESS}`;
-
-    formData.delete('id');
-
     const rawData = Object.fromEntries(formData);
     const validatedFields = validateWithZodSchema(CreateAddressSchema, rawData);
 
     const params = {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
@@ -253,7 +257,7 @@ export const createAddressAction = async (
       return { message: result.error.message };
     }
 
-    return { message: 'Address created!' };
+    return { message: "Address Created!" };
   } catch (error) {
     return renderError(error);
   }
@@ -266,9 +270,9 @@ export const fetchAddresses = async (): Promise<Address[]> => {
 
   try {
     const params = {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
     };
@@ -277,7 +281,7 @@ export const fetchAddresses = async (): Promise<Address[]> => {
     const result = await response.json();
 
     if (response.status !== 200) {
-      throw new Error('Failed to fetch addresses');
+      throw new Error("Failed to fetch addresses");
     }
 
     return result.data as Address[];
@@ -292,18 +296,18 @@ export const updateAddressAction = async (
 ): Promise<{ message: string }> => {
   const user = await getAuthUser();
   const token = await getToken();
-  const addressId = formData.get('id') as string;
+  const addressId = formData.get("id") as string;
 
   const url = `${ENV.API_URL}/${ENV.ENDPOINTS.ADDRESS}/${addressId}`;
 
-  const rawData = Object.fromEntries(formData);
-  const validatedFields = validateWithZodSchema(CreateAddressSchema, rawData);
-
   try {
+    const rawData = Object.fromEntries(formData);
+    const validatedFields = validateWithZodSchema(CreateAddressSchema, rawData);
+
     const params = {
-      method: 'PUT',
+      method: "PUT",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({ data: validatedFields }),
@@ -316,13 +320,15 @@ export const updateAddressAction = async (
       return { message: result.error.message };
     }
 
-    return { message: 'Address Updated!' };
+    return { message: "Address Updated!" };
   } catch (error) {
     return renderError(error);
   }
 };
 
-export const deleteAddressAction = async (addressId: string): Promise<{ message: string }> => {
+export const deleteAddressAction = async (
+  addressId: string
+): Promise<{ message: string }> => {
   const user = await getAuthUser();
   const token = await getToken();
 
@@ -330,9 +336,9 @@ export const deleteAddressAction = async (addressId: string): Promise<{ message:
 
   try {
     const params = {
-      method: 'DELETE',
+      method: "DELETE",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
     };
@@ -343,7 +349,7 @@ export const deleteAddressAction = async (addressId: string): Promise<{ message:
       return { message: response.statusText };
     }
 
-    return { message: 'Address Deleted!' };
+    return { message: "Address Deleted!" };
   } catch (error) {
     return renderError(error);
   }
@@ -351,9 +357,9 @@ export const deleteAddressAction = async (addressId: string): Promise<{ message:
 
 // GAMES
 export const fetchLastGame = async (): Promise<Game | { message: string }> => {
-  const sort = 'sort=publishedAt:desc';
-  const pagination = 'pagination[limit]=1';
-  const populate = 'populate=*';
+  const sort = "sort=publishedAt:desc";
+  const pagination = "pagination[limit]=1";
+  const populate = "populate=*";
   const url = `${ENV.API_URL}/${ENV.ENDPOINTS.GAME}?${sort}&${pagination}&${populate}`;
 
   try {
@@ -381,8 +387,9 @@ export const fetchGames = async ({
   currentPage?: number;
   query?: string | null;
 }): Promise<Game[] | { message: string }> => {
-  const sort = 'sort[0]=publishedAt:desc';
-  const platform = platformSlug && `filters[platform][slug][$eq]=${platformSlug}`;
+  const sort = "sort[0]=publishedAt:desc";
+  const platform =
+    platformSlug && `filters[platform][slug][$eq]=${platformSlug}`;
 
   const pageSize = quantity && `pagination[pageSize]=${quantity}`;
   const pagination = currentPage && `pagination[page]=${currentPage}`;
@@ -409,9 +416,9 @@ export const fetchGames = async ({
 export const fetchSearchGame = async (
   query?: string
 ): Promise<Game | Game[] | { message: string }> => {
-  const sort = 'sort=publishedAt:desc';
-  const pagination = 'pagination[limit]=1';
-  const populate = 'populate=*';
+  const sort = "sort=publishedAt:desc";
+  const pagination = "pagination[limit]=1";
+  const populate = "populate=*";
   const url = `${ENV.API_URL}/${ENV.ENDPOINTS.GAME}?${sort}&${pagination}&${populate}`;
 
   try {
@@ -432,8 +439,8 @@ export const fetchGameDetails = async (
   game?: string
 ): Promise<Game | Game[] | { message: string }> => {
   const populateGame =
-    'populate[0]=wallpaper&populate[1]=cover&populate[2]=gallery&populate[3]=platform';
-  const populatePlatform = 'populate[4]=platform.icon';
+    "populate[0]=wallpaper&populate[1]=cover&populate[2]=gallery&populate[3]=platform";
+  const populatePlatform = "populate[4]=platform.icon";
   const filter = `filters[slug][$eq]=${game}`;
   const url = `${ENV.API_URL}/${ENV.ENDPOINTS.GAME}?${filter}&${populateGame}&${populatePlatform}`;
 
@@ -452,19 +459,22 @@ export const fetchGameDetails = async (
 };
 
 // WISHLIST
-export const checkGameWhishlist = async ({ gameDocumentId }: { gameDocumentId: string }) => {
-  const user = await getAuthUser();
-  const token = await getToken();
-
-  const filterUser = `filters[user][id][$eq][0]=${user.id}`;
-  const filterGame = `filters[game][documentId][$eq][1]=${gameDocumentId}`;
-
-  const url = `${ENV.API_URL}/${ENV.ENDPOINTS.WHISHLIST}?${filterUser}&${filterGame}`;
-
+export const checkGameWhishlist = async ({
+  gameDocumentId,
+}: {
+  gameDocumentId: string;
+}) => {
   try {
+    const user = await getAuthUser();
+    const token = await getToken();
+
+    const filterUser = `filters[user][id][$eq][0]=${user.id}`;
+    const filterGame = `filters[game][documentId][$eq][1]=${gameDocumentId}`;
+
+    const url = `${ENV.API_URL}/${ENV.ENDPOINTS.WHISHLIST}?${filterUser}&${filterGame}`;
     const params = {
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
     };
@@ -480,13 +490,18 @@ export const checkGameWhishlist = async ({ gameDocumentId }: { gameDocumentId: s
       return false;
     }
 
-    return result;
+    return result.data;
   } catch (error) {
-    return renderError(error);
+    console.error(error);
+    return null;
   }
 };
 
-export const addGameWhishlist = async ({ gameDocumentId }: { gameDocumentId: string }) => {
+export const addGameWhishlist = async ({
+  gameDocumentId,
+}: {
+  gameDocumentId: string;
+}) => {
   const user = await getAuthUser();
   const token = await getToken();
 
@@ -494,9 +509,9 @@ export const addGameWhishlist = async ({ gameDocumentId }: { gameDocumentId: str
 
   try {
     const params = {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({ data: { user: user.id, game: gameDocumentId } }),
@@ -509,25 +524,28 @@ export const addGameWhishlist = async ({ gameDocumentId }: { gameDocumentId: str
       return false;
     }
 
-    return result;
+    return result.data;
   } catch (error) {
     return renderError(error);
   }
 };
 
 export const deleteGameWhishlist = async (
-  wishListItemDocumentId: string
+  gameDocumentId: string
 ): Promise<{ message: string }> => {
   const user = await getAuthUser();
   const token = await getToken();
 
-  const url = `${ENV.API_URL}/${ENV.ENDPOINTS.WHISHLIST}/${wishListItemDocumentId}`;
+  const filterUser = `filters[user][id][$eq][0]=${user.id}`;
+  const filterGame = `filters[game][documentId][$eq][1]=${gameDocumentId}`;
+
+  const url = `${ENV.API_URL}/${ENV.ENDPOINTS.WHISHLIST}/?${filterGame}&${filterUser}`;
 
   try {
     const params = {
-      method: 'DELETE',
+      method: "DELETE",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
     };
@@ -538,23 +556,25 @@ export const deleteGameWhishlist = async (
       return { message: response.statusText };
     }
 
-    return { message: 'Game removed!' };
+    return { message: "Game removed!" };
   } catch (error) {
     return renderError(error);
   }
 };
 
-export const fetchAllUserWishlist = async (): Promise<Game[] | { message: string }> => {
+export const fetchAllUserWishlist = async (): Promise<
+  Game[] | { message: string }
+> => {
   const user = await getAuthUser();
   const token = await getToken();
-  const populate = 'populate[0]=game&populate[1]=game.cover';
+  const populate = "populate[0]=game&populate[1]=game.cover";
   const url = `${ENV.API_URL}/${ENV.ENDPOINTS.WHISHLIST}?filters[user][id][$eq]=${user.id}&${populate}`;
 
   try {
     const params = {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
     };

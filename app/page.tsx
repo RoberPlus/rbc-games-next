@@ -1,9 +1,9 @@
-import BannerLastGame from '@/components/Home/BannerLastGame';
-import GridGames from '@/components/Home/GridGames';
-import TrustBar from '@/components/Home/TrustBar';
-import BasicLayout from '@/components/layouts/BasicLayout';
-import BannerAd from '../components/Home/BannerAd';
-import image from '../public/images/img01.png';
+import BannerLastGame from "@/components/Home/BannerLastGame";
+import GridGames from "@/components/Home/GridGames";
+import TrustBar from "@/components/Home/TrustBar";
+import BasicLayout from "@/components/layouts/BasicLayout";
+import BannerAd from "../components/Home/BannerAd";
+import image from "../public/images/img01.png";
 
 export default function Home() {
   return (
@@ -11,8 +11,11 @@ export default function Home() {
       <BasicLayout>
         <div>
           <BannerLastGame />
-          <div className="dark-bg absolute h-16 w-full triangle-clip -translate-y-16"></div>
-          <GridGames title="Latest Games" quantity={6} enablePagination={false} />
+          <GridGames
+            title="Latest Games"
+            quantity={6}
+            enablePagination={false}
+          />
           <TrustBar />
           <GridGames
             title="Playstation"
@@ -27,8 +30,12 @@ export default function Home() {
             btnLink="/account"
             image={image}
           />
-          <div className="dark-bg absolute h-16 w-full triangle-clip -translate-y-16"></div>
-          <GridGames title="Xbox" quantity={3} platformSlug="xbox" enablePagination={false} />
+          <GridGames
+            title="Xbox"
+            quantity={3}
+            platformSlug="xbox"
+            enablePagination={false}
+          />
         </div>
       </BasicLayout>
     </>

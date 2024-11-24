@@ -1,10 +1,10 @@
-import Footer from '../Footer/Footer';
-import Header from '../Cart/Header';
-import { Suspense } from 'react';
+import Footer from "../Footer/Footer";
+import Header from "../Cart/Header";
+import { Suspense } from "react";
 
 const CartLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <>
+    <div className="flex flex-col h-full justify-between">
       <Suspense>
         <Header />
       </Suspense>
@@ -12,7 +12,7 @@ const CartLayout = ({ children }: { children: React.ReactNode }) => {
         <div className="container m-auto">{children}</div>
       </div>
       <Footer />
-    </>
+    </div>
   );
 };
 

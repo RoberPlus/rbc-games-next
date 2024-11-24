@@ -1,6 +1,6 @@
-import BasicLayout from '@/components/layouts/BasicLayout';
-import React, { Suspense } from 'react';
-import GameDetails from '../../components/Game/GameDetails';
+import BasicLayout from "@/components/layouts/BasicLayout";
+import React, { Suspense } from "react";
+import GameDetails from "../../../components/Game/GameDetails";
 
 type Params = {
   game: string;

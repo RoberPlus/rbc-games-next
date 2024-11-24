@@ -1,16 +1,16 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { fetchPlatforms } from '@/utils/actions';
+import { useEffect, useState } from "react";
+import { fetchPlatforms } from "@/utils/actions";
 
-import { Button } from '../ui/button';
-import SearchInput from './SearchInput';
-import { Search, X } from 'lucide-react';
-import { Platform } from '@/utils/types';
+import { Button } from "../ui/button";
+import SearchInput from "./SearchInput";
+import { Search, X } from "lucide-react";
+import { Platform } from "@/utils/types";
 
-import { usePathname } from 'next/navigation';
-import Link from 'next/link';
-import Image from 'next/image';
+import { usePathname } from "next/navigation";
+import Link from "next/link";
+import Image from "next/image";
 
 const Menu = (props: any) => {
   const { isOpenSearch } = props;
@@ -39,12 +39,16 @@ const Menu = (props: any) => {
 
   return (
     <>
-      <div className="relative flex justify-end items-end p-2 rounded-3xl backdrop-blur-xl">
+      <div className="relative flex justify-end items-end p-2 pr-10 rounded-3xl backdrop-blur-xl">
         {Object.entries(platforms).map(([platform, platformProps]) => (
           <Link href={`/games/${platformProps.slug}`} key={platformProps.id}>
             <Button
               className={`p-4 hover:bg-slate-50/5 hover:decoration-0 text-white hover:text-white rounded-3xl m-1 `}
-              variant={pathname === '/games/' + platformProps.slug ? 'secondary' : 'ghost'}
+              variant={
+                pathname === "/games/" + platformProps.slug
+                  ? "secondary"
+                  : "ghost"
+              }
             >
               <Image
                 src={platformProps.icon.url}
@@ -58,16 +62,21 @@ const Menu = (props: any) => {
           </Link>
         ))}
 
-        <Button
-          className={`p-5 w-12 h-12 translate-x-4 scale-125 hover:bg-primary rounded-full *:scale-100 *:transition *:duration-300 *:hover:scale-125 shadow-none`}
+        <div
+          className={`absolute -right-5 rounded-full top-0.5 bg-primary text-black p-[19px] hover:cursor-pointer group ${
+            showSearchInput ? "hidden" : "flex"
+          }`}
           onClick={toggleSearchInput}
         >
-          <Search className="" />
-        </Button>
+          <Search
+            className="group-hover:scale-125 transition-all duration-300"
+            size={20}
+          />
+        </div>
 
         <div
-          className={`absolute top-0 h-16 bg-primary shadow-none rounded-full w-full text-white scale-x-105 ${
-            showSearchInput ? 'flex' : 'hidden'
+          className={`absolute top-0 left-0 h-16 bg-primary shadow-none rounded-full w-full text-white scale-x-105 ${
+            showSearchInput ? "flex" : "hidden"
           }`}
         >
           <SearchInput />

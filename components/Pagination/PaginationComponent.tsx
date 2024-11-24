@@ -5,7 +5,7 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from '../ui/pagination';
+} from "../ui/pagination";
 
 type PaginationProps = {
   currentPage: any;
@@ -13,12 +13,16 @@ type PaginationProps = {
   onPageChange: any;
 };
 
-export const PaginationComponent = ({ currentPage, totalPages, onPageChange }: PaginationProps) => {
+export const PaginationComponent = ({
+  currentPage,
+  totalPages,
+  onPageChange,
+}: PaginationProps) => {
   const pages = Array.from({ length: totalPages }, (_, index) => index + 1);
 
   return (
     <>
-      <Pagination className='-ml-10'>
+      <Pagination className="mt-16">
         <PaginationContent>
           <PaginationItem>
             <PaginationPrevious
@@ -32,27 +36,25 @@ export const PaginationComponent = ({ currentPage, totalPages, onPageChange }: P
               }}
               className={
                 currentPage <= 1
-                  ? 'cursor-not-allowed hover:bg-transparent pointer-events-none'
+                  ? "cursor-not-allowed hover:bg-transparent pointer-events-none"
                   : undefined
               }
             />
           </PaginationItem>
           {pages.map((page) => (
-            <>
-              <PaginationItem key={page} onClick={() => onPageChange(page)}>
-                <PaginationLink
-                  href="#"
-                  isActive={page === currentPage && true}
-                  className={
-                    page === currentPage
-                      ? 'cursor-not-allowed hover:bg-transparent pointer-events-none'
-                      : undefined
-                  }
-                >
-                  {page}
-                </PaginationLink>
-              </PaginationItem>
-            </>
+            <PaginationItem key={page} onClick={() => onPageChange(page)}>
+              <PaginationLink
+                href="#"
+                isActive={page === currentPage && true}
+                className={
+                  page === currentPage
+                    ? "cursor-not-allowed hover:bg-transparent pointer-events-none"
+                    : undefined
+                }
+              >
+                {page}
+              </PaginationLink>
+            </PaginationItem>
           ))}
           <PaginationItem>
             <PaginationNext
@@ -66,7 +68,7 @@ export const PaginationComponent = ({ currentPage, totalPages, onPageChange }: P
               }}
               className={
                 currentPage >= totalPages
-                  ? 'cursor-not-allowed hover:bg-transparent pointer-events-none'
+                  ? "cursor-not-allowed hover:bg-transparent pointer-events-none"
                   : undefined
               }
             />

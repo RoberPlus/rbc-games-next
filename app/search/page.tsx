@@ -1,6 +1,6 @@
-import GridGames from '@/components/Home/GridGames';
-import BasicLayout from '@/components/layouts/BasicLayout';
-import { Suspense } from 'react';
+import GridGames from "@/components/Home/GridGames";
+import BasicLayout from "@/components/layouts/BasicLayout";
+import { Suspense } from "react";
 
 type SearchParams = {
   q?: string;
@@ -17,13 +17,15 @@ const SearchPage = async ({ searchParams }: PageProps) => {
     <BasicLayout isOpenSearch>
       <div className="pt-52">
         <Suspense fallback={null}>
-          <GridGames
-            title="Search"
-            enablePagination={true}
-            quantity={2}
-            query={q}
-            isQueryMandatory
-          />
+          <div className="mb-40">
+            <GridGames
+              title="Search"
+              enablePagination={true}
+              quantity={2}
+              query={q}
+              isQueryMandatory
+            />
+          </div>
         </Suspense>
       </div>
     </BasicLayout>

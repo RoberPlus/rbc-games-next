@@ -1,34 +1,37 @@
-'use client';
+"use client";
 
-import { LogOut } from 'lucide-react';
-import Info from '@/components/Account/Info';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { redirect } from 'next/navigation';
-import { deleteCookie, hasCookie } from 'cookies-next';
-import WishList from '@/components/Account/WishList';
-import Settings from '@/components/Account/Settings';
-import Addresses from '@/components/Account/Addresses';
-import BasicLayout from '@/components/layouts/BasicLayout';
-import AlertModal from '@/components/Custom/AlertModal';
-import { Button } from '@/components/ui/button';
-import Orders from '@/components/Account/Orders';
+import { LogOut } from "lucide-react";
+import Info from "@/components/Account/Info";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { redirect } from "next/navigation";
+import { deleteCookie } from "cookies-next";
+import WishList from "@/components/Account/WishList";
+import Settings from "@/components/Account/Settings";
+import Addresses from "@/components/Account/Addresses";
+import BasicLayout from "@/components/layouts/BasicLayout";
+import AlertModal from "@/components/Custom/AlertModal";
+import { Button } from "@/components/ui/button";
+import Orders from "@/components/Account/Orders";
+import useCheckAuth from "@/hooks/useCheckAuth";
 
 const AccountPage = () => {
-  if (!hasCookie('token')) {
-    return redirect('/');
+  const isLogged = useCheckAuth(true);
+
+  if (!isLogged) {
+    return null;
   }
 
   const logout = () => {
-    deleteCookie('token');
-    deleteCookie('user');
-    deleteCookie('cart');
-    return redirect('/');
+    deleteCookie("token");
+    deleteCookie("user");
+    deleteCookie("cart");
+    return redirect("/");
   };
 
   return (
     <BasicLayout>
       <Info />
-      <Tabs defaultValue="orders" className="w-[1000px] m-auto py-10">
+      <Tabs defaultValue="orders" className="w-[1000px] m-auto py-10 min-h-80">
         <TabsList className="grid *:text-base w-full grid-cols-5 *:bg-transparent *:data-[state=active]:decoration-white">
           <TabsTrigger value="orders" className="w-full">
             Orders

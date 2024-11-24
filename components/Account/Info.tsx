@@ -1,13 +1,16 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { Button } from '@/components/ui/button';
-import { User } from 'lucide-react';
-import { getCookie } from 'cookies-next';
+import React from "react";
+import { Button } from "@/components/ui/button";
+import { User } from "lucide-react";
+import { getCookie } from "cookies-next";
+import { DateTime } from "luxon";
 
 const Info = () => {
-  const rawUser = getCookie('user') as any;
+  const rawUser = getCookie("user") as any;
   const user = JSON.parse(rawUser) as any;
+
+  const memberSinceDate = DateTime.fromISO(user?.createdAt).toLocaleString();
 
   return (
     <div className="flex flex-col items-center pt-36 pb-6">
@@ -17,9 +20,12 @@ const Info = () => {
       >
         <User size={40} />
       </Button>
-      <h3 className="mb-1 text-3xl">{user?.username}</h3>
-      <h4 className="font-bold mb-3">{user?.email}</h4>
-      <p className="text-secondary text-s">Member since: {user?.createdAt}</p>
+      <h2 className="text-3xl tracking-wide">
+        {user?.firstName && user?.firstName} {user?.lastName && user?.lastName}
+      </h2>
+      <h4 className="font-bold">{user?.email}</h4>
+      <h3 className="mb-1">@{user?.username}</h3>
+      <p className="text-gray-500">Member since: {memberSinceDate}</p>
     </div>
   );
 };

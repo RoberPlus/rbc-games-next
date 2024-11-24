@@ -1,13 +1,15 @@
-'use client';
+"use client";
 
-import { fetchGames } from '@/utils/actions';
-import { Game } from '@/utils/types';
-import React, { useEffect, useState } from 'react';
-import GameCardSkeleton from './GameCardSkeleton';
-import { PaginationComponent } from '../Pagination/PaginationComponent';
-import { usePathname, useSearchParams } from 'next/navigation';
-import { useRouter } from 'next/navigation';
-import GameCard from './GameCard';
+import { fetchGames } from "@/utils/actions";
+import { Game } from "@/utils/types";
+import React, { useEffect, useState } from "react";
+import GameCardSkeleton from "./GameCardSkeleton";
+import { PaginationComponent } from "../Pagination/PaginationComponent";
+import { usePathname, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
+import GameCard from "./GameCard";
+import { ChevronRight } from "lucide-react";
+import Link from "next/link";
 
 type GridGamesType = {
   title?: string;
@@ -33,10 +35,10 @@ const GridGames = ({
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const page = useSearchParams().get('page');
+  const page = useSearchParams().get("page");
 
   const [currentPage, setCurrentPage] = useState(Number(page) || 1);
-  const [currentQuery, setCurrentQuery] = useState(query || '');
+  const [currentQuery, setCurrentQuery] = useState(query || "");
   const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
@@ -67,7 +69,7 @@ const GridGames = ({
   }, [currentPage, currentQuery]);
 
   useEffect(() => {
-    const queryParam = searchParams.get('q') || '';
+    const queryParam = searchParams.get("q") || "";
     setCurrentQuery(queryParam);
   }, [searchParams]);
 
@@ -78,10 +80,18 @@ const GridGames = ({
 
   return (
     <div className="max-w-6xl pb-10 mb-10 m-auto">
-      <h2 className="text-3xl capitalize pb-10">
-        {title}
-        {query && ': ' + query}
-      </h2>
+      <div className="flex space-x-2 justify-start items-center my-10">
+        <Link href={platformSlug ? "/games/" + platformSlug : ""}>
+          <div className="flex space-x-2 justify-start items-center">
+            <h2 className="text-3xl capitalize">
+              {title}
+              {query && ": " + query}
+            </h2>
+            {platformSlug && <ChevronRight size={30} />}
+          </div>
+        </Link>
+      </div>
+
       <div className="grid grid-cols-3 m-2 gap-3">
         {isLoading ? (
           <>
@@ -101,18 +111,19 @@ const GridGames = ({
                 {Object.entries(games).map(([gameIndex, gameData]) => {
                   return <GameCard game={gameData} key={gameData.id} />;
                 })}
-                {enablePagination && (
-                  <PaginationComponent
-                    currentPage={currentPage}
-                    totalPages={totalPages}
-                    onPageChange={handlePageChange}
-                  />
-                )}
               </>
             )}
           </>
         )}
       </div>
+      
+      {enablePagination && Object.keys(games).length > 0 ? (
+        <PaginationComponent
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
+      ) : null}
     </div>
   );
 };

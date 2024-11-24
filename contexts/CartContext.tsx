@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { updateCookieValue } from '@/utils/actions';
-import { getCookie } from 'cookies-next';
-import { createContext, useEffect, useReducer } from 'react';
+import { updateCookieValue } from "@/utils/actions";
+import { getCookie } from "cookies-next";
+import { createContext, useEffect, useReducer } from "react";
 
-const cartCookie = getCookie('cart');
+const cartCookie = getCookie("cart");
 
 interface CartItem {
   documentId: string;
@@ -41,7 +41,7 @@ const CartContext = createContext({
 
 function cartReducer(state: any, action: any) {
   // Logica de agregar item
-  if (action.type === 'ADD_ITEM') {
+  if (action.type === "ADD_ITEM") {
     // Buscar si el item es existente: true o false
     const existingCartItemIndex = state.items.findIndex(
       (item: any) => item.gameId === action.item.gameId
@@ -74,7 +74,7 @@ function cartReducer(state: any, action: any) {
   }
 
   // Logica eliminar item
-  if (action.type === 'REMOVE_ITEM') {
+  if (action.type === "REMOVE_ITEM") {
     // Buscar si el item es existente: true o false
     const existingCartItemIndex = state.items.findIndex(
       (item: any) => item.gameId === action.item.gameId
@@ -89,7 +89,7 @@ function cartReducer(state: any, action: any) {
     // Si la cantidad es 1
     if (exisitingCartItem.quantity === 1) {
       // Eliminar item en la copia del estado
-      updatedItems.splice(exisitingCartItem, 1);
+      updatedItems.splice(existingCartItemIndex, 1);
 
       // Si hay mayor cantidad
     } else {
@@ -108,34 +108,36 @@ function cartReducer(state: any, action: any) {
   }
 
   // Limpiar estado
-  if (action.type === 'CLEAR_CART') {
+  if (action.type === "CLEAR_CART") {
     return { ...state, items: [] };
   }
 
   return state;
 }
 
-export const CartContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const CartContextProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   // Creamos el reducer, con su estado: cart y sus funciones para actualizarlo, dispatch
   const [cart, dispatchCartAction] = useReducer(cartReducer, initialCart);
 
   // Asignamos el dispatch de tipo ADD_ITEM, para addItem
   function addItem(item: any) {
-    dispatchCartAction({ type: 'ADD_ITEM', item });
+    dispatchCartAction({ type: "ADD_ITEM", item });
   }
 
   // Asignamos el dispatch de tipo REMOVE_ITEM, para removeItem
   function removeItem(item: any) {
-    dispatchCartAction({ type: 'REMOVE_ITEM', item });
+    dispatchCartAction({ type: "REMOVE_ITEM", item });
   }
 
   // Asignamos el dispatch de tipo CLEAR_CART para clearCart
   function clearCart() {
-    dispatchCartAction({ type: 'CLEAR_CART' });
+    dispatchCartAction({ type: "CLEAR_CART" });
   }
 
   useEffect(() => {
-    updateCookieValue({ cookieName: 'cart', newValue: cart.items });
+    updateCookieValue({ cookieName: "cart", newValue: cart.items });
   }, [cart]);
 
   // Total sin descuento
@@ -161,7 +163,9 @@ export const CartContextProvider: React.FC<{ children: React.ReactNode }> = ({ c
   };
 
   // Creamos el provider con el estado que tiene el reducer y sus funciones, agregamos children para poder rellenarlo
-  return <CartContext.Provider value={cartContext}> {children} </CartContext.Provider>;
+  return (
+    <CartContext.Provider value={cartContext}>{children}</CartContext.Provider>
+  );
 };
 
 export default CartContext;

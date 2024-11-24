@@ -1,12 +1,16 @@
-'use client';
+"use client";
 
-import { useStripe, useElements, PaymentElement } from '@stripe/react-stripe-js';
-import { useEffect, useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { CreditCard } from 'lucide-react';
-import { ENV } from '@/utils/constants';
-import { getCookie } from 'cookies-next';
-import { redirect } from 'next/navigation';
+import {
+  useStripe,
+  useElements,
+  PaymentElement,
+} from "@stripe/react-stripe-js";
+import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { CreditCard } from "lucide-react";
+import { ENV } from "@/utils/constants";
+import { getCookie } from "cookies-next";
+import { redirect } from "next/navigation";
 
 const Payment = ({
   amount,
@@ -20,33 +24,44 @@ const Payment = ({
   const stripe = useStripe();
   const elements = useElements();
 
-  const userCookie = getCookie('user') as string;
-  const token = getCookie('token') as string;
+  const userCookie = getCookie("user") as string;
+  const token = getCookie("token") as string;
   const user = userCookie ? JSON.parse(userCookie) : null;
 
   const [errorMessage, setErrorMessage] = useState<string>();
-  const [clientSecret, setClientSecret] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [clientSecret, setClientSecret] = useState();
+  const [IsStripeLoading, setIsStripeLoading] = useState(true);
 
   if (!amount) return null;
 
   useEffect(() => {
-    fetch('/api/create-payment-intent', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ amount: amount }),
-    })
-      .then((res) => res.json())
-      .then((data) => setClientSecret(data.clientSecret));
+    const fetchData = async () => {
+      try {
+        await fetch("/api/create-payment-intent", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ amount: amount }),
+        })
+          .then((res) => res.json())
+          .then((data) => setClientSecret(data.clientSecret));
+      } catch (error) {
+        setErrorMessage("error");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
   }, [amount]);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setLoading(true);
+    setIsStripeLoading(true);
 
     if (!stripe || !elements) {
+      setIsStripeLoading(false);
       return;
     }
 
@@ -54,7 +69,7 @@ const Payment = ({
 
     if (submitError) {
       setErrorMessage(submitError.message);
-      setLoading(false);
+      setIsStripeLoading(false);
       return;
     }
 
@@ -64,20 +79,20 @@ const Payment = ({
       confirmParams: {
         return_url: `http://www.localhost:3000/cart?step=3`,
       },
-      redirect: 'if_required',
+      redirect: "if_required",
     });
-    console.log(cart.items)
 
     if (error) {
       setErrorMessage(error.message);
+      setIsStripeLoading(false);
     } else {
       const url = `${ENV.API_URL}/${ENV.ENDPOINTS.PAYMENT_ORDER}`;
       const paymentToken = paymentIntent.id;
-    
+
       const params = {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
@@ -92,9 +107,11 @@ const Payment = ({
       const response = await fetch(url, params);
 
       if (response.status === 200) {
-        setLoading(false);
-        redirect('/cart?step=3');
+        setIsStripeLoading(false);
+        redirect("/cart?step=3");
       }
+
+      setIsStripeLoading(false);
     }
 
     if (!clientSecret || !stripe || !elements) {
@@ -117,15 +134,19 @@ const Payment = ({
     <div>
       <div className="w-full rounded-lg p-5 flex flex-col">
         <form onSubmit={handleSubmit}>
-          {clientSecret && <PaymentElement />}
-          {errorMessage && <div>{errorMessage}</div>}
+          {clientSecret && (
+            <PaymentElement onReady={() => setIsStripeLoading(false)} />
+          )}
+          {errorMessage && (
+            <div className="text-red-500/90">{errorMessage}</div>
+          )}
           <Button
-            disabled={!stripe || loading}
+            disabled={!stripe || IsStripeLoading}
             className="w-full text-lg font-medium h-12 [&_svg]:size-6 mt-8"
             type="submit"
           >
-            {!loading ? `Pay $${amount}` : 'Processing...'}
-            {!loading ? <CreditCard /> : ''}
+            {!stripe || IsStripeLoading ? "Processing..." : `Pay $${amount}`}
+            {!stripe || IsStripeLoading ? "" : <CreditCard />}
           </Button>
         </form>
       </div>

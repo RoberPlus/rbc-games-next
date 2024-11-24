@@ -1,18 +1,29 @@
-'use client';
-import StepOne from '@/components/Cart/StepOne';
-import CartLayout from '@/components/layouts/CartLayout';
-import { redirect, useSearchParams } from 'next/navigation';
-import StepTwo from '@/components/Cart/StepTwo';
-import StepThree from '@/components/Cart/StepThree';
-import { hasCookie } from 'cookies-next';
+"use client";
+
+import StepOne from "@/components/Cart/StepOne";
+import CartLayout from "@/components/layouts/CartLayout";
+import { useSearchParams } from "next/navigation";
+import StepTwo from "@/components/Cart/StepTwo";
+import StepThree from "@/components/Cart/StepThree";
+import { useCart } from "@/hooks/useCart";
+import { useRouter } from "next/navigation";
+import useCheckAuth from "@/hooks/useCheckAuth";
 
 const CartPage = () => {
-  if (!hasCookie('token')) {
-    return redirect('/');
+  const router = useRouter();
+  const isLogged = useCheckAuth(true);
+  const { cart } = useCart();
+  const searchParams = useSearchParams();
+
+  if (!isLogged) {
+    return null;
   }
 
-  const searchParams = useSearchParams();
-  const step = searchParams.get('step') ? searchParams.get('step') : 1;
+  if (cart.items.length === 0) {
+    return router.replace("/");
+  }
+
+  const step = searchParams.get("step") ? Number(searchParams.get("step")) : 1;
 
   let render;
 
