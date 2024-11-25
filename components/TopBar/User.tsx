@@ -16,10 +16,10 @@ const User = () => {
   };
 
   return (
-    <div className="flex">
+    <div className="flex -translate-x-3 md:translate-x-0">
       {isLogged && cart.items.length > 0 && (
         <Button
-          className="mx-2 px-3 text-white hover:bg-transparent hover:text-primary [&_svg]:size-7"
+          className="px-3 text-white hover:bg-transparent hover:text-primary md:mx-2 [&_svg]:size-7"
           onClick={() => redirect("/cart")}
           variant="ghost"
         >
