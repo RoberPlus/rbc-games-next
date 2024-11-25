@@ -1,6 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
-import image from "@/public/images/logo.png";
 import { Button } from "@/components/ui/button";
 import { Facebook, Twitter, Instagram, Youtube, Twitch } from "lucide-react";
 

@@ -1,7 +1,5 @@
 "use client";
 
-import Image from "next/image";
-import image from "@/public/images/logo.png";
 import Link from "next/link";
 import { CircleCheck, ShieldCheck, CircleDashed } from "lucide-react";
 import { useSearchParams } from "next/navigation";
