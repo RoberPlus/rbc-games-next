@@ -1,4 +1,4 @@
-import JoinLayout from "@/components/Layouts/JoinLayout";
+import JoinLayout from "@/components/layouts/JoinLayout";
 import Link from "next/link";
 import { RegisterForm } from "@/components/Forms/Join/RegisterForm";
 import { createUserAction } from "@/utils/actions";

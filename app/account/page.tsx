@@ -8,7 +8,7 @@ import { deleteCookie } from "cookies-next";
 import WishList from "@/components/Account/WishList/WishList";
 import Settings from "@/components/Account/User/Settings";
 import Addresses from "@/components/Account/Addresses/Addresses";
-import BasicLayout from "@/components/Layouts/BasicLayout";
+import BasicLayout from "@/components/layouts/BasicLayout";
 import AlertModal from "@/components/Custom/AlertModal";
 import { Button } from "@/components/ui/button";
 import Orders from "@/components/Account/Orders/Orders";

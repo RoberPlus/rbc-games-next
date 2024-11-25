@@ -1,5 +1,5 @@
 import { LoginForm } from "@/components/Forms/Join/LoginForm";
-import JoinLayout from "@/components/Layouts/JoinLayout";
+import JoinLayout from "@/components/layouts/JoinLayout";
 import { loginUserAction } from "@/utils/actions";
 import Link from "next/link";
 

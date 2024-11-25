@@ -1,7 +1,7 @@
 "use client";
 
 import StepOne from "@/components/Cart/Steps/StepOne";
-import CartLayout from "@/components/Layouts/CartLayout";
+import CartLayout from "@/components/layouts/CartLayout";
 import { useSearchParams } from "next/navigation";
 import StepTwo from "@/components/Cart/Steps/StepTwo";
 import StepThree from "@/components/Cart/Steps/StepThree";

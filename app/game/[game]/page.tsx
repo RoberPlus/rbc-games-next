@@ -1,4 +1,4 @@
-import BasicLayout from "@/components/Layouts/BasicLayout";
+import BasicLayout from "@/components/layouts/BasicLayout";
 import React, { Suspense } from "react";
 import GameDetails from "../../../components/Game/GameDetails";
 

@@ -1,6 +1,6 @@
 import React, { Suspense } from "react";
 import GridGames from "@/components/Home/GridGames";
-import BasicLayout from "@/components/Layouts/BasicLayout";
+import BasicLayout from "@/components/layouts/BasicLayout";
 
 type Params = {
   platform: string;

@@ -1,5 +1,5 @@
 import GridGames from "@/components/Home/GridGames";
-import BasicLayout from "@/components/Layouts/BasicLayout";
+import BasicLayout from "@/components/layouts/BasicLayout";
 import { Suspense } from "react";
 
 type SearchParams = {
