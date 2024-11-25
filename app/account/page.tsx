@@ -35,7 +35,7 @@ const AccountPage = () => {
         defaultValue="orders"
         className="m-auto min-h-80 py-10 md:w-[1000px]"
       >
-        <TabsList className="grid w-full grid-cols-5 *:bg-transparent *:text-base *:data-[state=active]:decoration-white">
+        <TabsList className="grid w-full grid-cols-5 *:bg-transparent *:text-sm *:data-[state=active]:decoration-white md:*:text-base">
           <TabsTrigger value="orders" className="w-full">
             Orders
           </TabsTrigger>

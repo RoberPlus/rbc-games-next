@@ -59,7 +59,7 @@ const CartItem = () => {
   return (
     <>
       {Object.entries(cartWithBackendData).map(([, item]: any) => (
-        <div className="flex gap-4 py-2" key={item.documentId}>
+        <div className="flex gap-4 py-5 md:py-2" key={item.documentId}>
           {/* Image */}
           <div className="relative h-24 w-1/3 max-w-40">
             <Image
@@ -91,7 +91,7 @@ const CartItem = () => {
             </p>
 
             {/* Buttons */}
-            <p className="flex -translate-y-6 justify-end space-x-1">
+            <p className="flex translate-y-4 justify-end space-x-1 md:-translate-y-7">
               <Button
                 variant="secondary"
                 onClick={() =>

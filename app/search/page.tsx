@@ -21,7 +21,7 @@ const SearchPage = async ({ searchParams }: PageProps) => {
             <GridGames
               title="Search"
               enablePagination={true}
-              quantity={2}
+              quantity={6}
               query={q}
               isQueryMandatory
             />

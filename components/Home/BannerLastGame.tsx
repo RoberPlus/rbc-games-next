@@ -54,15 +54,15 @@ const BannerLastGame = () => {
             href={`/game/${game.slug}`}
             className="absolute left-0 top-0 flex h-full w-full items-center"
           >
-            <div className="ml-10 block w-96 max-w-full md:ml-80">
-              <h2 className="text-4xl font-medium">{game.title}</h2>
+            <div className="ml-10 block w-96 max-w-full translate-y-24 md:ml-80 md:translate-y-0">
+              <h2 className="text-3xl font-medium md:text-4xl">{game.title}</h2>
               <div className="mt-2">
                 <label>
                   <Badge className="mr-4 -translate-y-2 text-base">
                     -{game.discount}%
                   </Badge>
                 </label>
-                <span className="text-5xl">${finalPrice}</span>
+                <span className="text-4xl md:text-5xl">${finalPrice}</span>
               </div>
             </div>
           </Link>

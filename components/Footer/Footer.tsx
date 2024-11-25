@@ -11,13 +11,9 @@ const Footer = () => {
         {/* Logo */}
         <div>
           <Link href="/" className="mt-4 max-h-10 w-56">
-            <Image
-              src={image}
-              alt="logo"
-              width={250}
-              height={40}
-              quality={100}
-            />
+            <h2 className="flex text-3xl">
+              <span className="font-bold text-primary">RBC&nbsp;</span> Games
+            </h2>
           </Link>
         </div>
 

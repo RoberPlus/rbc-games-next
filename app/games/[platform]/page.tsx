@@ -20,7 +20,7 @@ const PlatformPage = async ({ params }: PageProps) => {
             <GridGames
               title={platform}
               platformSlug={platform}
-              quantity={2}
+              quantity={6}
               enablePagination={true}
             />
           </div>
