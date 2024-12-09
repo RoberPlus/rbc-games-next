@@ -1,6 +1,6 @@
 export const ENV = {
-  SERVER_HOTS: "https://outgoing-happiness-85be265429.strapiapp.com",
-  API_URL: "https://outgoing-happiness-85be265429.strapiapp.com/api",
+  SERVER_HOTS: "https://rbc-games-production.up.railway.app",
+  API_URL: "https://rbc-games-production.up.railway.app/api",
   ENDPOINTS: {
     AUTH: {
       REGISTER: "auth/local/register",
